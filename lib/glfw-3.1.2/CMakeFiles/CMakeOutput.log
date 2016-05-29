@@ -1,0 +1,185 @@
+The system is: Darwin - 14.5.0 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is AppleClang, found in "/Developer/glfw-3.1.2/CMakeFiles/3.4.0/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7efbb/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_7efbb.dir/build.make CMakeFiles/cmTC_7efbb.dir/build
+Building C object CMakeFiles/cmTC_7efbb.dir/testCCompiler.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc     -o CMakeFiles/cmTC_7efbb.dir/testCCompiler.c.o   -c /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_7efbb
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7efbb.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_7efbb.dir/testCCompiler.c.o  -o cmTC_7efbb  
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_97657/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_97657.dir/build.make CMakeFiles/cmTC_97657.dir/build
+Building C object CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc     -o CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o   -c /usr/local/Cellar/cmake/3.4.0/share/cmake/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_97657
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97657.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o  -o cmTC_97657   
+Apple LLVM version 7.0.2 (clang-700.1.81)
+Target: x86_64-apple-darwin14.5.0
+Thread model: posix
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -o cmTC_97657 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a
+@(#)PROGRAM:ld  PROJECT:ld64-253.9
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
+Library search paths:
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_97657/fast"]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_97657.dir/build.make CMakeFiles/cmTC_97657.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc     -o CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o   -c /usr/local/Cellar/cmake/3.4.0/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_97657]
+  ignore line: [/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97657.dir/link.txt --verbose=1]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o  -o cmTC_97657   ]
+  ignore line: [Apple LLVM version 7.0.2 (clang-700.1.81)]
+  ignore line: [Target: x86_64-apple-darwin14.5.0]
+  ignore line: [Thread model: posix]
+  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -o cmTC_97657 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
+    arg [-demangle] ==> ignore
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.10.0] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_97657] ==> ignore
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_97657.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a]
+  Library search paths: [;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  collapse lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/7.0.2/lib/darwin/libclang_rt.osx.a]
+  implicit dirs: [/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c8124/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_c8124.dir/build.make CMakeFiles/cmTC_c8124.dir/build
+Building C object CMakeFiles/cmTC_c8124.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_c8124.dir/feature_tests.c.o   -c /Developer/glfw-3.1.2/CMakeFiles/feature_tests.c
+Linking C executable cmTC_c8124
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c8124.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_c8124.dir/feature_tests.c.o  -o cmTC_c8124  
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_77f90/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_77f90.dir/build.make CMakeFiles/cmTC_77f90.dir/build
+Building C object CMakeFiles/cmTC_77f90.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_77f90.dir/feature_tests.c.o   -c /Developer/glfw-3.1.2/CMakeFiles/feature_tests.c
+Linking C executable cmTC_77f90
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_77f90.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_77f90.dir/feature_tests.c.o  -o cmTC_77f90  
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7adeb/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_7adeb.dir/build.make CMakeFiles/cmTC_7adeb.dir/build
+Building C object CMakeFiles/cmTC_7adeb.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_7adeb.dir/feature_tests.c.o   -c /Developer/glfw-3.1.2/CMakeFiles/feature_tests.c
+Linking C executable cmTC_7adeb
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7adeb.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_7adeb.dir/feature_tests.c.o  -o cmTC_7adeb  
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a39fc/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_a39fc.dir/build.make CMakeFiles/cmTC_a39fc.dir/build
+Building C object CMakeFiles/cmTC_a39fc.dir/CheckIncludeFile.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc     -o CMakeFiles/cmTC_a39fc.dir/CheckIncludeFile.c.o   -c /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_a39fc
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a39fc.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a39fc.dir/CheckIncludeFile.c.o  -o cmTC_a39fc  
+
+
+Determining if the pthread_create exist passed with the following output:
+Change Dir: /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_107bd/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_107bd.dir/build.make CMakeFiles/cmTC_107bd.dir/build
+Building C object CMakeFiles/cmTC_107bd.dir/CheckSymbolExists.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc     -o CMakeFiles/cmTC_107bd.dir/CheckSymbolExists.c.o   -c /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_107bd
+/usr/local/Cellar/cmake/3.4.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_107bd.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_107bd.dir/CheckSymbolExists.c.o  -o cmTC_107bd  
+
+File /Developer/glfw-3.1.2/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+

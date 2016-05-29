@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5603C8C31CC78B1400986A8A /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5603C8C11CC78B1400986A8A /* Light.cpp */; };
-		560F2BC81CE461080069E4B9 /* libglfw.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 560F2BC61CE460D40069E4B9 /* libglfw.3.1.dylib */; };
-		560F2BC91CE461120069E4B9 /* libGLEW.1.13.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 560F2BC41CE460C60069E4B9 /* libGLEW.1.13.0.dylib */; };
 		560F2BCC1CE489070069E4B9 /* BezierCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560F2BCA1CE489070069E4B9 /* BezierCurve.cpp */; };
+		56692CCD1CFB965B005F1819 /* libGLEW.1.13.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56692CCC1CFB965B005F1819 /* libGLEW.1.13.0.dylib */; };
+		56692CCF1CFB9CA5005F1819 /* libglfw.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56692CCE1CFB9CA5005F1819 /* libglfw.3.1.dylib */; };
 		566D94F81CEC97D800E89858 /* CoasterTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 566D94F61CEC97D700E89858 /* CoasterTrack.cpp */; };
 		569F44121CC06B5B00CB88F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569F44111CC06B5B00CB88F7 /* main.cpp */; };
 		569F44211CC06C1C00CB88F7 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 569F44181CC06C1C00CB88F7 /* Cube.cpp */; };
@@ -50,6 +50,9 @@
 		560F2BD01CE560C30069E4B9 /* shader_selection_buffer.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader_selection_buffer.frag; sourceTree = "<group>"; };
 		561144491CD302C40039C7EA /* shader_skybox.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader_skybox.frag; sourceTree = "<group>"; };
 		5611444A1CD302C40039C7EA /* shader_skybox.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader_skybox.vert; sourceTree = "<group>"; };
+		56692CCA1CFB9647005F1819 /* libGLEWmx.1.13.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEWmx.1.13.0.dylib; path = "../../lib/glew-1.13.0/lib/libGLEWmx.1.13.0.dylib"; sourceTree = "<group>"; };
+		56692CCC1CFB965B005F1819 /* libGLEW.1.13.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.13.0.dylib; path = "../../lib/glew-1.13.0/lib/libGLEW.1.13.0.dylib"; sourceTree = "<group>"; };
+		56692CCE1CFB9CA5005F1819 /* libglfw.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.1.dylib; path = "../../lib/glfw-3.1.2/src/libglfw.3.1.dylib"; sourceTree = "<group>"; };
 		566D94F61CEC97D700E89858 /* CoasterTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CoasterTrack.cpp; sourceTree = "<group>"; };
 		566D94F71CEC97D800E89858 /* CoasterTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoasterTrack.h; sourceTree = "<group>"; };
 		566D94F91CED565300E89858 /* shader_environmental_mapping.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader_environmental_mapping.vert; sourceTree = "<group>"; };
@@ -85,8 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				560F2BC91CE461120069E4B9 /* libGLEW.1.13.0.dylib in Frameworks */,
-				560F2BC81CE461080069E4B9 /* libglfw.3.1.dylib in Frameworks */,
+				56692CCD1CFB965B005F1819 /* libGLEW.1.13.0.dylib in Frameworks */,
+				56692CCF1CFB9CA5005F1819 /* libglfw.3.1.dylib in Frameworks */,
 				569F44291CC06EC600CB88F7 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +100,9 @@
 		569F44051CC06B5B00CB88F7 = {
 			isa = PBXGroup;
 			children = (
+				56692CCE1CFB9CA5005F1819 /* libglfw.3.1.dylib */,
+				56692CCC1CFB965B005F1819 /* libGLEW.1.13.0.dylib */,
+				56692CCA1CFB9647005F1819 /* libGLEWmx.1.13.0.dylib */,
 				569F44281CC06EC600CB88F7 /* OpenGL.framework */,
 				560F2BC61CE460D40069E4B9 /* libglfw.3.1.dylib */,
 				560F2BC41CE460C60069E4B9 /* libGLEW.1.13.0.dylib */,
@@ -317,14 +323,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					"/Developer/glew-1.13.0/include/",
-					"/Developer/glm-master/",
-					"/Developer/glfw-3.1.2/include/",
 					/usr/local/Cellar/boost/1.60.0_1/include/,
+					"../../lib/glew-1.13.0/include/",
+					"../../lib/glm-master/",
+					"../../lib/glfw-3.1.2/include/",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"/Developer/glfw-3.1.2/src/",
-					"/Developer/glew-1.13.0/lib",
+					"../../lib/glfw-3.1.2/src/",
+					"../../lib/glew-1.13.0/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = BezierCurve;
@@ -335,14 +341,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					"/Developer/glew-1.13.0/include/",
-					"/Developer/glm-master/",
-					"/Developer/glfw-3.1.2/include/",
 					/usr/local/Cellar/boost/1.60.0_1/include/,
+					"../../lib/glew-1.13.0/include/",
+					"../../lib/glm-master/",
+					"../../lib/glfw-3.1.2/include/",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"/Developer/glfw-3.1.2/src/",
-					"/Developer/glew-1.13.0/lib",
+					"../../lib/glfw-3.1.2/src/",
+					"../../lib/glew-1.13.0/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = BezierCurve;
