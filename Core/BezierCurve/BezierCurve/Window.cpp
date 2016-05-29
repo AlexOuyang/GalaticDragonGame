@@ -1,0 +1,695 @@
+
+#include "shader.h"
+#include "Light.h"
+#include "window.h"
+#include "OBJObject.h"
+#include "Node.h"
+#include "skybox.h"
+#include "BezierCurve.h"
+#include "Control.h"
+#include "CoasterTrack.h"
+
+
+const char* window_title = "GLFW Starter Project";
+float rotation_scale = 100.0f;
+float translation_scale = 0.04f;
+float zoom_scale = 0.5f;
+float zoom_max = 600;
+float zoom_offset = 400;
+float zoom_sum = 0;
+
+bool rotate_spot_light = false;
+
+// Used for mouse trackball
+glm::vec3 lastPoint;
+glm::vec3 curPoint;
+bool left_button_clicked = false;
+bool right_button_clicked = false;
+bool scroll_back = false;
+
+// Used for dragging control points
+glm::vec2 last_cursor_position;
+glm::vec2 curr_cursor_position;
+float cursor_dragging_speed = 0.01f;
+
+Skybox * skybox = nullptr;
+ControlManager * controlManager;
+CoasterTrack * track;
+OBJObject * train = nullptr;
+bool stop_train = false;
+
+enum MouseActions
+{
+    NONE,
+    LEFT_BUTTON_PRESSED,
+    RIGHT_BUTTON_PRESSED,
+};
+
+MouseActions currentMouseAction = NONE; // Set Mouse action to none by default
+
+// Control mdoe designates the mouse control to either the model or lights
+enum ControlMode
+{
+    MODEL_CONTROL,
+    CAMERA_CONTROL,
+    SPOT_LIGHT_CONTROL,
+    DIRECTIONAL_LIGHT_CONTROL,
+    POINT_LIGHT_CONTROL,
+};
+
+ControlMode currentControlMode = CAMERA_CONTROL; // Set Mouse action to none by default
+
+// Shader programs
+GLint shaderProgram;
+GLint skyboxShaderProgram;
+GLint bezierCurveShaderProgram;
+GLint selectionBufferShaderProgram;
+GLuint envirMappingShaderProgram;
+
+// Default camera parameters
+glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
+glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
+glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
+
+int Window::width;
+int Window::height;
+
+glm::mat4 Window::P;
+glm::mat4 Window::V;
+
+// This handles the camera
+glm::mat4 lastCameraView; // Use to remember the previous camera view before changing to bear POV
+
+const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
+
+void Window::initialize_objects()
+{
+    // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
+    shaderProgram = LoadShaders("./shader.vert", "./shader.frag");
+    skyboxShaderProgram = LoadShaders("./shader_skybox.vert", "./shader_skybox.frag");
+    bezierCurveShaderProgram = LoadShaders("./shader_bezier_curve.vert", "./shader_bezier_curve.frag");
+    selectionBufferShaderProgram = LoadShaders("./shader_selection_buffer.vert", "./shader_selection_buffer.frag");
+    envirMappingShaderProgram = LoadShaders("./shader_environmental_mapping.vert", "./shader_environmental_mapping.frag");
+    
+    // *Important: Set up the wedding cake model here after creating the shaders
+    skybox = new Skybox(zoom_max - zoom_offset/2.0f,
+                        "../../../Skybox/mp_orbital/right.ppm",
+                        "../../../Skybox/mp_orbital/left.ppm",
+                        "../../../Skybox/mp_orbital/top.ppm",
+                        "../../../Skybox/mp_orbital/bottom.ppm",
+                        "../../../Skybox/mp_orbital/back.ppm",
+                        "../../../Skybox/mp_orbital/front.ppm");
+    
+    
+    
+    // Call light set up here
+    Light::setup();
+    // Use directional light by default
+    Light::useLight(Light::DIRECTIONAL_LIGHT);
+    
+    
+    train = new OBJObject("/Users/chenxingouyang/Documents/Github/Ouyang-Alex/3dModels/pod.obj");
+    //    pod->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+    //    pod->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+    //    pod->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+    //    pod->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
+    
+    train->scale(2.0f);
+    
+    
+    // Set up the roller coaster here
+    controlManager = new ControlManager();
+    track = new CoasterTrack(controlManager);
+    float temp_height = 5;
+    
+    // Id must starts at 1 because 0 is the background color
+    auto c1 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(0, temp_height+5, 10)); // Anchor
+    auto c2 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(2, temp_height+5, 10)); // Control
+    auto c3 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(6, 0, 8));  // Control
+    auto c4 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(7, 0, 7));  // Anchor
+    track->createSegment(c1, c2, c3, c4);
+    
+    auto c5 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(8, 0, 6)); // Control
+    auto c6 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(10, temp_height, 2));  // Control
+    auto c7 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(10, temp_height, 0));  // Anchor
+    track->createSegment(c4, c5, c6, c7);
+    
+    auto c8 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(10, temp_height, -2)); // Control
+    auto c9 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(8, 0, -6));  // Control
+    auto c10 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(7, 0, -7));  // Anchor
+    track->createSegment(c7, c8, c9, c10);
+    
+    auto c11 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(6, 0, -8)); // Control
+    auto c12 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(2, temp_height, -10));  // Control
+    auto c13 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(0, temp_height, -10));  // Anchor
+    track->createSegment(c10, c11, c12, c13);
+    
+    auto c14 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-2, temp_height, -10)); // Control
+    auto c15 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-6, 0, -8));  // Control
+    auto c16 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(-7, 0, -7));  // Anchor
+    track->createSegment(c13, c14, c15, c16);
+    
+    auto c17 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-8, 0, -6)); // Control
+    auto c18 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-10, temp_height, -2));  // Control
+    auto c19 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(-10, temp_height, 0));  // Anchor
+    track->createSegment(c16, c17, c18, c19);
+    
+    auto c20 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-10, temp_height, 2)); // Control
+    auto c21 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-8, 0, 6));  // Control
+    auto c22 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(-7, 0, 7));  // Anchor
+    track->createSegment(c19, c20, c21, c22);
+    
+    auto c23 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-6, 0, 8)); // Control
+    auto c24 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-2, temp_height+5, 10));  // Control
+    track->createSegment(c22, c23, c24, c1);
+    
+    
+    // Now set train height
+    track->updateMaxPositionAndTimeStep();
+    train->setPosition(track->maxHeightPos);
+    train->setCurrentAccumulatedTimeStep(track->maxHeightAccumulatedTimeStep);
+}
+
+
+void Window::clean_up()
+{
+    delete train;
+    delete track;
+    delete controlManager;
+    glDeleteProgram(shaderProgram);
+    glDeleteProgram(skyboxShaderProgram);
+    glDeleteProgram(bezierCurveShaderProgram);
+    glDeleteProgram(envirMappingShaderProgram);
+    glDeleteProgram(selectionBufferShaderProgram);
+}
+
+GLFWwindow* Window::create_window(int width, int height)
+{
+    // Initialize GLFW
+    if (!glfwInit())
+    {
+        fprintf(stderr, "Failed to initialize GLFW\n");
+        return NULL;
+    }
+    
+    // 4x antialiasing
+    glfwWindowHint(GLFW_SAMPLES, 4);
+    
+    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    
+    // Create the GLFW window
+    GLFWwindow* window = glfwCreateWindow(width, height, window_title, NULL, NULL);
+    
+    // Check if the window could not be created
+    if (!window)
+    {
+        fprintf(stderr, "Failed to open GLFW window.\n");
+        glfwTerminate();
+        return NULL;
+    }
+    
+    // Make the context of the window
+    glfwMakeContextCurrent(window);
+    
+    // Set swap interval to 1
+    glfwSwapInterval(1);
+    
+    // Get the width and height of the framebuffer to properly resize the window
+    glfwGetFramebufferSize(window, &width, &height);
+    // Call the resize callback to make sure things get drawn immediately
+    Window::resize_callback(window, width, height);
+    
+    // The initial camera view set up
+    Window::P = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
+    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+    lastCameraView = V;
+    camera_view_setup(width, height);
+    
+    return window;
+}
+
+void Window::resize_callback(GLFWwindow* window, int width, int height)
+{
+    Window::width = width;
+    Window::height = height;
+    
+    camera_view_setup(width, height);
+}
+
+// Reset the camera view port
+void Window::camera_view_setup(int width, int height)
+{
+    // Split screen left for bird view, right for POV
+    // void glViewport(	GLint x, GLint y, GLsizei width, GLsizei height);
+    glViewport(0, 0, width, height);
+    
+    if (height > 0)
+    {
+        P = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
+        V = lastCameraView;
+    }
+}
+
+void Window::display_callback(GLFWwindow* window)
+{
+    // Clear the color and depth buffers
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    /*====== Draw Sybox ======*/
+    glUseProgram(skyboxShaderProgram);
+    skybox->draw(skyboxShaderProgram);
+    
+    
+    /*====== Draw Light ======*/
+    //    glUseProgram(shaderProgram);
+    // Bind cameraPosition, or 'eye' to the shaderProgram
+    //    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
+    //    glUniform3fv(v3_eye, 1, &cam_pos[0]);
+    //
+    //    // Bind light to the shaderProgram
+    //    Light::bindDirectionalLightToShader(shaderProgram);
+    //    Light::bindPointLightToShader(shaderProgram);
+    //    Light::bindSpotLightToShader(shaderProgram);
+    
+    
+    /*====== Draw RollerCaster ======*/
+    glUseProgram(envirMappingShaderProgram);
+    train->drawGlossy(envirMappingShaderProgram);
+    if (!stop_train) train->moveInTrack(track);
+    
+    /*====== Draw BezierCurve ======*/
+    glUseProgram(bezierCurveShaderProgram);
+    track->draw(bezierCurveShaderProgram);
+    
+    // Swap buffers
+    glfwSwapBuffers(window);
+    
+    // Gets events, including input such as keyboard and mouse or window resizing
+    glfwPollEvents();
+    
+}
+
+
+void Window::idle_callback()
+{
+    //    if(cake) cake->update();
+}
+
+void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    /* Super important, since osx retina display has more pixel we need to multiply by 2 */
+    xpos *= osx_retina_cursor_pos_offset;
+    ypos *= osx_retina_cursor_pos_offset;
+    
+    //        std::cout << "x: " << xpos << "   y: " << ypos << std::endl;
+    
+    glm::vec3 direction;
+    float rot_angle;
+    
+    switch(currentMouseAction)
+    {
+        case LEFT_BUTTON_PRESSED:
+            
+            if (!left_button_clicked)
+            {
+                // Map the mouse position to a logical sphere location.
+                // Keep it in the class variable lastPoint.
+                lastPoint = trackBallMapping(xpos, ypos);
+                
+                last_cursor_position = glm::vec2(xpos, -ypos);
+                
+                // Make sure we are modifying the MODELVIEW matrix.
+                left_button_clicked = true;
+            }
+            else
+            {
+                
+                // Drag control points
+                if (controlManager->hasControlPointSelected())
+                {
+                    curr_cursor_position = glm::vec2(xpos, -ypos);
+                    glm::vec2 cursor_displacement = curr_cursor_position - last_cursor_position;
+                    
+                    
+                    drag_control_point(cursor_displacement);
+                    
+                    last_cursor_position = curr_cursor_position;
+                }
+                else // Rotate Camera
+                {
+                    curPoint = trackBallMapping(xpos, ypos); // Map the mouse position to a logical sphere location.
+                    direction = curPoint - lastPoint;
+                    float velocity =glm::length(direction); // make velocity slower
+                    glm::vec3 rot_Axis;
+                    rot_Axis = glm::cross(lastPoint, curPoint);
+                    rot_angle = velocity * rotation_scale;
+                    
+                    
+                    mouse_drag_to_rotate(rot_angle, rot_Axis);
+                    
+                    lastPoint = curPoint;
+                }
+                
+            }
+            
+            break;
+            
+        case RIGHT_BUTTON_PRESSED:
+            
+            if (!right_button_clicked)
+            {
+                // Map the mouse position to a logical sphere location.
+                // Keep it in the class variable lastPoint.
+                lastPoint = glm::vec3(xpos, -ypos, 0.0f);
+                right_button_clicked = true;
+            }
+            else
+            {
+                curPoint = glm::vec3(xpos, -ypos, 0.0f);
+                direction = (curPoint - lastPoint) * translation_scale;
+                
+                mouse_drag_to_translate(direction);
+                
+                lastPoint = curPoint;
+            }
+            
+            
+            break;
+        case NONE:
+        default:
+            break;
+    }
+    
+}
+
+
+void Window::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    int ctl = GLFW_MOD_CONTROL;
+    
+    // Right button is simply mousepad click
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && (mods & ctl) != ctl)
+    {
+        currentMouseAction = LEFT_BUTTON_PRESSED;
+        
+        /*======= Draw selection buffer when left button is clicked ====*/
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        /* Super important, since osx retina display has more pixel we need to multiply by 2 */
+        xpos *= osx_retina_cursor_pos_offset;
+        ypos *= osx_retina_cursor_pos_offset;
+        // Only call selection buffer on mouse down
+        selection_buffer_click(xpos, ypos);
+        
+    }
+    // Right button is mousepad click + control
+    else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && (mods & ctl) == ctl)
+    {
+        currentMouseAction = RIGHT_BUTTON_PRESSED;
+        //        std::cout << "right clicked" << std::endl;
+    }
+    else
+    {
+        //        std::cout << "Stopped clicking" << std::endl;
+        currentMouseAction = NONE;
+        left_button_clicked = false;
+        right_button_clicked = false;
+    }
+}
+
+
+void Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    mouse_scroll(xoffset, yoffset);
+}
+
+void Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    // Check for a key press
+    if (action == GLFW_PRESS)
+    {
+        // Check if escape was pressed
+        if (key == GLFW_KEY_ESCAPE)
+        {
+            // Close the window. This causes the program to also terminate.
+            glfwSetWindowShouldClose(window, GL_TRUE);
+        }
+        
+        if (key == GLFW_KEY_F1){}
+        if (key == GLFW_KEY_F2){}
+        if (key == GLFW_KEY_F3){}
+        
+        int shift = GLFW_MOD_SHIFT;
+        
+        if (key == GLFW_KEY_S && (mods & shift) == shift){}
+        else if (key == GLFW_KEY_S && (mods & shift) != shift){}
+        
+        if (key == GLFW_KEY_P)
+        {
+            stop_train = !stop_train;
+        }
+        
+        if (key == GLFW_KEY_R)
+        {
+            track->updateMaxPositionAndTimeStep();
+            train->setPosition(track->maxHeightPos);
+            train->setCurrentAccumulatedTimeStep(track->maxHeightAccumulatedTimeStep);
+            stop_train = false;
+        }
+        
+        /*====== Light Controls =======*/
+        
+        if (key == GLFW_KEY_0)
+        {
+            currentControlMode = CAMERA_CONTROL;
+        }
+        else if (key == GLFW_KEY_1)
+        {
+            Light::useLight(Light::DIRECTIONAL_LIGHT);
+            currentControlMode = DIRECTIONAL_LIGHT_CONTROL;
+        }
+        else if (key == GLFW_KEY_2)
+        {
+            Light::useLight(Light::POINT_LIGHT);
+            currentControlMode = POINT_LIGHT_CONTROL;
+        }
+        else if (key == GLFW_KEY_3)
+        {
+            Light::useLight(Light::SPOT_LIGHT);
+            currentControlMode = SPOT_LIGHT_CONTROL;
+        }
+        
+        // Change cutoff angle for spot light
+        if (key == GLFW_KEY_A && (mods & shift) == shift)
+        {
+            Light::changeSpotLightCutoff(-5);
+        }
+        else if (key == GLFW_KEY_A && (mods & shift) != shift)
+        {
+            Light::changeSpotLightCutoff(5);
+        }
+        
+        // Change exponent coefficient for spot light
+        if (key == GLFW_KEY_E && (mods & shift) == shift)
+        {
+            Light::changeSpotLightExponent(-1);
+        }
+        else if (key == GLFW_KEY_E && (mods & shift) != shift)
+        {
+            Light::changeSpotLightExponent(1);
+        }
+        
+        // Press 'Shift' with mouse dragging to rotate the spot light
+        if ((mods & shift) == shift && action == GLFW_PRESS)
+        {
+            rotate_spot_light = true;
+        } else {
+            rotate_spot_light = false;
+        }
+    }
+}
+
+
+
+/*================ Private Methods ==================*/
+
+
+glm::vec3 Window::trackBallMapping(const double &x, const double &y)    // The CPoint class is a specific Windows class. Either use separate x and y values for the mouse location, or use a Vector3 in which you ignore the z coordinate.
+{
+    glm::vec3 v;     // Vector v is the synthesized 3D position of the mouse location on the trackball
+    float d;         // this is the depth of the mouse location: the delta between the plane through the center of the trackball and the z position of the mouse
+    v.x = (2.0 * x - width) / width;   // this calculates the mouse X position in trackball coordinates, which range from -1 to +1
+    v.y = (height - 2.0 * y) / height;   // this does the equivalent to the above for the mouse Y position
+    v.z = 0.0;   // initially the mouse z position is set to zero, but this will change below
+    d = glm::length(v);    // this is the distance from the trackball's origin to the mouse location, without considering depth (=in the plane of the trackball's origin)
+    d = (d<1.0) ? d : 1.0;   // this limits d to values of 1.0 or less to avoid square roots of negative values in the following line
+    v.z = sqrtf(1.001 - d * d);  // this calculates the Z coordinate of the mouse position on the trackball, based on Pythagoras: v.z*v.z + d*d = 1*1
+    glm::normalize(v); // Still need to normalize, since we only capped d, not v.
+    return v;  // return the mouse location on the surface of the trackball
+}
+
+// Called in cursor_position_callback() to rotate the light or the model based on the control mode
+void Window::mouse_drag_to_rotate(float rot_angle, glm::vec3 rot_Axis)
+{
+    glm::mat4 R_transpose;
+    
+    switch (currentControlMode) {
+        case MODEL_CONTROL:
+            break;
+        case DIRECTIONAL_LIGHT_CONTROL:
+            Light::rotateDirectionalLight(rot_angle, rot_Axis);
+            break;
+        case POINT_LIGHT_CONTROL:
+            Light::orbitPointLight(rot_angle, rot_Axis);
+            break;
+        case SPOT_LIGHT_CONTROL:
+            if (!rotate_spot_light)
+                Light::orbitSpotLight(rot_angle, rot_Axis);
+            else
+                Light::rotateSpotLight(rot_angle, rot_Axis);
+            break;
+        case CAMERA_CONTROL:
+            
+            // Rotate the camera based on the equation: V’ = V * R’_transpose
+            R_transpose = glm::transpose(glm::rotate(glm::mat4(1.0f), rot_angle / 180.0f * glm::pi<float>(), rot_Axis));
+            cam_up = glm::vec4(cam_up, 0) * R_transpose;
+            cam_pos = glm::vec4(cam_pos, 0) * R_transpose;
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            
+            //            Window::V = V * glm::transpose(glm::rotate(glm::mat4(1.0f), rot_angle / 180.0f * glm::pi<float>(), rot_Axis));
+            break;
+        default:
+            break;
+    }
+}
+
+
+// Called in cursor_position_callback() to translate the light or the model based on the control mode
+void Window::mouse_drag_to_translate(glm::vec3 dir)
+{
+    switch (currentControlMode) {
+        case MODEL_CONTROL:
+            break;
+        case DIRECTIONAL_LIGHT_CONTROL:
+            break;
+        case POINT_LIGHT_CONTROL:
+            break;
+        case SPOT_LIGHT_CONTROL:
+            break;
+        case CAMERA_CONTROL:
+            break;
+        default:
+            break;
+    }
+}
+
+// Called in scroll_callback() to swipe the keypad using two fingers to zoom in and out
+void Window::mouse_scroll(float delta_x, float delta_y)
+{
+    switch (currentControlMode)
+    {
+        case MODEL_CONTROL:
+            //            if (drawBunny) bunny->translate(0.0f, 0.0f, delta_y * zoom_scale);
+            break;
+        case DIRECTIONAL_LIGHT_CONTROL:
+            break;
+        case POINT_LIGHT_CONTROL:
+            Light::changePointLightRadius(delta_y);
+            break;
+        case SPOT_LIGHT_CONTROL:
+            Light::changeSpotLightRadius(delta_y);
+            break;
+        case CAMERA_CONTROL:
+            
+            if (true) {
+                // V = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, delta_y * zoom_scale)) * V; // V = V * -T
+                
+                delta_y *= -1;
+                float r_min = 1.0f;
+                float r_magnitude = glm::length(cam_pos);
+                r_magnitude = ((r_magnitude + delta_y) < r_min) ? r_min : r_magnitude + delta_y;
+                cam_pos = r_magnitude * glm::normalize(cam_pos);
+                
+                Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+                
+                lastCameraView = V;
+            }
+            
+            break;
+        default:
+            break;
+    }
+}
+
+// Detect if control points are clicked via selection buffer
+void Window::selection_buffer_click(double xpos, double ypos)
+{
+    // Fix the ypos since glReadPixel read pixel centered at lower left corner,
+    // but GLFW pos detection is centered at upper left corner.
+    ypos = height - ypos;
+    
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glUseProgram(selectionBufferShaderProgram);
+    track->drawSelectionBuffer(selectionBufferShaderProgram);
+    
+    unsigned char pix[4];
+    glReadPixels(xpos, ypos, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pix);
+    unsigned int recovered_ID = (unsigned int)(pix[0]);
+    
+    controlManager->setCurrentlySelectedID(recovered_ID);
+    
+    
+    //    std::cout << "window height: " << height<< std::endl;
+    //    std::cout << "window width: " << width<< std::endl;
+    //    std::cout << "x: " << xpos << "   y: " << height-ypos << "   id: " << recovered_ID << std::endl;
+    
+    
+    // restore clear color if needed
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    
+}
+
+// Move control points by displacement
+void Window::drag_control_point(glm::vec2 displacement)
+{
+    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
+    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
+    if (affected_control_points.size() == 0) return;
+    
+    // 0.116f is a good constant to make sure control points moves as fast as cursor
+    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
+    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
+    
+    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
+    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
+    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
+    
+    if (clicked_point->type == ANCHOR_POINT)
+    {
+        for (int i = 0; i < affected_control_points.size(); i++)
+        {
+            auto control_point = affected_control_points[i];
+            
+            if (!control_point) return;
+            
+            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+        }
+    }
+    else if (clicked_point->type == CONTROL_POINT)
+    {
+        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+        auto mirror_point = affected_control_points[0];
+        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
+    }
+    
+    track->updateCurve();
+    
+}
+
+

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "4CB5EA2E75CCE066236BE9FDBCA019C5416DD9D0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "4CB5EA2E75CCE066236BE9FDBCA019C5416DD9D0" : 0,
+    "84CF5731D68866E2A4334D6538786AA99A7A76FB" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "564E027C-063B-4318-9AED-143AD4F5B6C0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "4CB5EA2E75CCE066236BE9FDBCA019C5416DD9D0" : "GameEngine\/",
+    "84CF5731D68866E2A4334D6538786AA99A7A76FB" : "Ouyang-Alex\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BezierCurve",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Core\/BezierCurve\/BezierCurve.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AlexOuyang\/GameEngine.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4CB5EA2E75CCE066236BE9FDBCA019C5416DD9D0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/UCSD-CSE-167-SP16\/Ouyang-Alex.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "84CF5731D68866E2A4334D6538786AA99A7A76FB"
+    }
+  ]
+}
