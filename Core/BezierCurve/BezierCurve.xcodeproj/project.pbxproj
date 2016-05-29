@@ -323,7 +323,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.60.0_1/include/,
+					/usr/local/Cellar/boost/1.60.0_2/include/,
 					"../../lib/glew-1.13.0/include/",
 					"../../lib/glm-master/",
 					"../../lib/glfw-3.1.2/include/",
@@ -341,7 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.60.0_1/include/,
+					/usr/local/Cellar/boost/1.60.0_2/include/,
 					"../../lib/glew-1.13.0/include/",
 					"../../lib/glm-master/",
 					"../../lib/glfw-3.1.2/include/",
