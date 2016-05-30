@@ -111,7 +111,7 @@ void Window::initialize_objects()
     Light::useLight(Light::DIRECTIONAL_LIGHT);
     
     controlManager = new ControlManager();
-    cube = new OBJObject("../../Models/pod.obj");
+    cube = new OBJObject("../../Models/dragon.obj");
     
 }
 
