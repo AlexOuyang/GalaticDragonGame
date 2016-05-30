@@ -10,7 +10,7 @@
 class Window
 {
 private:
-    constexpr const static float osx_retina_cursor_pos_offset = 2.0f;
+    constexpr const static float osx_retina_cursor_pos_offset = 1.0f;
     // Called in display_callback to display the scene
     static void display_full_screen();
     static glm::vec3 trackBallMapping(const double &x, const double &y);

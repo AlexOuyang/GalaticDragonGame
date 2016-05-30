@@ -32,11 +32,9 @@ glm::vec2 last_cursor_position;
 glm::vec2 curr_cursor_position;
 float cursor_dragging_speed = 0.01f;
 
+ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
-ControlManager * controlManager;
-CoasterTrack * track;
-OBJObject * train = nullptr;
-bool stop_train = false;
+OBJObject * cube = nullptr;
 
 enum MouseActions
 {
@@ -85,11 +83,16 @@ const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 void Window::initialize_objects()
 {
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
-    shaderProgram = LoadShaders("./shader.vert", "./shader.frag");
-    skyboxShaderProgram = LoadShaders("./shader_skybox.vert", "./shader_skybox.frag");
-    bezierCurveShaderProgram = LoadShaders("./shader_bezier_curve.vert", "./shader_bezier_curve.frag");
-    selectionBufferShaderProgram = LoadShaders("./shader_selection_buffer.vert", "./shader_selection_buffer.frag");
-    envirMappingShaderProgram = LoadShaders("./shader_environmental_mapping.vert", "./shader_environmental_mapping.frag");
+    shaderProgram = LoadShaders("./shaders/phong_shader.vert",
+                                "./shaders/phong_shader.frag");
+    skyboxShaderProgram = LoadShaders("./shaders/shader_skybox.vert",
+                                      "./shaders/shader_skybox.frag");
+    bezierCurveShaderProgram = LoadShaders("./shaders/shader_bezier_curve.vert",
+                                           "./shaders/shader_bezier_curve.frag");
+    selectionBufferShaderProgram = LoadShaders("./shaders/shader_selection_buffer.vert",
+                                               "./shaders/shader_selection_buffer.frag");
+    envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
+                                            "./shaders/shader_environmental_mapping.frag");
     
     // *Important: Set up the wedding cake model here after creating the shaders
     skybox = new Skybox(zoom_max - zoom_offset/2.0f,
@@ -107,77 +110,15 @@ void Window::initialize_objects()
     // Use directional light by default
     Light::useLight(Light::DIRECTIONAL_LIGHT);
     
-    
-        train = new OBJObject("../../Models/pod.obj");
-    
-//    train = new OBJObject("/Users/chenxingouyang/Documents/Github/Ouyang-Alex/3dModels/pod.obj");
-    //    pod->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
-    //    pod->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
-    //    pod->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
-    //    pod->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
-    
-    train->scale(2.0f);
-    
-    
-    // Set up the roller coaster here
     controlManager = new ControlManager();
-    track = new CoasterTrack(controlManager);
-    float temp_height = 5;
+    cube = new OBJObject("../../Models/pod.obj");
     
-    // Id must starts at 1 because 0 is the background color
-    auto c1 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(0, temp_height+5, 10)); // Anchor
-    auto c2 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(2, temp_height+5, 10)); // Control
-    auto c3 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(6, 0, 8));  // Control
-    auto c4 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(7, 0, 7));  // Anchor
-    track->createSegment(c1, c2, c3, c4);
-    
-    auto c5 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(8, 0, 6)); // Control
-    auto c6 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(10, temp_height, 2));  // Control
-    auto c7 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(10, temp_height, 0));  // Anchor
-    track->createSegment(c4, c5, c6, c7);
-    
-    auto c8 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(10, temp_height, -2)); // Control
-    auto c9 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(8, 0, -6));  // Control
-    auto c10 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(7, 0, -7));  // Anchor
-    track->createSegment(c7, c8, c9, c10);
-    
-    auto c11 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(6, 0, -8)); // Control
-    auto c12 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(2, temp_height, -10));  // Control
-    auto c13 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(0, temp_height, -10));  // Anchor
-    track->createSegment(c10, c11, c12, c13);
-    
-    auto c14 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-2, temp_height, -10)); // Control
-    auto c15 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-6, 0, -8));  // Control
-    auto c16 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(-7, 0, -7));  // Anchor
-    track->createSegment(c13, c14, c15, c16);
-    
-    auto c17 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-8, 0, -6)); // Control
-    auto c18 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-10, temp_height, -2));  // Control
-    auto c19 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(-10, temp_height, 0));  // Anchor
-    track->createSegment(c16, c17, c18, c19);
-    
-    auto c20 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-10, temp_height, 2)); // Control
-    auto c21 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-8, 0, 6));  // Control
-    auto c22 = controlManager->createControlPoint(Control::ANCHOR_POINT, glm::vec3(-7, 0, 7));  // Anchor
-    track->createSegment(c19, c20, c21, c22);
-    
-    auto c23 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-6, 0, 8)); // Control
-    auto c24 = controlManager->createControlPoint(Control::CONTROL_POINT, glm::vec3(-2, temp_height+5, 10));  // Control
-    track->createSegment(c22, c23, c24, c1);
-    
-    
-    // Now set train height
-    track->updateMaxPositionAndTimeStep();
-    train->setPosition(track->maxHeightPos);
-    train->setCurrentAccumulatedTimeStep(track->maxHeightAccumulatedTimeStep);
 }
 
 
 void Window::clean_up()
 {
-    delete train;
-    delete track;
-    delete controlManager;
+    delete cube;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
@@ -278,15 +219,11 @@ void Window::display_callback(GLFWwindow* window)
     //    Light::bindSpotLightToShader(shaderProgram);
     
     
-    /*====== Draw RollerCaster ======*/
+    /*====== Draw Cube ======*/
     glUseProgram(envirMappingShaderProgram);
-    train->drawGlossy(envirMappingShaderProgram);
-    if (!stop_train) train->moveInTrack(track);
+    cube->draw(envirMappingShaderProgram);
     
-    /*====== Draw BezierCurve ======*/
-    glUseProgram(bezierCurveShaderProgram);
-    track->draw(bezierCurveShaderProgram);
-    
+
     // Swap buffers
     glfwSwapBuffers(window);
     
@@ -451,17 +388,10 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         else if (key == GLFW_KEY_S && (mods & shift) != shift){}
         
         if (key == GLFW_KEY_P)
-        {
-            stop_train = !stop_train;
-        }
+        {}
         
         if (key == GLFW_KEY_R)
-        {
-            track->updateMaxPositionAndTimeStep();
-            train->setPosition(track->maxHeightPos);
-            train->setCurrentAccumulatedTimeStep(track->maxHeightAccumulatedTimeStep);
-            stop_train = false;
-        }
+        {}
         
         /*====== Light Controls =======*/
         
@@ -638,7 +568,6 @@ void Window::selection_buffer_click(double xpos, double ypos)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram(selectionBufferShaderProgram);
-    track->drawSelectionBuffer(selectionBufferShaderProgram);
     
     unsigned char pix[4];
     glReadPixels(xpos, ypos, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pix);
@@ -660,37 +589,37 @@ void Window::selection_buffer_click(double xpos, double ypos)
 // Move control points by displacement
 void Window::drag_control_point(glm::vec2 displacement)
 {
-    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
-    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
-    if (affected_control_points.size() == 0) return;
-    
-    // 0.116f is a good constant to make sure control points moves as fast as cursor
-    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
-    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
-    
-    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
-    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
-    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
-    
-    if (clicked_point->type == ANCHOR_POINT)
-    {
-        for (int i = 0; i < affected_control_points.size(); i++)
-        {
-            auto control_point = affected_control_points[i];
-            
-            if (!control_point) return;
-            
-            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
-        }
-    }
-    else if (clicked_point->type == CONTROL_POINT)
-    {
-        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
-        auto mirror_point = affected_control_points[0];
-        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
-    }
-    
-    track->updateCurve();
+//    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
+//    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
+//    if (affected_control_points.size() == 0) return;
+//    
+//    // 0.116f is a good constant to make sure control points moves as fast as cursor
+//    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
+//    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
+//    
+//    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
+//    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
+//    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
+//    
+//    if (clicked_point->type == ANCHOR_POINT)
+//    {
+//        for (int i = 0; i < affected_control_points.size(); i++)
+//        {
+//            auto control_point = affected_control_points[i];
+//            
+//            if (!control_point) return;
+//            
+//            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+//        }
+//    }
+//    else if (clicked_point->type == CONTROL_POINT)
+//    {
+//        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+//        auto mirror_point = affected_control_points[0];
+//        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
+//    }
+//    
+//    track->updateCurve();
     
 }
 

@@ -60,18 +60,8 @@
 		56692CDF1CFBA973005F1819 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Node.h; path = BezierCurve/Node.h; sourceTree = SOURCE_ROOT; };
 		56692CE01CFBA973005F1819 /* OBJObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OBJObject.cpp; path = BezierCurve/OBJObject.cpp; sourceTree = SOURCE_ROOT; };
 		56692CE11CFBA973005F1819 /* OBJObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBJObject.h; path = BezierCurve/OBJObject.h; sourceTree = SOURCE_ROOT; };
-		56692CE21CFBA973005F1819 /* shader_bezier_curve.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_bezier_curve.frag; path = BezierCurve/shader_bezier_curve.frag; sourceTree = SOURCE_ROOT; };
-		56692CE31CFBA973005F1819 /* shader_bezier_curve.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_bezier_curve.vert; path = BezierCurve/shader_bezier_curve.vert; sourceTree = SOURCE_ROOT; };
-		56692CE41CFBA973005F1819 /* shader_environmental_mapping.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_environmental_mapping.frag; path = BezierCurve/shader_environmental_mapping.frag; sourceTree = SOURCE_ROOT; };
-		56692CE51CFBA973005F1819 /* shader_environmental_mapping.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_environmental_mapping.vert; path = BezierCurve/shader_environmental_mapping.vert; sourceTree = SOURCE_ROOT; };
-		56692CE61CFBA973005F1819 /* shader_selection_buffer.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_selection_buffer.frag; path = BezierCurve/shader_selection_buffer.frag; sourceTree = SOURCE_ROOT; };
-		56692CE71CFBA973005F1819 /* shader_selection_buffer.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_selection_buffer.vert; path = BezierCurve/shader_selection_buffer.vert; sourceTree = SOURCE_ROOT; };
-		56692CE81CFBA973005F1819 /* shader_skybox.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_skybox.frag; path = BezierCurve/shader_skybox.frag; sourceTree = SOURCE_ROOT; };
-		56692CE91CFBA973005F1819 /* shader_skybox.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader_skybox.vert; path = BezierCurve/shader_skybox.vert; sourceTree = SOURCE_ROOT; };
 		56692CEA1CFBA973005F1819 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = BezierCurve/shader.cpp; sourceTree = SOURCE_ROOT; };
-		56692CEB1CFBA973005F1819 /* shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader.frag; path = BezierCurve/shader.frag; sourceTree = SOURCE_ROOT; };
 		56692CEC1CFBA973005F1819 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = BezierCurve/shader.h; sourceTree = SOURCE_ROOT; };
-		56692CED1CFBA973005F1819 /* shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shader.vert; path = BezierCurve/shader.vert; sourceTree = SOURCE_ROOT; };
 		56692CEE1CFBA973005F1819 /* skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = skybox.cpp; path = BezierCurve/skybox.cpp; sourceTree = SOURCE_ROOT; };
 		56692CEF1CFBA973005F1819 /* skybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skybox.h; path = BezierCurve/skybox.h; sourceTree = SOURCE_ROOT; };
 		56692CF01CFBA973005F1819 /* WeddingCake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WeddingCake.cpp; path = BezierCurve/WeddingCake.cpp; sourceTree = SOURCE_ROOT; };
@@ -80,6 +70,7 @@
 		56692CF31CFBA973005F1819 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = BezierCurve/Window.h; sourceTree = SOURCE_ROOT; };
 		569F440E1CC06B5B00CB88F7 /* BezierCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BezierCurve; sourceTree = BUILT_PRODUCTS_DIR; };
 		569F44281CC06EC600CB88F7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		6781FF491CFBB52B004DA82D /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = BezierCurve/shaders; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +111,7 @@
 		569F44101CC06B5B00CB88F7 /* BeizerCurve */ = {
 			isa = PBXGroup;
 			children = (
+				6781FF491CFBB52B004DA82D /* shaders */,
 				56692CF21CFBA973005F1819 /* Window.cpp */,
 				56692CF31CFBA973005F1819 /* Window.h */,
 				56692CEE1CFBA973005F1819 /* skybox.cpp */,
@@ -146,16 +138,6 @@
 				56692CDF1CFBA973005F1819 /* Node.h */,
 				56692CE01CFBA973005F1819 /* OBJObject.cpp */,
 				56692CE11CFBA973005F1819 /* OBJObject.h */,
-				56692CE21CFBA973005F1819 /* shader_bezier_curve.frag */,
-				56692CE31CFBA973005F1819 /* shader_bezier_curve.vert */,
-				56692CE41CFBA973005F1819 /* shader_environmental_mapping.frag */,
-				56692CE51CFBA973005F1819 /* shader_environmental_mapping.vert */,
-				56692CE61CFBA973005F1819 /* shader_selection_buffer.frag */,
-				56692CE71CFBA973005F1819 /* shader_selection_buffer.vert */,
-				56692CE81CFBA973005F1819 /* shader_skybox.frag */,
-				56692CE91CFBA973005F1819 /* shader_skybox.vert */,
-				56692CEB1CFBA973005F1819 /* shader.frag */,
-				56692CED1CFBA973005F1819 /* shader.vert */,
 			);
 			name = BeizerCurve;
 			path = "/Users/chenxingouyang/Documents/Github/Ouyang-Alex/Project4/BezierCurve/BezierCurve";
