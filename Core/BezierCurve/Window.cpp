@@ -62,7 +62,11 @@ GLint shaderProgram;
 GLint skyboxShaderProgram;
 GLint bezierCurveShaderProgram;
 GLint selectionBufferShaderProgram;
-GLuint envirMappingShaderProgram;
+GLint envirMappingShaderProgram;
+GLint SSAOShaderProgram;
+GLint SSAOBlurShaderProgram;
+GLint SSAOGeometryShaderProgram;
+GLint SSAOLightingShaderProgram;
 
 // Default camera parameters
 glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
@@ -93,6 +97,15 @@ void Window::initialize_objects()
                                                "./shaders/shader_selection_buffer.frag");
     envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
                                             "./shaders/shader_environmental_mapping.frag");
+    SSAOShaderProgram = LoadShaders("./shaders/shader_SSAO.vert",
+                                    "./shaders/shader_SSAO.frag");
+    SSAOBlurShaderProgram = LoadShaders("./shaders/shader_SSAO_blur.vert",
+                                        "./shaders/shader_SSAO_blur.frag");
+    SSAOGeometryShaderProgram = LoadShaders("./shaders/shader_SSAO_geometry.vert",
+                                            "./shaders/shader_SSAO_geometry.frag");
+    SSAOLightingShaderProgram = LoadShaders("./shaders/shader_SSAO_lighting.vert",
+                                            "./shaders/shader_SSAO_lighting.frag");
+    
     
     // *Important: Set up the wedding cake model here after creating the shaders
     skybox = new Skybox(zoom_max - zoom_offset/2.0f,
@@ -111,7 +124,7 @@ void Window::initialize_objects()
     Light::useLight(Light::DIRECTIONAL_LIGHT);
     
     controlManager = new ControlManager();
-    cube = new OBJObject("../../Models/dragon_2.obj");
+    cube = new OBJObject("../../Models/bunny.obj");
     
 }
 
