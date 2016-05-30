@@ -33,10 +33,6 @@ glm::vec2 last_cursor_position;
 glm::vec2 curr_cursor_position;
 float cursor_dragging_speed = 0.01f;
 
-ControlManager * controlManager = nullptr;
-Skybox * skybox = nullptr;
-OBJObject * cube = nullptr;
-SSAO * ssao = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(2.0, 4.0, -2.0);
@@ -63,16 +59,6 @@ enum ControlMode
 
 ControlMode currentControlMode = CAMERA_CONTROL; // Set Mouse action to none by default
 
-// Shader programs
-GLint phongShaderProgram;
-GLint skyboxShaderProgram;
-GLint bezierCurveShaderProgram;
-GLint selectionBufferShaderProgram;
-GLint envirMappingShaderProgram;
-GLint SSAOShaderProgram;
-GLint SSAOBlurShaderProgram;
-GLint SSAOGeometryShaderProgram;
-GLint SSAOLightingShaderProgram;
 
 // Default camera parameters
 glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
@@ -89,6 +75,26 @@ glm::mat4 Window::V;
 glm::mat4 lastCameraView; // Use to remember the previous camera view before changing to bear POV
 
 const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
+
+
+// Shader programs
+GLint phongShaderProgram;
+GLint skyboxShaderProgram;
+GLint bezierCurveShaderProgram;
+GLint selectionBufferShaderProgram;
+GLint envirMappingShaderProgram;
+GLint SSAOShaderProgram;
+GLint SSAOBlurShaderProgram;
+GLint SSAOGeometryShaderProgram;
+GLint SSAOLightingShaderProgram;
+
+ControlManager * controlManager = nullptr;
+Skybox * skybox = nullptr;
+OBJObject * cube = nullptr;
+OBJObject * ground = nullptr;
+SSAO * ssao = nullptr;
+
+
 
 void Window::initialize_objects()
 {
@@ -136,6 +142,16 @@ void Window::initialize_objects()
     cube->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
     cube->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
     cube->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
+    
+    
+    ground = new OBJObject("../../Models/sphere.obj");
+    ground->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+    ground->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+    ground->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+    ground->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
+    ground->scale(19);
+    ground->translate(0, -10, 0);
+    
     
     ssao = new SSAO();
     
@@ -266,6 +282,7 @@ void Window::display_callback(GLFWwindow* window)
     /*====== Draw Cube ======*/
     glUseProgram(phongShaderProgram);
     cube->draw(phongShaderProgram);
+    ground->draw(phongShaderProgram);
     
     
     // Swap buffers
