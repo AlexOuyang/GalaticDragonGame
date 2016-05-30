@@ -64,7 +64,7 @@ enum ControlMode
 ControlMode currentControlMode = CAMERA_CONTROL; // Set Mouse action to none by default
 
 // Shader programs
-GLint shaderProgram;
+GLint phongShaderProgram;
 GLint skyboxShaderProgram;
 GLint bezierCurveShaderProgram;
 GLint selectionBufferShaderProgram;
@@ -93,8 +93,8 @@ const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 void Window::initialize_objects()
 {
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
-    shaderProgram = LoadShaders("./shaders/phong_shader.vert",
-                                "./shaders/phong_shader.frag");
+    phongShaderProgram = LoadShaders("./shaders/phong_shader.vert",
+                                     "./shaders/phong_shader.frag");
     skyboxShaderProgram = LoadShaders("./shaders/shader_skybox.vert",
                                       "./shaders/shader_skybox.frag");
     bezierCurveShaderProgram = LoadShaders("./shaders/shader_bezier_curve.vert",
@@ -130,7 +130,13 @@ void Window::initialize_objects()
     Light::useLight(Light::DIRECTIONAL_LIGHT);
     
     controlManager = new ControlManager();
+    
     cube = new OBJObject("../../Models/bunny.obj");
+    cube->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+    cube->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+    cube->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+    cube->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
+    
     ssao = new SSAO();
     
 }
@@ -140,7 +146,8 @@ void Window::clean_up()
 {
     delete cube;
     delete ssao;
-    glDeleteProgram(shaderProgram);
+    delete controlManager;
+    glDeleteProgram(phongShaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
     glDeleteProgram(envirMappingShaderProgram);
@@ -233,34 +240,34 @@ void Window::display_callback(GLFWwindow* window)
     
     
     /*====== Draw Light ======*/
-    //    glUseProgram(shaderProgram);
-    // Bind cameraPosition, or 'eye' to the shaderProgram
-    //    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
-    //    glUniform3fv(v3_eye, 1, &cam_pos[0]);
-    //
-    //    // Bind light to the shaderProgram
-    //    Light::bindDirectionalLightToShader(shaderProgram);
-    //    Light::bindPointLightToShader(shaderProgram);
-    //    Light::bindSpotLightToShader(shaderProgram);
+    glUseProgram(phongShaderProgram);
+//    Bind cameraPosition, or 'eye' to the shaderProgram
+    GLuint v3_eye = glGetUniformLocation(phongShaderProgram, "eye");
+    glUniform3fv(v3_eye, 1, &cam_pos[0]);
+    
+    // Bind light to the shaderProgram
+    Light::bindDirectionalLightToShader(phongShaderProgram);
+//    Light::bindPointLightToShader(phongShaderProgram);
+//    Light::bindSpotLightToShader(phongShaderProgram);
     
     
     /*====== Draw Light ======*/
-    glUseProgram(SSAOLightingShaderProgram);
-    ssao->bindSSAOLight(SSAOLightingShaderProgram);
-    glUseProgram(SSAOShaderProgram);
-    ssao->bindSSAO(SSAOShaderProgram);
-    
-    //setup light properties
-    ssao->setupLight(lightPos, lightColor);
-    ssao->setupGBuffer(width, height);
+    //    glUseProgram(SSAOLightingShaderProgram);
+    //    ssao->bindSSAOLight(SSAOLightingShaderProgram);
+    //    glUseProgram(SSAOShaderProgram);
+    //    ssao->bindSSAO(SSAOShaderProgram);
+    //
+    //    //setup light properties
+    //    ssao->setupLight(lightPos, lightColor);
+    //    ssao->setupGBuffer(width, height);
     
     
     
     /*====== Draw Cube ======*/
-    glUseProgram(envirMappingShaderProgram);
-    cube->draw(envirMappingShaderProgram);
+    glUseProgram(phongShaderProgram);
+    cube->draw(phongShaderProgram);
     
-
+    
     // Swap buffers
     glfwSwapBuffers(window);
     
@@ -626,37 +633,37 @@ void Window::selection_buffer_click(double xpos, double ypos)
 // Move control points by displacement
 void Window::drag_control_point(glm::vec2 displacement)
 {
-//    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
-//    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
-//    if (affected_control_points.size() == 0) return;
-//    
-//    // 0.116f is a good constant to make sure control points moves as fast as cursor
-//    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
-//    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
-//    
-//    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
-//    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
-//    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
-//    
-//    if (clicked_point->type == ANCHOR_POINT)
-//    {
-//        for (int i = 0; i < affected_control_points.size(); i++)
-//        {
-//            auto control_point = affected_control_points[i];
-//            
-//            if (!control_point) return;
-//            
-//            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
-//        }
-//    }
-//    else if (clicked_point->type == CONTROL_POINT)
-//    {
-//        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
-//        auto mirror_point = affected_control_points[0];
-//        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
-//    }
-//    
-//    track->updateCurve();
+    //    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
+    //    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
+    //    if (affected_control_points.size() == 0) return;
+    //
+    //    // 0.116f is a good constant to make sure control points moves as fast as cursor
+    //    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
+    //    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
+    //
+    //    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
+    //    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
+    //    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
+    //
+    //    if (clicked_point->type == ANCHOR_POINT)
+    //    {
+    //        for (int i = 0; i < affected_control_points.size(); i++)
+    //        {
+    //            auto control_point = affected_control_points[i];
+    //
+    //            if (!control_point) return;
+    //
+    //            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+    //        }
+    //    }
+    //    else if (clicked_point->type == CONTROL_POINT)
+    //    {
+    //        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+    //        auto mirror_point = affected_control_points[0];
+    //        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
+    //    }
+    //
+    //    track->updateCurve();
     
 }
 

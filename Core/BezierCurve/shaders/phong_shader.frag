@@ -152,6 +152,10 @@ void main()
         vec3 gamma = vec3(1.0f / 2.2f);
         finalColor = vec4(pow(linearColor, gamma), 1.0f);
     }
+    else   // There is no light
+    {
+        finalColor = vec4(0, 0, 0, 1);
+    }
     
     
 }

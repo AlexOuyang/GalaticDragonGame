@@ -1,9 +1,8 @@
 dependencies: \
-  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/main.cpp \
-  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/main.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/SSAO.cpp \
+  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/SSAO.h \
   ../lib/glew-1.13.0/include/GL/glew.h \
   ../lib/glfw-3.1.2/include/GLFW/glfw3.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/window.h \
   ../lib/glm-master/glm/mat4x4.hpp \
   ../lib/glm-master/glm/detail/type_mat4x4.hpp \
   ../lib/glm-master/glm/detail/../fwd.hpp \
