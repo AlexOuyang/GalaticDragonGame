@@ -601,4 +601,5 @@ dependencies: \
   /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/skybox.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/BezierCurve.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/Control.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/CoasterTrack.h
+  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/CoasterTrack.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/Core/BezierCurve/SSAO.h
