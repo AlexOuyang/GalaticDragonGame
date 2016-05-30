@@ -8,6 +8,7 @@
 #include "BezierCurve.h"
 #include "Control.h"
 #include "CoasterTrack.h"
+#include "SSAO.h"
 
 
 const char* window_title = "GLFW Starter Project";
@@ -35,6 +36,11 @@ float cursor_dragging_speed = 0.01f;
 ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
 OBJObject * cube = nullptr;
+SSAO * ssao = nullptr;
+
+//SSAO Light Properties
+glm::vec3 lightPos = glm::vec3(2.0, 4.0, -2.0);
+glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 
 enum MouseActions
 {
@@ -125,6 +131,7 @@ void Window::initialize_objects()
     
     controlManager = new ControlManager();
     cube = new OBJObject("../../Models/bunny.obj");
+    ssao = new SSAO();
     
 }
 
@@ -132,6 +139,7 @@ void Window::initialize_objects()
 void Window::clean_up()
 {
     delete cube;
+    delete ssao;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
@@ -199,6 +207,10 @@ void Window::resize_callback(GLFWwindow* window, int width, int height)
 // Reset the camera view port
 void Window::camera_view_setup(int width, int height)
 {
+    
+    // Setup some OpenGL options (SSAO OPTION)
+    glEnable(GL_DEPTH_TEST);
+    
     // Split screen left for bird view, right for POV
     // void glViewport(	GLint x, GLint y, GLsizei width, GLsizei height);
     glViewport(0, 0, width, height);
@@ -230,6 +242,18 @@ void Window::display_callback(GLFWwindow* window)
     //    Light::bindDirectionalLightToShader(shaderProgram);
     //    Light::bindPointLightToShader(shaderProgram);
     //    Light::bindSpotLightToShader(shaderProgram);
+    
+    
+    /*====== Draw Light ======*/
+    glUseProgram(SSAOLightingShaderProgram);
+    ssao->bindSSAOLight(SSAOLightingShaderProgram);
+    glUseProgram(SSAOShaderProgram);
+    ssao->bindSSAO(SSAOShaderProgram);
+    
+    //setup light properties
+    ssao->setupLight(lightPos, lightColor);
+    ssao->setupGBuffer(width, height);
+    
     
     
     /*====== Draw Cube ======*/

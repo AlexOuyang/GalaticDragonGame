@@ -23,6 +23,7 @@
 		56692CFF1CFBA973005F1819 /* WeddingCake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56692CF01CFBA973005F1819 /* WeddingCake.cpp */; };
 		56692D001CFBA973005F1819 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56692CF21CFBA973005F1819 /* Window.cpp */; };
 		569F44291CC06EC600CB88F7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569F44281CC06EC600CB88F7 /* OpenGL.framework */; };
+		67BE9A421CFCA1410082A2D3 /* SSAO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BE9A401CFCA1410082A2D3 /* SSAO.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,6 +72,8 @@
 		569F440E1CC06B5B00CB88F7 /* BezierCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BezierCurve; sourceTree = BUILT_PRODUCTS_DIR; };
 		569F44281CC06EC600CB88F7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		6781FF491CFBB52B004DA82D /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = BezierCurve/shaders; sourceTree = SOURCE_ROOT; };
+		67BE9A401CFCA1410082A2D3 /* SSAO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSAO.cpp; path = BezierCurve/SSAO.cpp; sourceTree = SOURCE_ROOT; };
+		67BE9A411CFCA1410082A2D3 /* SSAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSAO.h; path = BezierCurve/SSAO.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 				56692CDF1CFBA973005F1819 /* Node.h */,
 				56692CE01CFBA973005F1819 /* OBJObject.cpp */,
 				56692CE11CFBA973005F1819 /* OBJObject.h */,
+				67BE9A401CFCA1410082A2D3 /* SSAO.cpp */,
+				67BE9A411CFCA1410082A2D3 /* SSAO.h */,
 			);
 			name = BeizerCurve;
 			path = "/Users/chenxingouyang/Documents/Github/Ouyang-Alex/Project4/BezierCurve/BezierCurve";
@@ -204,6 +209,7 @@
 				56692CF91CFBA973005F1819 /* loadPPM.cpp in Sources */,
 				56692CF71CFBA973005F1819 /* Cube.cpp in Sources */,
 				56692CFE1CFBA973005F1819 /* skybox.cpp in Sources */,
+				67BE9A421CFCA1410082A2D3 /* SSAO.cpp in Sources */,
 				56692D001CFBA973005F1819 /* Window.cpp in Sources */,
 				56692CF41CFBA973005F1819 /* BezierCurve.cpp in Sources */,
 				56692CFF1CFBA973005F1819 /* WeddingCake.cpp in Sources */,
