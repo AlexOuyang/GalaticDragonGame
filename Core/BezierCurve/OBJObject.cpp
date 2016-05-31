@@ -243,11 +243,13 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
     model = glm::scale(model, glm::vec3(20.0f, 1.0f, 20.0f));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
     RenderCube();
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0, 1.5f, 0.0f));
-    model = glm::scale(model,glm::vec3(5.0f,5.0f,5.0f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    RenderCube();
+//    model = glm::mat4(1.0f);
+//    model = glm::translate(model, glm::vec3(0.0, 1.5f, 0.0f));
+//    model = glm::scale(model,glm::vec3(5.0f,5.0f,5.0f));
+//    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    //RenderCube();
+
+    this->draw(shaderProgram);
     
     // Nanosuit model on the floor
 //    model = glm::mat4();

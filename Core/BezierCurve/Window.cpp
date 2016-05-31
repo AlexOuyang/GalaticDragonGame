@@ -39,7 +39,8 @@ OBJObject * cube = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(0.0, 10.0, 0.0);
-glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
+//glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
+glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
 enum MouseActions
 {
@@ -135,6 +136,9 @@ void Window::initialize_objects()
     
     controlManager = new ControlManager();
     cube = new OBJObject("../../Models/bunny.obj");
+    cube->scale(5.0f);
+    cube->translate(0.0f, 2.0f, 0.0f);
+    
 }
 
 
