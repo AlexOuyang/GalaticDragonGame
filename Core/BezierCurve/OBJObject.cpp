@@ -111,6 +111,10 @@ void OBJObject::parse(const char *filepath)
                 //                                std::cout << "vn: " << n.x << " " << n.y << " " << n.z << "\n";
                 
             }
+            else if (boost::starts_with(line, "vt"))
+            {
+                
+            }
             else if (boost::starts_with(line, "v"))
             {
                 // Split the strings by space
@@ -124,7 +128,6 @@ void OBJObject::parse(const char *filepath)
                 vtx.z = std::stof (strs[3]);
                 vertices.push_back(vtx);
                 
-                
                 // Update min and max dimentions of the model
                 if (vtx.x < minX) minX = vtx.x;
                 if (vtx.y < minY) minY = vtx.y;
@@ -133,8 +136,6 @@ void OBJObject::parse(const char *filepath)
                 if (vtx.x > maxX) maxX = vtx.x;
                 if (vtx.y > maxY) maxY = vtx.y;
                 if (vtx.z > maxZ) maxZ = vtx.z;
-                
-                //                                std::cout << "v: " << vtx.x << " " << vtx.y << " " << vtx.z << "\n";
             }
             else if (boost::starts_with(line, "f"))
             {

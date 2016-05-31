@@ -141,7 +141,7 @@ void Window::initialize_objects()
     cube->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
     
     
-    ground = new OBJObject("../../Models/sphere.obj");
+    ground = new OBJObject("../../Models/MKIII/MKIII.obj");
     ground->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
     ground->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
     ground->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
