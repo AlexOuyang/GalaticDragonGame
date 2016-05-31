@@ -38,7 +38,7 @@ Skybox * skybox = nullptr;
 OBJObject * cube = nullptr;
 
 //SSAO Light Properties
-glm::vec3 lightPos = glm::vec3(2.0, 4.0, -2.0);
+glm::vec3 lightPos = glm::vec3(0.0, 10.0, 0.0);
 glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 
 enum MouseActions
@@ -132,8 +132,6 @@ void Window::initialize_objects()
     //setup light properties
     SSAO::setupLight(lightPos, lightColor);
     SSAO::setupGBuffer(width, height);
-    
-    std::cout <<"@@@@@@@AFTER: " << SSAO::ssaoKernel.size() << std::endl;
     
     controlManager = new ControlManager();
     cube = new OBJObject("../../Models/bunny.obj");

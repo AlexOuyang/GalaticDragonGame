@@ -46,7 +46,6 @@ void SSAO::setupLight(glm::vec3 light_Pos, glm::vec3 light_Color){
 
 void SSAO::setupGBuffer(int width, int heigth){
     
-    static std::vector<glm::vec3> ssaoKernel;
     // Set up G-Buffer
     // 3 textures:
     // 1. Positions + depth (RGBA)
@@ -116,8 +115,6 @@ void SSAO::setupGBuffer(int width, int heigth){
     // Sample kernel
     std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
     std::default_random_engine generator;
-//    std::vector<glm::vec3> ssaoKernel;
-        std::cout << "@@@@@@@@SIZE OF KERNEL: " << ssaoKernel.size() << std::endl;
     for (GLuint i = 0; i < 64; ++i)
     {
         glm::vec3 sample(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
@@ -131,7 +128,6 @@ void SSAO::setupGBuffer(int width, int heigth){
         ssaoKernel.push_back(sample);
     }
     
-    std::cout << "@@@@@@@@SIZE OF KERNEL: " << ssaoKernel.size() << std::endl;
     
     
     // Noise texture
@@ -151,6 +147,7 @@ void SSAO::setupGBuffer(int width, int heigth){
 
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 
 
 }
