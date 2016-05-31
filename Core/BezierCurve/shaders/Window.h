@@ -10,11 +10,12 @@
 class Window
 {
 private:
-    constexpr const static char* default_title = "Unnamed Scene";
-    constexpr const static float osx_retina_pixel_multiplier = 1.0f; // Retina is 2, non retina is 1
+    constexpr const static char* title = "Scene";
+    constexpr const static float osx_retina_cursor_pos_offset = 1.0f; // Retina is 2, non retina is 1
     // Called in display_callback to display the scene
     static void display_full_screen();
     static glm::vec3 trackBallMapping(const double &x, const double &y);
+    static void camera_view_setup(int width, int height);
     static void mouse_drag_to_translate(glm::vec3 dir);
     static void mouse_drag_to_rotate(float rot_angle, glm::vec3 rot_Axis);
     static void mouse_scroll(float xoffset, float yoffset);

@@ -46,14 +46,14 @@ void Light::setup()
 {
     directionalLight.on = false;
     directionalLight.direction = glm::vec3(1.0f, 0.0f, 0.0f); // between the object and the camera
-    directionalLight.c_i = glm::vec3(5.0f, 5.0f, 5.0f);
+    directionalLight.c_i = glm::vec3(2.0f, 2.0f, 2.0f);
     directionalLight.L_a = 0.2f;
     directionalLight.L_d = 1.0f;
     directionalLight.L_s = 1.0f;
     
     pointLight.on = false;
     pointLight.position = glm::vec3(0.0f, 0.0f, 10.0f); // between the object and the camera
-    pointLight.c_i = glm::vec3(10.0f, 10.0f, 10.0f);
+    pointLight.c_i = glm::vec3(1.0f, 1.0f, 1.0f);
     pointLight.L_a = 0.2f;
     pointLight.L_d = 1.0f;
     pointLight.L_s = 1.0f;
@@ -61,7 +61,7 @@ void Light::setup()
     spotLight.on = false;
     spotLight.direction = glm::vec3(0.0f, 0.0f, -1.0f); // between the object and the camera
     spotLight.position = glm::vec3(0.0f, 0.0f, 10.0f); // between the object and the camera
-    spotLight.c_i = glm::vec3(10.0f, 10.0f, 10.0f);
+    spotLight.c_i = glm::vec3(1.0f, 1.0f, 1.0f);
     spotLight.cutoff = 30.0f;
     spotLight.exponent_coefficient = 1.0f;
     spotLight.L_a = 0.2f;

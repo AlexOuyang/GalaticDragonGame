@@ -10,8 +10,13 @@
 #include "CoasterTrack.h"
 #include "SSAO.h"
 
+// Define static member variables
+int Window::width;
+int Window::height;
+glm::mat4 Window::P;
+glm::mat4 Window::V;
 
-const char* window_title = "GLFW Starter Project";
+// Used for mouse control
 float rotation_scale = 100.0f;
 float translation_scale = 0.04f;
 float zoom_scale = 0.5f;
@@ -65,14 +70,6 @@ glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
 
-int Window::width;
-int Window::height;
-
-glm::mat4 Window::P;
-glm::mat4 Window::V;
-
-// This handles the camera
-glm::mat4 lastCameraView; // Use to remember the previous camera view before changing to bear POV
 
 const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 
@@ -172,6 +169,9 @@ void Window::clean_up()
 
 GLFWwindow* Window::create_window(int width, int height)
 {
+    Window::width = 640;
+    Window::height = 480;
+    
     // Initialize GLFW
     if (!glfwInit())
     {
@@ -189,7 +189,7 @@ GLFWwindow* Window::create_window(int width, int height)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     
     // Create the GLFW window
-    GLFWwindow* window = glfwCreateWindow(width, height, window_title, NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(Window::width, Window::height, Window::default_title, NULL, NULL);
     
     // Check if the window could not be created
     if (!window)
@@ -206,44 +206,25 @@ GLFWwindow* Window::create_window(int width, int height)
     glfwSwapInterval(1);
     
     // Get the width and height of the framebuffer to properly resize the window
-    glfwGetFramebufferSize(window, &width, &height);
+    glfwGetFramebufferSize(window, &Window::width, &Window::height);
     // Call the resize callback to make sure things get drawn immediately
-    Window::resize_callback(window, width, height);
+    Window::resize_callback(window, Window::width, Window::height);
     
     // The initial camera view set up
-    Window::P = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
+    Window::P = glm::perspective(45.0f, (float)Window::width / (float)Window::height, 0.1f, 1000.0f);
     Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
-    lastCameraView = V;
-    camera_view_setup(width, height);
     
     return window;
 }
 
-void Window::resize_callback(GLFWwindow* window, int width, int height)
+void Window::resize_callback(GLFWwindow* window, int w, int h)
 {
-    Window::width = width;
-    Window::height = height;
-    
-    camera_view_setup(width, height);
+    Window::width = w;
+    Window::height = h;
+    Window::P = glm::perspective(45.0f, (float)w / (float)h, 0.1f, 1000.0f);
+    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
 }
 
-// Reset the camera view port
-void Window::camera_view_setup(int width, int height)
-{
-    
-    // Setup some OpenGL options (SSAO OPTION)
-    glEnable(GL_DEPTH_TEST);
-    
-    // Split screen left for bird view, right for POV
-    // void glViewport(	GLint x, GLint y, GLsizei width, GLsizei height);
-    glViewport(0, 0, width, height);
-    
-    if (height > 0)
-    {
-        P = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
-        V = lastCameraView;
-    }
-}
 
 void Window::display_callback(GLFWwindow* window)
 {
@@ -302,8 +283,8 @@ void Window::idle_callback()
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
     /* Super important, since osx retina display has more pixel we need to multiply by 2 */
-    xpos *= osx_retina_cursor_pos_offset;
-    ypos *= osx_retina_cursor_pos_offset;
+    xpos *= osx_retina_pixel_multiplier;
+    ypos *= osx_retina_pixel_multiplier;
     
     //        std::cout << "x: " << xpos << "   y: " << ypos << std::endl;
     
@@ -400,8 +381,8 @@ void Window::mouse_button_callback(GLFWwindow* window, int button, int action, i
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
         /* Super important, since osx retina display has more pixel we need to multiply by 2 */
-        xpos *= osx_retina_cursor_pos_offset;
-        ypos *= osx_retina_cursor_pos_offset;
+        xpos *= osx_retina_pixel_multiplier;
+        ypos *= osx_retina_pixel_multiplier;
         // Only call selection buffer on mouse down
         selection_buffer_click(xpos, ypos);
         
@@ -515,8 +496,8 @@ glm::vec3 Window::trackBallMapping(const double &x, const double &y)    // The C
 {
     glm::vec3 v;     // Vector v is the synthesized 3D position of the mouse location on the trackball
     float d;         // this is the depth of the mouse location: the delta between the plane through the center of the trackball and the z position of the mouse
-    v.x = (2.0 * x - width) / width;   // this calculates the mouse X position in trackball coordinates, which range from -1 to +1
-    v.y = (height - 2.0 * y) / height;   // this does the equivalent to the above for the mouse Y position
+    v.x = (2.0 * x - Window::width) / Window::width;   // this calculates the mouse X position in trackball coordinates, which range from -1 to +1
+    v.y = (Window::height - 2.0 * y) / Window::height;   // this does the equivalent to the above for the mouse Y position
     v.z = 0.0;   // initially the mouse z position is set to zero, but this will change below
     d = glm::length(v);    // this is the distance from the trackball's origin to the mouse location, without considering depth (=in the plane of the trackball's origin)
     d = (d<1.0) ? d : 1.0;   // this limits d to values of 1.0 or less to avoid square roots of negative values in the following line
@@ -599,8 +580,7 @@ void Window::mouse_scroll(float delta_x, float delta_y)
         case CAMERA_CONTROL:
             
             if (true) {
-                // V = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, delta_y * zoom_scale)) * V; // V = V * -T
-                
+
                 delta_y *= -1;
                 float r_min = 1.0f;
                 float r_magnitude = glm::length(cam_pos);
@@ -609,7 +589,6 @@ void Window::mouse_scroll(float delta_x, float delta_y)
                 
                 Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
                 
-                lastCameraView = V;
             }
             
             break;
@@ -623,7 +602,7 @@ void Window::selection_buffer_click(double xpos, double ypos)
 {
     // Fix the ypos since glReadPixel read pixel centered at lower left corner,
     // but GLFW pos detection is centered at upper left corner.
-    ypos = height - ypos;
+    ypos = Window::height - ypos;
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -635,11 +614,6 @@ void Window::selection_buffer_click(double xpos, double ypos)
     unsigned int recovered_ID = (unsigned int)(pix[0]);
     
     controlManager->setCurrentlySelectedID(recovered_ID);
-    
-    
-    //    std::cout << "window height: " << height<< std::endl;
-    //    std::cout << "window width: " << width<< std::endl;
-    //    std::cout << "x: " << xpos << "   y: " << height-ypos << "   id: " << recovered_ID << std::endl;
     
     
     // restore clear color if needed
