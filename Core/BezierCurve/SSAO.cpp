@@ -8,6 +8,19 @@
 
 #include "SSAO.h"
 
+
+GLuint SSAO::ssaoFBO, SSAO::ssaoBlurFBO;
+GLuint SSAO::gBuffer;
+GLuint SSAO::gPositionDepth, SSAO::gNormal, SSAO::gAlbedo;
+GLuint SSAO::rboDepth;
+GLuint SSAO::ssaoColorBuffer, SSAO::ssaoColorBufferBlur;
+GLuint SSAO::noiseTexture;
+
+glm::vec3 SSAO::lightPos;
+glm::vec3 SSAO::lightColor;
+
+std::vector<glm::vec3> SSAO::ssaoKernel;
+
 GLfloat SSAO::lerp(GLfloat a, GLfloat b, GLfloat f)
 {
     return a + f * (b - a);
@@ -32,15 +45,15 @@ void SSAO::setupLight(glm::vec3 light_Pos, glm::vec3 light_Color){
 }
 
 void SSAO::setupGBuffer(int width, int heigth){
+    
+    static std::vector<glm::vec3> ssaoKernel;
     // Set up G-Buffer
     // 3 textures:
     // 1. Positions + depth (RGBA)
     // 2. Color (RGB)
     // 3. Normals (RGB)
-    GLuint gBuffer;
     glGenFramebuffers(1, &gBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-    GLuint gPositionDepth, gNormal, gAlbedo;
     // - Position + linear depth color buffer
     glGenTextures(1, &gPositionDepth);
     glBindTexture(GL_TEXTURE_2D, gPositionDepth);
@@ -68,7 +81,6 @@ void SSAO::setupGBuffer(int width, int heigth){
     GLuint attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
     glDrawBuffers(3, attachments);
     // - Create and attach depth buffer (renderbuffer)
-    GLuint rboDepth;
     glGenRenderbuffers(1, &rboDepth);
     glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, heigth);
@@ -78,10 +90,8 @@ void SSAO::setupGBuffer(int width, int heigth){
         std::cout << "GBuffer Framebuffer not complete!" << std::endl;
     
     // Also create framebuffer to hold SSAO processing stage
-    GLuint ssaoFBO, ssaoBlurFBO;
     glGenFramebuffers(1, &ssaoFBO);  glGenFramebuffers(1, &ssaoBlurFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
-    GLuint ssaoColorBuffer, ssaoColorBufferBlur;
     // - SSAO color buffer
     glGenTextures(1, &ssaoColorBuffer);
     glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
@@ -106,7 +116,8 @@ void SSAO::setupGBuffer(int width, int heigth){
     // Sample kernel
     std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
     std::default_random_engine generator;
-    std::vector<glm::vec3> ssaoKernel;
+//    std::vector<glm::vec3> ssaoKernel;
+        std::cout << "@@@@@@@@SIZE OF KERNEL: " << ssaoKernel.size() << std::endl;
     for (GLuint i = 0; i < 64; ++i)
     {
         glm::vec3 sample(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
@@ -119,4 +130,27 @@ void SSAO::setupGBuffer(int width, int heigth){
         sample *= scale;
         ssaoKernel.push_back(sample);
     }
+    
+    std::cout << "@@@@@@@@SIZE OF KERNEL: " << ssaoKernel.size() << std::endl;
+    
+    
+    // Noise texture
+    std::vector<glm::vec3> ssaoNoise;
+    for (GLuint i = 0; i < 16; i++)
+    {
+        glm::vec3 noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
+        ssaoNoise.push_back(noise);
+    }
+    glGenTextures(1, &noiseTexture);
+    glBindTexture(GL_TEXTURE_2D, noiseTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+
 }

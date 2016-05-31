@@ -69,6 +69,12 @@ public:
     // This draws the model using environmental mapping
     void drawGlossy(GLuint shaderProgram);
     
+    //This draws the model using SSAO
+    void drawSSAOGeometry(GLuint shaderProgram);
+    void drawSSAOTextures(GLuint shaderProgram);
+    void drawSSAOBlur(GLuint shaderProgram);
+    void drawSSAOLighting(GLuint shaderProgram, int draw_mode);
+    
     void update();
     void spin(float deg);
     void translate(float x, float y, float z);
@@ -82,6 +88,15 @@ public:
     // Move the object in bezier curve track
     void moveInTrack(CoasterTrack * rollerCosterTrack);
     void setCurrentAccumulatedTimeStep(float t);
+    
+    /*=== For SSAO ===*/
+    GLuint cubeVAO = 0;
+    GLuint cubeVBO = 0;
+    void RenderCube();
+    GLuint quadVAO = 0;
+    GLuint quadVBO;
+    void RenderQuad();
+    
     
 };
 

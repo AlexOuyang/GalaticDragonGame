@@ -24,20 +24,29 @@
 
 class SSAO{
 private:
-    
-    //Lights
-    glm::vec3 lightPos;
-    glm::vec3 lightColor;
-    
-    GLfloat lerp(GLfloat a, GLfloat b, GLfloat f);
+    //Linear Interpolation
+    static GLfloat lerp(GLfloat a, GLfloat b, GLfloat f);
     
 public:
-    SSAO() {}
+    //Light Properties
+    static glm::vec3 lightPos;
+    static glm::vec3 lightColor;
     
-    void bindSSAOLight(GLint ShaderProgram);
-    void bindSSAO(GLint ShaderProgram);
-    void setupLight(glm::vec3 light_Pos, glm::vec3 light_Color);
-    void setupGBuffer(int width, int height);
+    static GLuint ssaoFBO, ssaoBlurFBO;
+    static GLuint gBuffer;
+    static GLuint gPositionDepth, gNormal, gAlbedo;
+    static GLuint rboDepth;
+    static GLuint ssaoColorBuffer, ssaoColorBufferBlur;
+    static GLuint noiseTexture;
+    
+    static std::vector<glm::vec3> ssaoKernel;
+
+    
+    
+    static void bindSSAOLight(GLint ShaderProgram);
+    static void bindSSAO(GLint ShaderProgram);
+    static void setupLight(glm::vec3 light_Pos, glm::vec3 light_Color);
+    static void setupGBuffer(int width, int height);
 };
 
 

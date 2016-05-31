@@ -36,7 +36,6 @@ float cursor_dragging_speed = 0.01f;
 ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
 OBJObject * cube = nullptr;
-SSAO * ssao = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(2.0, 4.0, -2.0);
@@ -124,27 +123,36 @@ void Window::initialize_objects()
     
     
     
-    // Call light set up here
-    Light::setup();
-    // Use directional light by default
-    Light::useLight(Light::DIRECTIONAL_LIGHT);
+    
+    glUseProgram(SSAOLightingShaderProgram);
+    SSAO::bindSSAOLight(SSAOLightingShaderProgram);
+    glUseProgram(SSAOShaderProgram);
+    SSAO::bindSSAO(SSAOShaderProgram);
+    
+    //setup light properties
+    SSAO::setupLight(lightPos, lightColor);
+    SSAO::setupGBuffer(width, height);
+    
+    std::cout <<"@@@@@@@AFTER: " << SSAO::ssaoKernel.size() << std::endl;
     
     controlManager = new ControlManager();
     cube = new OBJObject("../../Models/bunny.obj");
-    ssao = new SSAO();
-    
 }
 
 
 void Window::clean_up()
 {
     delete cube;
-    delete ssao;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
     glDeleteProgram(envirMappingShaderProgram);
     glDeleteProgram(selectionBufferShaderProgram);
+    glDeleteProgram(SSAOShaderProgram);
+    glDeleteProgram(SSAOBlurShaderProgram);
+    glDeleteProgram(SSAOGeometryShaderProgram);
+    glDeleteProgram(SSAOLightingShaderProgram);
+
 }
 
 GLFWwindow* Window::create_window(int width, int height)
@@ -244,21 +252,20 @@ void Window::display_callback(GLFWwindow* window)
     //    Light::bindSpotLightToShader(shaderProgram);
     
     
-    /*====== Draw Light ======*/
-    glUseProgram(SSAOLightingShaderProgram);
-    ssao->bindSSAOLight(SSAOLightingShaderProgram);
-    glUseProgram(SSAOShaderProgram);
-    ssao->bindSSAO(SSAOShaderProgram);
+    /*====== Draw SSAO ======*/
+
     
-    //setup light properties
-    ssao->setupLight(lightPos, lightColor);
-    ssao->setupGBuffer(width, height);
+    cube->drawSSAOGeometry(SSAOGeometryShaderProgram);
+    cube->drawSSAOTextures(SSAOShaderProgram);
+    cube->drawSSAOBlur(SSAOBlurShaderProgram);
+    cube->drawSSAOLighting(SSAOLightingShaderProgram, 1);
+
     
     
     
     /*====== Draw Cube ======*/
-    glUseProgram(envirMappingShaderProgram);
-    cube->draw(envirMappingShaderProgram);
+//    glUseProgram(envirMappingShaderProgram);
+//    cube->draw(envirMappingShaderProgram);
     
 
     // Swap buffers
