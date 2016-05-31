@@ -89,6 +89,7 @@ ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
 OBJObject * cube = nullptr;
 OBJObject * ground = nullptr;
+OBJObject * astronaut = nullptr;
 SSAO * ssao = nullptr;
 
 
@@ -134,14 +135,21 @@ void Window::initialize_objects()
     
     controlManager = new ControlManager();
     
-    cube = new OBJObject("../../Models/bunny.obj");
-    cube->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
-    cube->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
-    cube->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
-    cube->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
+//    cube = new OBJObject("../../Models/bunny.obj");
+//    cube->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+//    cube->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+//    cube->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+//    cube->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
     
+    astronaut = new OBJObject("../../Models/pod.obj");
+    astronaut->material.k_a = glm::vec3(1);
+    astronaut->material.k_d = glm::vec3(1);
+    astronaut->material.k_s = glm::vec3(1);
+    astronaut->material.shininess = 0 * LIGHT_SHINENESS_COEFFICIENT;
+    astronaut->scale(10);
+
     
-    ground = new OBJObject("../../Models/MKIII/MKIII.obj");
+    ground = new OBJObject("../../Models/MoonSurface/mesh_modified.obj");
     ground->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
     ground->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
     ground->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
@@ -158,6 +166,7 @@ void Window::initialize_objects()
 void Window::clean_up()
 {
     delete cube;
+    delete astronaut;
     delete ssao;
     delete controlManager;
     glDeleteProgram(phongShaderProgram);
@@ -262,8 +271,9 @@ void Window::display_callback(GLFWwindow* window)
     
     /*====== Draw Cube ======*/
     glUseProgram(phongShaderProgram);
-    cube->draw(phongShaderProgram);
+//    cube->draw(phongShaderProgram);
     ground->draw(phongShaderProgram);
+    astronaut->draw(phongShaderProgram);
     
     
     // Swap buffers

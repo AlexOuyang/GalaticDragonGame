@@ -145,6 +145,7 @@ void OBJObject::parse(const char *filepath)
                 boost::split(strs, line, boost::is_any_of(" /"), boost::token_compress_on);
                 // Push vertex indice into indices
                 // Since the face starts from 0th index in the vertices vector, so we need to offset the face index by 1
+//                std::cout << line << std::endl;
                 indices.push_back(std::stoi (strs[1])-1);
                 indices.push_back(std::stoi (strs[3])-1);
                 indices.push_back(std::stoi (strs[5])-1);
