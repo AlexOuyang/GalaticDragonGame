@@ -210,10 +210,6 @@ GLFWwindow* Window::create_window(int width, int height)
     // Call the resize callback to make sure things get drawn immediately
     Window::resize_callback(window, Window::width, Window::height);
     
-    // The initial camera view set up
-    Window::P = glm::perspective(45.0f, (float)Window::width / (float)Window::height, 0.1f, 1000.0f);
-    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
-    
     return window;
 }
 
@@ -221,6 +217,10 @@ void Window::resize_callback(GLFWwindow* window, int w, int h)
 {
     Window::width = w;
     Window::height = h;
+    // Set the viewport size
+    glViewport(0, 0, w, h);
+//    GLfloat near_plane = 0.0f, far_plane = 500.0f;
+//    Window::P = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
     Window::P = glm::perspective(45.0f, (float)w / (float)h, 0.1f, 1000.0f);
     Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
 }
