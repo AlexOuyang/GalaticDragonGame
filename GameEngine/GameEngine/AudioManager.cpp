@@ -16,26 +16,42 @@ bool AudioManager::init()
 {
     // Initialize SDL.
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
+    {
+        std::cerr << "SDL_Init error" << std::endl;
         return false;
+    }
     
     //Initialize SDL_mixer
     if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 )
+    {
+        std::cerr << "Mix_OpenAudio error" << std::endl;
         return false;
+    }
     
     // Load our 1st sound effect
     audio_1 = Mix_LoadWAV(AUDIO_1);
     if (audio_1 == NULL)
+    {
+        std::cerr << "Failed to load audio 1 error" << std::endl;
         return false;
+    }
     
     // Load our 2st sound effect
     audio_2 = Mix_LoadWAV(AUDIO_2);
     if (audio_2 == NULL)
+    {
+        std::cerr << "Failed to load audio 2 error" << std::endl;
         return false;
+    }
     
     // Load our music
     background_music = Mix_LoadMUS(MUS_PATH);
     if (background_music == NULL)
+    {
+        std::cerr << "Failed to load background music error" << std::endl;
         return false;
+    }
+    
     
     return true;
 }

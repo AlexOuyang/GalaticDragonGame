@@ -94,7 +94,8 @@ const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 void Window::initialize_objects()
 {
     // Initialize audio manager for audio support
-    AudioManager::init();
+    bool temp = AudioManager::init();
+    std::cout << "AudioManager: " << temp << std::endl;
     AudioManager::play_background_music();
     
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files

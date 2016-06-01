@@ -10,12 +10,13 @@
 #define AudioManager_h
 
 #include <stdio.h>
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2_mixer/SDL_mixer.h>
 
-#define AUDIO_1 "../../../Audio/beat.wav"
-#define AUDIO_2 "../../../Audio/death1.wav"
-#define MUS_PATH "../../../Audio/TimeTravel.mp3"
+#define AUDIO_1 "../../Audio/beat.wav"
+#define AUDIO_2 "../../Audio/death1.wav"
+#define MUS_PATH "../../Audio/TimeTravel.mp3"
 
 class AudioManager
 {

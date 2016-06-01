@@ -75,11 +75,9 @@
 		56A8EAE21CFF0DE40050CF1A /* WeddingCake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeddingCake.h; path = GameEngine/WeddingCake.h; sourceTree = SOURCE_ROOT; };
 		56A8EAE31CFF0DE40050CF1A /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Window.cpp; path = GameEngine/Window.cpp; sourceTree = SOURCE_ROOT; };
 		56A8EAE41CFF0DE40050CF1A /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = GameEngine/Window.h; sourceTree = SOURCE_ROOT; };
-		56A8EAF21CFF81620050CF1A /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioManager.cpp; sourceTree = "<group>"; };
-		56A8EAF31CFF81620050CF1A /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
-		56A8EAF51CFF81FE0050CF1A /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		56A8EAF21CFF81620050CF1A /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioManager.cpp; path = GameEngine/AudioManager.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAF31CFF81620050CF1A /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = GameEngine/AudioManager.h; sourceTree = SOURCE_ROOT; };
 		56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
-		56A8EAF71CFF81FE0050CF1A /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
 		56A8EAF81CFF81FE0050CF1A /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,9 +100,7 @@
 		56A8EAB01CFF0D450050CF1A = {
 			isa = PBXGroup;
 			children = (
-				56A8EAF51CFF81FE0050CF1A /* SDL2_image.framework */,
 				56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */,
-				56A8EAF71CFF81FE0050CF1A /* SDL2_ttf.framework */,
 				56A8EAF81CFF81FE0050CF1A /* SDL2.framework */,
 				56A8EAC71CFF0DC00050CF1A /* libglfw.3.1.dylib */,
 				56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */,
@@ -379,6 +375,7 @@
 				56A8EAC21CFF0D450050CF1A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
