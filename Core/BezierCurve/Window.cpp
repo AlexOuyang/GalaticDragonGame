@@ -10,8 +10,14 @@
 #include "CoasterTrack.h"
 #include "SSAO.h"
 
+//defined static member variables
+int Window::width;
+int Window::height;
 
-const char* window_title = "GLFW Starter Project";
+glm::mat4 Window::P;
+glm::mat4 Window::V;
+glm::mat4 Window::V_SSAO;
+
 float rotation_scale = 100.0f;
 float translation_scale = 0.04f;
 float zoom_scale = 0.5f;
@@ -38,9 +44,10 @@ Skybox * skybox = nullptr;
 OBJObject * cube = nullptr;
 
 //SSAO Light Properties
-glm::vec3 lightPos = glm::vec3(0.0, 10.0, 0.0);
+glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
+glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
-glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
+//glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
 enum MouseActions
 {
@@ -75,18 +82,11 @@ GLint SSAOGeometryShaderProgram;
 GLint SSAOLightingShaderProgram;
 
 // Default camera parameters
-glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
+//glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
+glm::vec3 cam_pos(-1.774541f, 4.895270f, 2.554885f);		// e  | Position of camera
+
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
-
-int Window::width;
-int Window::height;
-
-glm::mat4 Window::P;
-glm::mat4 Window::V;
-
-// This handles the camera
-glm::mat4 lastCameraView; // Use to remember the previous camera view before changing to bear POV
 
 const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 
@@ -135,9 +135,30 @@ void Window::initialize_objects()
     SSAO::setupGBuffer(width, height);
     
     controlManager = new ControlManager();
+    
+    V_SSAO = glm::lookAt(glm::vec3(-1.774541f, 4.895270f, 2.554885f), cam_look_at, cam_up);
+//    cube = new OBJObject("../../Models/nanosuit2.obj");
+    
+    
+    //    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 5.0));
+    //    model = glm::rotate(model, -90.0f, glm::vec3(1.0, 0.0, 0.0));
+    //    model = glm::scale(model, glm::vec3(0.5f));
+    
+    
+    // nanosuit
+//    cube = new OBJObject("../../Models/nanosuit2.obj");
+//    cube->scale(7.0f);
+//    cube->rotate(-90.0f,glm::vec3(1.0f,0.0f,.0f));
+    
+    
+    //bunny
     cube = new OBJObject("../../Models/bunny.obj");
-    cube->scale(5.0f);
-    cube->translate(0.0f, 2.0f, 0.0f);
+    cube->material.k_a = glm::vec3(1);
+    cube->material.k_d = glm::vec3(1);
+    cube->material.k_s = glm::vec3(1);
+    cube->material.shininess = 0;
+    cube->scale(1.0f);
+    cube->translate(0.0f, 0.0f, 0.0f);
     
 }
 
@@ -145,6 +166,7 @@ void Window::initialize_objects()
 void Window::clean_up()
 {
     delete cube;
+    delete controlManager;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
@@ -168,7 +190,6 @@ GLFWwindow* Window::create_window(int width, int height)
     
     // 4x antialiasing
     glfwWindowHint(GLFW_SAMPLES, 4);
-    
     
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -197,39 +218,21 @@ GLFWwindow* Window::create_window(int width, int height)
     // Call the resize callback to make sure things get drawn immediately
     Window::resize_callback(window, width, height);
     
-    // The initial camera view set up
-    Window::P = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
-    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
-    lastCameraView = V;
-    camera_view_setup(width, height);
-    
     return window;
 }
 
-void Window::resize_callback(GLFWwindow* window, int width, int height)
-{
-    Window::width = width;
-    Window::height = height;
-    
-    camera_view_setup(width, height);
-}
-
-// Reset the camera view port
-void Window::camera_view_setup(int width, int height)
+void Window::resize_callback(GLFWwindow* window, int w, int h)
 {
     
-    // Setup some OpenGL options (SSAO OPTION)
-    glEnable(GL_DEPTH_TEST);
+    Window::width = w;
+    Window::height = h;
+    //reset the viewport size to avoid bad scaling when enlarging window
+    glViewport(0, 0, w, h);
     
-    // Split screen left for bird view, right for POV
-    // void glViewport(	GLint x, GLint y, GLsizei width, GLsizei height);
-    glViewport(0, 0, width, height);
+    // The initial camera view set up
+    Window::P = glm::perspective(45.0f, (float)w / (float)h, 0.1f, 1000.0f);
+    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
     
-    if (height > 0)
-    {
-        P = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
-        V = lastCameraView;
-    }
 }
 
 void Window::display_callback(GLFWwindow* window)
@@ -261,9 +264,10 @@ void Window::display_callback(GLFWwindow* window)
     cube->drawSSAOTextures(SSAOShaderProgram);
     cube->drawSSAOBlur(SSAOBlurShaderProgram);
     cube->drawSSAOLighting(SSAOLightingShaderProgram, 1);
+    
 
     
-    
+//    V: vec3(-1.774541, 4.895270, 2.554885)
     
     /*====== Draw Cube ======*/
 //    glUseProgram(envirMappingShaderProgram);
@@ -287,8 +291,8 @@ void Window::idle_callback()
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
     /* Super important, since osx retina display has more pixel we need to multiply by 2 */
-    xpos *= osx_retina_cursor_pos_offset;
-    ypos *= osx_retina_cursor_pos_offset;
+    xpos *= osx_retina_pixel_multiplier;
+    ypos *= osx_retina_pixel_multiplier;
     
     //        std::cout << "x: " << xpos << "   y: " << ypos << std::endl;
     
@@ -385,8 +389,8 @@ void Window::mouse_button_callback(GLFWwindow* window, int button, int action, i
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
         /* Super important, since osx retina display has more pixel we need to multiply by 2 */
-        xpos *= osx_retina_cursor_pos_offset;
-        ypos *= osx_retina_cursor_pos_offset;
+        xpos *= osx_retina_pixel_multiplier;
+        ypos *= osx_retina_pixel_multiplier;
         // Only call selection buffer on mouse down
         selection_buffer_click(xpos, ypos);
         
@@ -594,7 +598,6 @@ void Window::mouse_scroll(float delta_x, float delta_y)
                 
                 Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
                 
-                lastCameraView = V;
             }
             
             break;

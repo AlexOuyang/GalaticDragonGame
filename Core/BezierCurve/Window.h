@@ -10,11 +10,11 @@
 class Window
 {
 private:
-    constexpr const static float osx_retina_cursor_pos_offset = 1.0f;
+    constexpr const static char* window_title = "Unnamed Scene";
+    constexpr const static float osx_retina_pixel_multiplier = 1.0f; //retina = 2.0f
     // Called in display_callback to display the scene
     static void display_full_screen();
     static glm::vec3 trackBallMapping(const double &x, const double &y);
-    static void camera_view_setup(int width, int height);
     static void mouse_drag_to_translate(glm::vec3 dir);
     static void mouse_drag_to_rotate(float rot_angle, glm::vec3 rot_Axis);
     static void mouse_scroll(float xoffset, float yoffset);
@@ -26,6 +26,7 @@ public:
 	static int height;
 	static glm::mat4 P;
 	static glm::mat4 V;
+    static glm::mat4 V_SSAO;
 	static void initialize_objects();
 	static void clean_up();
 	static GLFWwindow* create_window(int width, int height);

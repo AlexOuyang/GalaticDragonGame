@@ -19,8 +19,15 @@ void main()
 {
     // Store the fragment position vector in the first gbuffer texture
     gPositionDepth.xyz = FragPos;
+    
+//    gPositionDepth.xyz = vec3(-1.774541, 4.895270f, 2.554885f);
     // And store linear depth into gPositionDepth's alpha component
-    gPositionDepth.a = LinearizeDepth(gl_FragCoord.z); // Divide by FAR if you need to store depth in range 0.0 - 1.0 (if not using floating point colorbuffer)
+//    int one = 1;
+//    gPositionDepth.a = (LinearizeDepth(gl_FragCoord.z)); // Divide by FAR if you need to store depth in range 0.0 - 1.0 (if not using floating point colorbuffer)
+    
+     gPositionDepth.a = (LinearizeDepth(gl_FragCoord.z));
+    
+    
     // Also store the per-fragment normals into the gbuffer
     gNormal = normalize(Normal);
     // And the diffuse per-fragment color

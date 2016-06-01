@@ -70,10 +70,12 @@ public:
     void drawGlossy(GLuint shaderProgram);
     
     //This draws the model using SSAO
+    void drawSSAO(GLuint shaderProgram);
     void drawSSAOGeometry(GLuint shaderProgram);
     void drawSSAOTextures(GLuint shaderProgram);
     void drawSSAOBlur(GLuint shaderProgram);
     void drawSSAOLighting(GLuint shaderProgram, int draw_mode);
+    
     
     void update();
     void spin(float deg);

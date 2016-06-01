@@ -43,20 +43,16 @@ void setup_opengl_settings()
 	setup_glew();
 	// Enable depth buffering
 	glEnable(GL_DEPTH_TEST);
-    
-    // Enable single-sided rendering (triangle culling)
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    
 	// Related to shaders and z value comparisons for the depth buffer
 	glDepthFunc(GL_LEQUAL);
 	// Set polygon drawing mode to fill front and back of each polygon
 	// You can also use the paramter of GL_LINE instead of GL_FILL to see wireframes
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	// Disable backface culling to render both sides of polygons
-	glDisable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 	// Set clear color
-	glClearColor(0.2f, 0.2f, 0.5f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void print_versions()

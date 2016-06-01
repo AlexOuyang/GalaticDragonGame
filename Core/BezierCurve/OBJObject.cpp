@@ -249,7 +249,8 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
 //    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
     //RenderCube();
 
-    this->draw(shaderProgram);
+    this->drawSSAO(shaderProgram);
+//    this->draw(shaderProgram);
     
     // Nanosuit model on the floor
 //    model = glm::mat4();
@@ -261,6 +262,16 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void OBJObject::drawSSAO(GLuint shaderProgram){
+    GLuint M_mat = glGetUniformLocation(shaderProgram, "model");
+    glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, &Window::V[0][0]);
+    
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
 
 void OBJObject::drawSSAOTextures(GLuint shaderProgram){
     glBindFramebuffer(GL_FRAMEBUFFER, SSAO::ssaoFBO);
@@ -305,7 +316,7 @@ void OBJObject::drawSSAOLighting(GLuint shaderProgram, int draw_mode){
     glUniform3fv(glGetUniformLocation(shaderProgram, "light.Position"), 1, &lightPosView[0]);
     glUniform3fv(glGetUniformLocation(shaderProgram, "light.Color"), 1, &SSAO::lightColor[0]);
     // Update attenuation parameters
-    const GLfloat constant = 1.0; // Note that we don't send this to the shader, we assume it is always 1.0 (in our case)
+//    const GLfloat constant = 1.0; // Note that we don't send this to the shader, we assume it is always 1.0 (in our case)
     const GLfloat linear = 0.09;
     const GLfloat quadratic = 0.032;
     glUniform1f(glGetUniformLocation(shaderProgram, "light.Linear"), linear);
