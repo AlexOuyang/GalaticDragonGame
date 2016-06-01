@@ -1,0 +1,360 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		56A8EABD1CFF0D450050CF1A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EABC1CFF0D450050CF1A /* main.cpp */; };
+		56A8EAC41CFF0DAB0050CF1A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */; };
+		56A8EAC61CFF0DB60050CF1A /* libGLEW.1.13.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */; };
+		56A8EAC81CFF0DC00050CF1A /* libglfw.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAC71CFF0DC00050CF1A /* libglfw.3.1.dylib */; };
+		56A8EAE51CFF0DE40050CF1A /* BezierCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAC91CFF0DE40050CF1A /* BezierCurve.cpp */; };
+		56A8EAE61CFF0DE40050CF1A /* CoasterTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EACB1CFF0DE40050CF1A /* CoasterTrack.cpp */; };
+		56A8EAE71CFF0DE40050CF1A /* Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EACD1CFF0DE40050CF1A /* Control.cpp */; };
+		56A8EAE81CFF0DE40050CF1A /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EACF1CFF0DE40050CF1A /* Cube.cpp */; };
+		56A8EAE91CFF0DE40050CF1A /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAD11CFF0DE40050CF1A /* Light.cpp */; };
+		56A8EAEA1CFF0DE40050CF1A /* loadPPM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAD31CFF0DE40050CF1A /* loadPPM.cpp */; };
+		56A8EAEB1CFF0DE40050CF1A /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAD61CFF0DE40050CF1A /* Node.cpp */; };
+		56A8EAEC1CFF0DE40050CF1A /* OBJObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAD81CFF0DE40050CF1A /* OBJObject.cpp */; };
+		56A8EAED1CFF0DE40050CF1A /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EADA1CFF0DE40050CF1A /* shader.cpp */; };
+		56A8EAEE1CFF0DE40050CF1A /* skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EADD1CFF0DE40050CF1A /* skybox.cpp */; };
+		56A8EAEF1CFF0DE40050CF1A /* SSAO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */; };
+		56A8EAF01CFF0DE40050CF1A /* WeddingCake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAE11CFF0DE40050CF1A /* WeddingCake.cpp */; };
+		56A8EAF11CFF0DE40050CF1A /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAE31CFF0DE40050CF1A /* Window.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		56A8EAB71CFF0D450050CF1A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		56A8EAB91CFF0D450050CF1A /* GameEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameEngine; sourceTree = BUILT_PRODUCTS_DIR; };
+		56A8EABC1CFF0D450050CF1A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = GameEngine/main.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.13.0.dylib; path = "../lib/glew-1.13.0/lib/libGLEW.1.13.0.dylib"; sourceTree = "<group>"; };
+		56A8EAC71CFF0DC00050CF1A /* libglfw.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.1.dylib; path = "../lib/glfw-3.1.2/src/libglfw.3.1.dylib"; sourceTree = "<group>"; };
+		56A8EAC91CFF0DE40050CF1A /* BezierCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BezierCurve.cpp; path = GameEngine/BezierCurve.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EACA1CFF0DE40050CF1A /* BezierCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BezierCurve.h; path = GameEngine/BezierCurve.h; sourceTree = SOURCE_ROOT; };
+		56A8EACB1CFF0DE40050CF1A /* CoasterTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoasterTrack.cpp; path = GameEngine/CoasterTrack.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EACC1CFF0DE40050CF1A /* CoasterTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoasterTrack.h; path = GameEngine/CoasterTrack.h; sourceTree = SOURCE_ROOT; };
+		56A8EACD1CFF0DE40050CF1A /* Control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Control.cpp; path = GameEngine/Control.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EACE1CFF0DE40050CF1A /* Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Control.h; path = GameEngine/Control.h; sourceTree = SOURCE_ROOT; };
+		56A8EACF1CFF0DE40050CF1A /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cube.cpp; path = GameEngine/Cube.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAD01CFF0DE40050CF1A /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cube.h; path = GameEngine/Cube.h; sourceTree = SOURCE_ROOT; };
+		56A8EAD11CFF0DE40050CF1A /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Light.cpp; path = GameEngine/Light.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAD21CFF0DE40050CF1A /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Light.h; path = GameEngine/Light.h; sourceTree = SOURCE_ROOT; };
+		56A8EAD31CFF0DE40050CF1A /* loadPPM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = loadPPM.cpp; path = GameEngine/loadPPM.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAD41CFF0DE40050CF1A /* loadPPM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = loadPPM.h; path = GameEngine/loadPPM.h; sourceTree = SOURCE_ROOT; };
+		56A8EAD51CFF0DE40050CF1A /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = GameEngine/main.h; sourceTree = SOURCE_ROOT; };
+		56A8EAD61CFF0DE40050CF1A /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Node.cpp; path = GameEngine/Node.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAD71CFF0DE40050CF1A /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Node.h; path = GameEngine/Node.h; sourceTree = SOURCE_ROOT; };
+		56A8EAD81CFF0DE40050CF1A /* OBJObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OBJObject.cpp; path = GameEngine/OBJObject.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAD91CFF0DE40050CF1A /* OBJObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBJObject.h; path = GameEngine/OBJObject.h; sourceTree = SOURCE_ROOT; };
+		56A8EADA1CFF0DE40050CF1A /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = GameEngine/shader.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EADB1CFF0DE40050CF1A /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = GameEngine/shader.h; sourceTree = SOURCE_ROOT; };
+		56A8EADC1CFF0DE40050CF1A /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		56A8EADD1CFF0DE40050CF1A /* skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = skybox.cpp; path = GameEngine/skybox.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EADE1CFF0DE40050CF1A /* skybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skybox.h; path = GameEngine/skybox.h; sourceTree = SOURCE_ROOT; };
+		56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSAO.cpp; path = GameEngine/SSAO.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAE01CFF0DE40050CF1A /* SSAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSAO.h; path = GameEngine/SSAO.h; sourceTree = SOURCE_ROOT; };
+		56A8EAE11CFF0DE40050CF1A /* WeddingCake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WeddingCake.cpp; path = GameEngine/WeddingCake.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAE21CFF0DE40050CF1A /* WeddingCake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeddingCake.h; path = GameEngine/WeddingCake.h; sourceTree = SOURCE_ROOT; };
+		56A8EAE31CFF0DE40050CF1A /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Window.cpp; path = GameEngine/Window.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EAE41CFF0DE40050CF1A /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = GameEngine/Window.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		56A8EAB61CFF0D450050CF1A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56A8EAC41CFF0DAB0050CF1A /* OpenGL.framework in Frameworks */,
+				56A8EAC61CFF0DB60050CF1A /* libGLEW.1.13.0.dylib in Frameworks */,
+				56A8EAC81CFF0DC00050CF1A /* libglfw.3.1.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		56A8EAB01CFF0D450050CF1A = {
+			isa = PBXGroup;
+			children = (
+				56A8EAC71CFF0DC00050CF1A /* libglfw.3.1.dylib */,
+				56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */,
+				56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */,
+				56A8EABB1CFF0D450050CF1A /* GameEngine */,
+				56A8EABA1CFF0D450050CF1A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		56A8EABA1CFF0D450050CF1A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				56A8EAB91CFF0D450050CF1A /* GameEngine */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		56A8EABB1CFF0D450050CF1A /* GameEngine */ = {
+			isa = PBXGroup;
+			children = (
+				56A8EADC1CFF0DE40050CF1A /* shaders */,
+				56A8EAC91CFF0DE40050CF1A /* BezierCurve.cpp */,
+				56A8EACA1CFF0DE40050CF1A /* BezierCurve.h */,
+				56A8EACB1CFF0DE40050CF1A /* CoasterTrack.cpp */,
+				56A8EACC1CFF0DE40050CF1A /* CoasterTrack.h */,
+				56A8EACD1CFF0DE40050CF1A /* Control.cpp */,
+				56A8EACE1CFF0DE40050CF1A /* Control.h */,
+				56A8EACF1CFF0DE40050CF1A /* Cube.cpp */,
+				56A8EAD01CFF0DE40050CF1A /* Cube.h */,
+				56A8EAD11CFF0DE40050CF1A /* Light.cpp */,
+				56A8EAD21CFF0DE40050CF1A /* Light.h */,
+				56A8EAD31CFF0DE40050CF1A /* loadPPM.cpp */,
+				56A8EAD41CFF0DE40050CF1A /* loadPPM.h */,
+				56A8EAD51CFF0DE40050CF1A /* main.h */,
+				56A8EAD61CFF0DE40050CF1A /* Node.cpp */,
+				56A8EAD71CFF0DE40050CF1A /* Node.h */,
+				56A8EAD81CFF0DE40050CF1A /* OBJObject.cpp */,
+				56A8EAD91CFF0DE40050CF1A /* OBJObject.h */,
+				56A8EADA1CFF0DE40050CF1A /* shader.cpp */,
+				56A8EADB1CFF0DE40050CF1A /* shader.h */,
+				56A8EADD1CFF0DE40050CF1A /* skybox.cpp */,
+				56A8EADE1CFF0DE40050CF1A /* skybox.h */,
+				56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */,
+				56A8EAE01CFF0DE40050CF1A /* SSAO.h */,
+				56A8EAE11CFF0DE40050CF1A /* WeddingCake.cpp */,
+				56A8EAE21CFF0DE40050CF1A /* WeddingCake.h */,
+				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
+				56A8EAE41CFF0DE40050CF1A /* Window.h */,
+				56A8EABC1CFF0D450050CF1A /* main.cpp */,
+			);
+			path = GameEngine;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		56A8EAB81CFF0D450050CF1A /* GameEngine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56A8EAC01CFF0D450050CF1A /* Build configuration list for PBXNativeTarget "GameEngine" */;
+			buildPhases = (
+				56A8EAB51CFF0D450050CF1A /* Sources */,
+				56A8EAB61CFF0D450050CF1A /* Frameworks */,
+				56A8EAB71CFF0D450050CF1A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameEngine;
+			productName = GameEngine;
+			productReference = 56A8EAB91CFF0D450050CF1A /* GameEngine */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		56A8EAB11CFF0D450050CF1A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = CSE167;
+				TargetAttributes = {
+					56A8EAB81CFF0D450050CF1A = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 56A8EAB41CFF0D450050CF1A /* Build configuration list for PBXProject "GameEngine" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 56A8EAB01CFF0D450050CF1A;
+			productRefGroup = 56A8EABA1CFF0D450050CF1A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				56A8EAB81CFF0D450050CF1A /* GameEngine */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		56A8EAB51CFF0D450050CF1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56A8EAED1CFF0DE40050CF1A /* shader.cpp in Sources */,
+				56A8EAE91CFF0DE40050CF1A /* Light.cpp in Sources */,
+				56A8EAE51CFF0DE40050CF1A /* BezierCurve.cpp in Sources */,
+				56A8EAEF1CFF0DE40050CF1A /* SSAO.cpp in Sources */,
+				56A8EAF01CFF0DE40050CF1A /* WeddingCake.cpp in Sources */,
+				56A8EAEA1CFF0DE40050CF1A /* loadPPM.cpp in Sources */,
+				56A8EAEE1CFF0DE40050CF1A /* skybox.cpp in Sources */,
+				56A8EAF11CFF0DE40050CF1A /* Window.cpp in Sources */,
+				56A8EAE71CFF0DE40050CF1A /* Control.cpp in Sources */,
+				56A8EAE61CFF0DE40050CF1A /* CoasterTrack.cpp in Sources */,
+				56A8EABD1CFF0D450050CF1A /* main.cpp in Sources */,
+				56A8EAEC1CFF0DE40050CF1A /* OBJObject.cpp in Sources */,
+				56A8EAE81CFF0DE40050CF1A /* Cube.cpp in Sources */,
+				56A8EAEB1CFF0DE40050CF1A /* Node.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		56A8EABE1CFF0D450050CF1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		56A8EABF1CFF0D450050CF1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		56A8EAC11CFF0D450050CF1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"../lib/glew-1.13.0/include/",
+					/usr/local/Cellar/boost/1.60.0_2/include/,
+					"../lib/glfw-3.1.2/include/",
+					"../lib/glm-master/",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"../lib/glfw-3.1.2/src/",
+					"../lib/glew-1.13.0/lib",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		56A8EAC21CFF0D450050CF1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"../lib/glew-1.13.0/include/",
+					/usr/local/Cellar/boost/1.60.0_2/include/,
+					"../lib/glfw-3.1.2/include/",
+					"../lib/glm-master/",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"../lib/glfw-3.1.2/src/",
+					"../lib/glew-1.13.0/lib",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		56A8EAB41CFF0D450050CF1A /* Build configuration list for PBXProject "GameEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56A8EABE1CFF0D450050CF1A /* Debug */,
+				56A8EABF1CFF0D450050CF1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		56A8EAC01CFF0D450050CF1A /* Build configuration list for PBXNativeTarget "GameEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56A8EAC11CFF0D450050CF1A /* Debug */,
+				56A8EAC21CFF0D450050CF1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 56A8EAB11CFF0D450050CF1A /* Project object */;
+}
