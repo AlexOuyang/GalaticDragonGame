@@ -9,6 +9,7 @@
 #include "Control.h"
 #include "CoasterTrack.h"
 #include "SSAO.h"
+#include "AudioManager.h"
 
 //defined static member variables
 int Window::width;
@@ -92,6 +93,10 @@ const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 
 void Window::initialize_objects()
 {
+    // Initialize audio manager for audio support
+    AudioManager::init();
+    AudioManager::play_background_music();
+    
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
     shaderProgram = LoadShaders("./shaders/phong_shader.vert",
                                 "./shaders/phong_shader.frag");
@@ -165,6 +170,7 @@ void Window::initialize_objects()
 
 void Window::clean_up()
 {
+    AudioManager::close();
     delete cube;
     delete controlManager;
     glDeleteProgram(shaderProgram);
@@ -438,7 +444,9 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         else if (key == GLFW_KEY_S && (mods & shift) != shift){}
         
         if (key == GLFW_KEY_P)
-        {}
+        {
+            AudioManager::play_audio_1();
+        }
         
         if (key == GLFW_KEY_R)
         {}

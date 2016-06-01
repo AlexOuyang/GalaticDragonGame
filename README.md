@@ -6,7 +6,6 @@ CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcod
         brew update
         brew install boost
 
-
 * To Make sure Boost 1.60.0_2 is installed, we want to check if the following directory exists via command:
     
         /usr/local/Cellar/boost/1.60.0_2/include/
@@ -19,9 +18,9 @@ CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcod
         3. Drag the .framework and drop it into directory: /Library/Frameworks 
         4. Sign the framework via command: codesign -f -s - SDL2
 
-* Install SDL2 mixer:
+* Install SDL2 Mixer:
 
-        1 Go to the website: https://www.libsdl.org/projects/SDL_mixer/
+        1. Go to the website: https://www.libsdl.org/projects/SDL_mixer/
         2. Download runtime binaries and extract them.
         3. Drag the .framework and drop it into directory: /Library/Frameworks 
         4. Sign the framework via command: codesign -f -s - SDL2_mixer
