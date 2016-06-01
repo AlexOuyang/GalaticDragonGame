@@ -24,6 +24,9 @@
 		56A8EAEF1CFF0DE40050CF1A /* SSAO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */; };
 		56A8EAF01CFF0DE40050CF1A /* WeddingCake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAE11CFF0DE40050CF1A /* WeddingCake.cpp */; };
 		56A8EAF11CFF0DE40050CF1A /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAE31CFF0DE40050CF1A /* Window.cpp */; };
+		56A8EAF41CFF81620050CF1A /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EAF21CFF81620050CF1A /* AudioManager.cpp */; };
+		56A8EAFA1CFF81FE0050CF1A /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */; };
+		56A8EAFC1CFF81FE0050CF1A /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF81CFF81FE0050CF1A /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,6 +75,12 @@
 		56A8EAE21CFF0DE40050CF1A /* WeddingCake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeddingCake.h; path = GameEngine/WeddingCake.h; sourceTree = SOURCE_ROOT; };
 		56A8EAE31CFF0DE40050CF1A /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Window.cpp; path = GameEngine/Window.cpp; sourceTree = SOURCE_ROOT; };
 		56A8EAE41CFF0DE40050CF1A /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = GameEngine/Window.h; sourceTree = SOURCE_ROOT; };
+		56A8EAF21CFF81620050CF1A /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioManager.cpp; sourceTree = "<group>"; };
+		56A8EAF31CFF81620050CF1A /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
+		56A8EAF51CFF81FE0050CF1A /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
+		56A8EAF71CFF81FE0050CF1A /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
+		56A8EAF81CFF81FE0050CF1A /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +90,8 @@
 			files = (
 				56A8EAC41CFF0DAB0050CF1A /* OpenGL.framework in Frameworks */,
 				56A8EAC61CFF0DB60050CF1A /* libGLEW.1.13.0.dylib in Frameworks */,
+				56A8EAFA1CFF81FE0050CF1A /* SDL2_mixer.framework in Frameworks */,
+				56A8EAFC1CFF81FE0050CF1A /* SDL2.framework in Frameworks */,
 				56A8EAC81CFF0DC00050CF1A /* libglfw.3.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -91,6 +102,10 @@
 		56A8EAB01CFF0D450050CF1A = {
 			isa = PBXGroup;
 			children = (
+				56A8EAF51CFF81FE0050CF1A /* SDL2_image.framework */,
+				56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */,
+				56A8EAF71CFF81FE0050CF1A /* SDL2_ttf.framework */,
+				56A8EAF81CFF81FE0050CF1A /* SDL2.framework */,
 				56A8EAC71CFF0DC00050CF1A /* libglfw.3.1.dylib */,
 				56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */,
 				56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */,
@@ -111,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				56A8EADC1CFF0DE40050CF1A /* shaders */,
+				56A8EAF21CFF81620050CF1A /* AudioManager.cpp */,
+				56A8EAF31CFF81620050CF1A /* AudioManager.h */,
 				56A8EAC91CFF0DE40050CF1A /* BezierCurve.cpp */,
 				56A8EACA1CFF0DE40050CF1A /* BezierCurve.h */,
 				56A8EACB1CFF0DE40050CF1A /* CoasterTrack.cpp */,
@@ -123,6 +140,7 @@
 				56A8EAD21CFF0DE40050CF1A /* Light.h */,
 				56A8EAD31CFF0DE40050CF1A /* loadPPM.cpp */,
 				56A8EAD41CFF0DE40050CF1A /* loadPPM.h */,
+				56A8EABC1CFF0D450050CF1A /* main.cpp */,
 				56A8EAD51CFF0DE40050CF1A /* main.h */,
 				56A8EAD61CFF0DE40050CF1A /* Node.cpp */,
 				56A8EAD71CFF0DE40050CF1A /* Node.h */,
@@ -138,7 +156,6 @@
 				56A8EAE21CFF0DE40050CF1A /* WeddingCake.h */,
 				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
 				56A8EAE41CFF0DE40050CF1A /* Window.h */,
-				56A8EABC1CFF0D450050CF1A /* main.cpp */,
 			);
 			path = GameEngine;
 			sourceTree = "<group>";
@@ -205,6 +222,7 @@
 				56A8EAEF1CFF0DE40050CF1A /* SSAO.cpp in Sources */,
 				56A8EAF01CFF0DE40050CF1A /* WeddingCake.cpp in Sources */,
 				56A8EAEA1CFF0DE40050CF1A /* loadPPM.cpp in Sources */,
+				56A8EAF41CFF81620050CF1A /* AudioManager.cpp in Sources */,
 				56A8EAEE1CFF0DE40050CF1A /* skybox.cpp in Sources */,
 				56A8EAF11CFF0DE40050CF1A /* Window.cpp in Sources */,
 				56A8EAE71CFF0DE40050CF1A /* Control.cpp in Sources */,
@@ -303,6 +321,10 @@
 		56A8EAC11CFF0D450050CF1A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"../lib/glew-1.13.0/include/",
 					/usr/local/Cellar/boost/1.60.0_2/include/,
@@ -320,6 +342,10 @@
 		56A8EAC21CFF0D450050CF1A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"../lib/glew-1.13.0/include/",
 					/usr/local/Cellar/boost/1.60.0_2/include/,
