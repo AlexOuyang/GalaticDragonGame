@@ -9,6 +9,10 @@
 #include "Control.h"
 #include "CoasterTrack.h"
 #include "SSAO.h"
+//#include "model.h"
+
+//Model ourModel("../../Models/MoonSurface/mesh_modified.obj");
+
 
 // Define static member variables
 int Window::width;
@@ -141,7 +145,7 @@ void Window::initialize_objects()
 //    cube->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
 //    cube->material.shininess = 0.4f * LIGHT_SHINENESS_COEFFICIENT;
     
-    astronaut = new OBJObject("../../Models/pod.obj");
+    astronaut = new OBJObject("../../Models/MKIII/astro.obj");
     astronaut->material.k_a = glm::vec3(1);
     astronaut->material.k_d = glm::vec3(1);
     astronaut->material.k_s = glm::vec3(1);
@@ -272,10 +276,16 @@ void Window::display_callback(GLFWwindow* window)
     /*====== Draw Cube ======*/
     glUseProgram(phongShaderProgram);
 //    cube->draw(phongShaderProgram);
+    
     ground->draw(phongShaderProgram);
     astronaut->draw(phongShaderProgram);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+//    ground->draw(phongShaderProgram);
+//    astronaut->draw(phongShaderProgram);
     
-    
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
     // Swap buffers
     glfwSwapBuffers(window);
     

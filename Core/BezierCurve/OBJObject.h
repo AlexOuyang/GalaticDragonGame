@@ -51,6 +51,7 @@ public:
     float objGravity;
     float objectSize;
     std::vector<unsigned int> indices;
+    std::vector<unsigned int> normal_indices;
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     GLuint VAO; // Vertex Array Object

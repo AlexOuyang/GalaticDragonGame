@@ -23,6 +23,7 @@
 		56692CFF1CFBA973005F1819 /* WeddingCake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56692CF01CFBA973005F1819 /* WeddingCake.cpp */; };
 		56692D001CFBA973005F1819 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56692CF21CFBA973005F1819 /* Window.cpp */; };
 		569F44291CC06EC600CB88F7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569F44281CC06EC600CB88F7 /* OpenGL.framework */; };
+		56D3271C1CFE3FF300CEC4B0 /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D3271B1CFE3FF300CEC4B0 /* libassimp.3.2.0.dylib */; };
 		67BE9A421CFCA1410082A2D3 /* SSAO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BE9A401CFCA1410082A2D3 /* SSAO.cpp */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,10 @@
 		56692CF31CFBA973005F1819 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = BezierCurve/Window.h; sourceTree = SOURCE_ROOT; };
 		569F440E1CC06B5B00CB88F7 /* BezierCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BezierCurve; sourceTree = BUILT_PRODUCTS_DIR; };
 		569F44281CC06EC600CB88F7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		56D3271A1CFE3F2700CEC4B0 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
+		56D3271B1CFE3FF300CEC4B0 /* libassimp.3.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.2.0.dylib; path = "../lib/assimp-3.2/lib/libassimp.3.2.0.dylib"; sourceTree = "<group>"; };
+		56D3271D1CFE408600CEC4B0 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = BezierCurve/mesh.h; sourceTree = SOURCE_ROOT; };
+		56D327201CFE40BF00CEC4B0 /* model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = model.h; path = BezierCurve/model.h; sourceTree = SOURCE_ROOT; };
 		6781FF491CFBB52B004DA82D /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = BezierCurve/shaders; sourceTree = SOURCE_ROOT; };
 		67BE9A401CFCA1410082A2D3 /* SSAO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSAO.cpp; path = BezierCurve/SSAO.cpp; sourceTree = SOURCE_ROOT; };
 		67BE9A411CFCA1410082A2D3 /* SSAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSAO.h; path = BezierCurve/SSAO.h; sourceTree = SOURCE_ROOT; };
@@ -81,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56D3271C1CFE3FF300CEC4B0 /* libassimp.3.2.0.dylib in Frameworks */,
 				56692CCD1CFB965B005F1819 /* libGLEW.1.13.0.dylib in Frameworks */,
 				56692CCF1CFB9CA5005F1819 /* libglfw.3.1.dylib in Frameworks */,
 				569F44291CC06EC600CB88F7 /* OpenGL.framework in Frameworks */,
@@ -93,6 +99,7 @@
 		569F44051CC06B5B00CB88F7 = {
 			isa = PBXGroup;
 			children = (
+				56D3271B1CFE3FF300CEC4B0 /* libassimp.3.2.0.dylib */,
 				56692CCE1CFB9CA5005F1819 /* libglfw.3.1.dylib */,
 				56692CCC1CFB965B005F1819 /* libGLEW.1.13.0.dylib */,
 				569F44281CC06EC600CB88F7 /* OpenGL.framework */,
@@ -114,6 +121,9 @@
 		569F44101CC06B5B00CB88F7 /* BeizerCurve */ = {
 			isa = PBXGroup;
 			children = (
+				56D327201CFE40BF00CEC4B0 /* model.h */,
+				56D3271D1CFE408600CEC4B0 /* mesh.h */,
+				56D3271A1CFE3F2700CEC4B0 /* lib */,
 				6781FF491CFBB52B004DA82D /* shaders */,
 				56692CF21CFBA973005F1819 /* Window.cpp */,
 				56692CF31CFBA973005F1819 /* Window.h */,
@@ -313,10 +323,14 @@
 					"../lib/glew-1.13.0/include/",
 					"../lib/glm-master/",
 					"../lib/glfw-3.1.2/include/",
+					"../lib/assimp-3.2/include",
+					/usr/local/lib/,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"../lib/glfw-3.1.2/src/",
 					"../lib/glew-1.13.0/lib",
+					"../lib/assimp-3.2/include",
+					/usr/local/lib/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = BezierCurve;
@@ -331,10 +345,14 @@
 					"../lib/glew-1.13.0/include/",
 					"../lib/glm-master/",
 					"../lib/glfw-3.1.2/include/",
+					"../lib/assimp-3.2/include",
+					/usr/local/lib/,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"../lib/glfw-3.1.2/src/",
 					"../lib/glew-1.13.0/lib",
+					"../lib/assimp-3.2/include",
+					/usr/local/lib/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = BezierCurve;

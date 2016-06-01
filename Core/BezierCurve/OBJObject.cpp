@@ -147,10 +147,14 @@ void OBJObject::parse(const char *filepath)
                 // Since the face starts from 0th index in the vertices vector, so we need to offset the face index by 1
 //                std::cout << line << std::endl;
                 indices.push_back(std::stoi (strs[1])-1);
-                indices.push_back(std::stoi (strs[3])-1);
-                indices.push_back(std::stoi (strs[5])-1);
+                indices.push_back(std::stoi (strs[4])-1);
+                indices.push_back(std::stoi (strs[7])-1);
                 
-                //                                std::cout << "f: " << std::stoi (strs[1]) << " " << std::stoi (strs[3]) <<" " << std::stoi (strs[5]) << "\n";
+                indices.push_back(std::stoi (strs[1])-1);
+                indices.push_back(std::stoi (strs[4])-1);
+                indices.push_back(std::stoi (strs[7])-1);
+                
+//                std::cout << "f: " << std::stoi (strs[1]) << " " << std::stoi (strs[2]) << " " << std::stoi (strs[3])<< " " << std::stoi (strs[4])<< " " << std::stoi (strs[5])<< " " << std::stoi (strs[6])<< " " << std::stoi (strs[7])<< " " << std::stoi (strs[8])<< " " << std::stoi (strs[9]) << "\n";
                 
             }
         }
