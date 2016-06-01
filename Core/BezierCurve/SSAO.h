@@ -46,7 +46,7 @@ public:
     static void bindSSAOLight(GLint ShaderProgram);
     static void bindSSAO(GLint ShaderProgram);
     static void setupLight(glm::vec3 light_Pos, glm::vec3 light_Color);
-    static void setupGBuffer(int width, int height);
+    static void setupGBuffer(int width, int height, int kernelSize = 64);
 };
 
 

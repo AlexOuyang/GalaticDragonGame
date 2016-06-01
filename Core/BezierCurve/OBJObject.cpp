@@ -239,17 +239,17 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, &Window::V[0][0]);
     // Floor cube
-    model = glm::translate(model, glm::vec3(0.0, -1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(20.0f, 1.0f, 20.0f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    RenderCube();
+//    model = glm::translate(model, glm::vec3(0.0, -1.0f, 0.0f));
+//    model = glm::scale(model, glm::vec3(20.0f, 1.0f, 20.0f));
+//    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
+//    RenderCube();
 //    model = glm::mat4(1.0f);
 //    model = glm::translate(model, glm::vec3(0.0, 1.5f, 0.0f));
 //    model = glm::scale(model,glm::vec3(5.0f,5.0f,5.0f));
 //    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
     //RenderCube();
 
-    this->drawSSAO(shaderProgram);
+    this->draw(shaderProgram);
 //    this->draw(shaderProgram);
     
     // Nanosuit model on the floor
@@ -285,7 +285,7 @@ void OBJObject::drawSSAOTextures(GLuint shaderProgram){
     glBindTexture(GL_TEXTURE_2D, SSAO::noiseTexture);
     // Send kernel + rotation
     
-    for (GLuint i = 0; i < 64; ++i)
+    for (GLuint i = 0; i < SSAO::ssaoKernel.size(); ++i)
         glUniform3fv(glGetUniformLocation(shaderProgram, ("samples[" + std::to_string(i) + "]").c_str()), 1, &SSAO::ssaoKernel[i][0]);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);
     RenderQuad();

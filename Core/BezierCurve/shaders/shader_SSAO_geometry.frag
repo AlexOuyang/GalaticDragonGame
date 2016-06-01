@@ -25,7 +25,8 @@ void main()
 //    int one = 1;
 //    gPositionDepth.a = (LinearizeDepth(gl_FragCoord.z)); // Divide by FAR if you need to store depth in range 0.0 - 1.0 (if not using floating point colorbuffer)
     
-     gPositionDepth.a = (LinearizeDepth(gl_FragCoord.z));
+    gPositionDepth.a = (LinearizeDepth(gl_FragCoord.z));
+//    gPositionDepth.a = (gPositionDepth.a > 50.0f) ? 50.0f : gPositionDepth.a;
     
     
     // Also store the per-fragment normals into the gbuffer

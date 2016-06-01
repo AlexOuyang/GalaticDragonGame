@@ -83,7 +83,7 @@ GLint SSAOLightingShaderProgram;
 
 // Default camera parameters
 //glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
-glm::vec3 cam_pos(-1.774541f, 4.895270f, 2.554885f);		// e  | Position of camera
+glm::vec3 cam_pos(-1.5, 2, 2);		// e  | Position of camera
 
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
@@ -157,7 +157,7 @@ void Window::initialize_objects()
     cube->material.k_d = glm::vec3(1);
     cube->material.k_s = glm::vec3(1);
     cube->material.shininess = 0;
-    cube->scale(1.0f);
+    cube->scale(0.7f);
     cube->translate(0.0f, 0.0f, 0.0f);
     
 }
@@ -265,9 +265,9 @@ void Window::display_callback(GLFWwindow* window)
     cube->drawSSAOBlur(SSAOBlurShaderProgram);
     cube->drawSSAOLighting(SSAOLightingShaderProgram, 1);
     
-
+//    std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
     
-//    V: vec3(-1.774541, 4.895270, 2.554885)
+//    V: vec3(-0.486845, 4.401052, 3.899204)
     
     /*====== Draw Cube ======*/
 //    glUseProgram(envirMappingShaderProgram);
