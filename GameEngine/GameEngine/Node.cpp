@@ -1,6 +1,5 @@
 //
 //  Node.cpp
-//  Project3_wedding_cake
 //
 //  Created by Chenxing Ouyang on 5/3/16.
 //  Copyright © 2016 Chenxing Ouyang. All rights reserved.
@@ -58,19 +57,6 @@ void Geode::draw()
 {
     toDraw->toWorld = M;
     toDraw->draw(shaderProgram);
-    
-    if (drawBear)
-    {
-        bear->toWorld = M * bearLocalTransform;
-        bear->draw(shaderProgram);
-    }
-}
-
-void Geode::addBear(OBJObject * bear, glm::mat4 bearLocalTransform)
-{
-    this->bear = bear;
-    this->bearLocalTransform = bearLocalTransform;
-    drawBear = true;
 }
 
 

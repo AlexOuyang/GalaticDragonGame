@@ -1,10 +1,4 @@
-//
-//  skybox.cpp
-//  Project3_wedding_cake
-//
-//  Created by Chenxing Ouyang on 4/27/16.
-//  Copyright © 2016 Chenxing Ouyang. All rights reserved.
-//
+
 
 #include "loadPPM.h"
 #include "Window.h"
@@ -128,6 +122,8 @@ GLuint Skybox::loadCubemap(std::vector<const GLchar*> faces)
 
 void Skybox::draw(GLuint shaderProgram)
 {
+    glUseProgram(shaderProgram);
+
     GLuint P_mat = glGetUniformLocation(shaderProgram, "perspective");
     glUniformMatrix4fv(P_mat, 1, GL_FALSE, &Window::P[0][0]);
     

@@ -185,6 +185,8 @@ void OBJObject::parse(const char *filepath)
 
 void OBJObject::draw(GLuint shaderProgram)
 {
+    glUseProgram(shaderProgram);
+    
     bindMaterialToShader(shaderProgram);
     
     // Calculate combination of the model (toWorld), view (camera inverse), and perspective matrices
@@ -211,7 +213,8 @@ void OBJObject::draw(GLuint shaderProgram)
 
 void OBJObject::drawGlossy(GLuint shaderProgram)
 {
-    
+    glUseProgram(shaderProgram);
+
     GLuint P_mat = glGetUniformLocation(shaderProgram, "perspective");
     glUniformMatrix4fv(P_mat, 1, GL_FALSE, &Window::P[0][0]);
     
@@ -235,7 +238,7 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
     
 //    glm::mat4 projection = glm::perspective(camera.Zoom, Window::width / Window::height, 0.1f, 50.0f);
 //    glm::mat4 view = camera.GetViewMatrix();
-    glm::mat4 model;
+//    glm::mat4 model;
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, &Window::V[0][0]);
     // Floor cube
@@ -248,10 +251,10 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
 //    model = glm::scale(model,glm::vec3(5.0f,5.0f,5.0f));
 //    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
     //RenderCube();
+}
 
-    this->draw(shaderProgram);
-//    this->draw(shaderProgram);
-    
+//    this->drawSSAO(shaderProgram);
+
     // Nanosuit model on the floor
 //    model = glm::mat4();
 //    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 5.0));
@@ -259,10 +262,13 @@ void OBJObject::drawSSAOGeometry(GLuint shaderProgram){
 //    model = glm::scale(model, glm::vec3(0.5f));
 //    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
 //    nanosuit.Draw(shaderGeometryPass);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
+//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//}
 
-void OBJObject::drawSSAO(GLuint shaderProgram){
+void OBJObject::drawSSAO(GLuint shaderProgram)
+{
+    bindMaterialToShader(shaderProgram);
+    
     GLuint M_mat = glGetUniformLocation(shaderProgram, "model");
     glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);

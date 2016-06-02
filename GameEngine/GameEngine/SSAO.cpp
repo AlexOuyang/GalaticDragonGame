@@ -7,6 +7,7 @@
 //
 
 #include "SSAO.h"
+#include "shader.h"
 
 
 GLuint SSAO::ssaoFBO, SSAO::ssaoBlurFBO;
@@ -150,6 +151,70 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-
-
 }
+
+
+/*=============  Public methods =============*/
+
+
+GLint SSAO::SSAOShaderProgram;
+GLint SSAO::SSAOBlurShaderProgram;
+GLint SSAO::SSAOGeometryShaderProgram;
+GLint SSAO::SSAOLightingShaderProgram;
+
+void SSAO::init(int width, int height)
+{
+    SSAOShaderProgram = LoadShaders("./shaders/shader_SSAO.vert",
+                                    "./shaders/shader_SSAO.frag");
+    SSAOBlurShaderProgram = LoadShaders("./shaders/shader_SSAO_blur.vert",
+                                        "./shaders/shader_SSAO_blur.frag");
+    SSAOGeometryShaderProgram = LoadShaders("./shaders/shader_SSAO_geometry.vert",
+                                            "./shaders/shader_SSAO_geometry.frag");
+    SSAOLightingShaderProgram = LoadShaders("./shaders/shader_SSAO_lighting.vert",
+                                            "./shaders/shader_SSAO_lighting.frag");
+    
+    glUseProgram(SSAOLightingShaderProgram);
+    SSAO::bindSSAOLight(SSAOLightingShaderProgram);
+    glUseProgram(SSAOShaderProgram);
+    SSAO::bindSSAO(SSAOShaderProgram);
+    
+    //setup light properties
+    SSAO::setupLight(lightPos, lightColor);
+    SSAO::setupGBuffer(width, height);
+}
+
+
+void SSAO::delete_shaders()
+{
+    glDeleteProgram(SSAOShaderProgram);
+    glDeleteProgram(SSAOBlurShaderProgram);
+    glDeleteProgram(SSAOGeometryShaderProgram);
+    glDeleteProgram(SSAOLightingShaderProgram);
+}
+
+
+// Keeps track of all the objects to draw
+std::vector<OBJObject *> objects_to_draw;
+
+void SSAO::add_obj(OBJObject * obj)
+{
+    objects_to_draw.push_back(obj);
+}
+
+
+void SSAO::draw()
+{
+    objects_to_draw[0]->drawSSAOGeometry(SSAOGeometryShaderProgram);
+    
+    //draw all objects
+    for(int i = 0; i < objects_to_draw.size(); i++)
+        objects_to_draw[i]->drawSSAO(SSAOGeometryShaderProgram);
+    
+
+    //use other shaders
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    objects_to_draw[0]->drawSSAOTextures(SSAOShaderProgram);
+    objects_to_draw[0]->drawSSAOBlur(SSAOBlurShaderProgram);
+    objects_to_draw[0]->drawSSAOLighting(SSAOLightingShaderProgram, 1);
+}
+

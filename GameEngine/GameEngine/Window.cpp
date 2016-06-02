@@ -43,6 +43,7 @@ float cursor_dragging_speed = 0.01f;
 ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
 OBJObject * cube = nullptr;
+OBJObject * asteroid = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
@@ -77,10 +78,7 @@ GLint skyboxShaderProgram;
 GLint bezierCurveShaderProgram;
 GLint selectionBufferShaderProgram;
 GLint envirMappingShaderProgram;
-GLint SSAOShaderProgram;
-GLint SSAOBlurShaderProgram;
-GLint SSAOGeometryShaderProgram;
-GLint SSAOLightingShaderProgram;
+
 
 // Default camera parameters
 //glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
@@ -109,17 +107,12 @@ void Window::initialize_objects()
                                                "./shaders/shader_selection_buffer.frag");
     envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
                                             "./shaders/shader_environmental_mapping.frag");
-    SSAOShaderProgram = LoadShaders("./shaders/shader_SSAO.vert",
-                                    "./shaders/shader_SSAO.frag");
-    SSAOBlurShaderProgram = LoadShaders("./shaders/shader_SSAO_blur.vert",
-                                        "./shaders/shader_SSAO_blur.frag");
-    SSAOGeometryShaderProgram = LoadShaders("./shaders/shader_SSAO_geometry.vert",
-                                            "./shaders/shader_SSAO_geometry.frag");
-    SSAOLightingShaderProgram = LoadShaders("./shaders/shader_SSAO_lighting.vert",
-                                            "./shaders/shader_SSAO_lighting.frag");
+
+    SSAO::init(Window::width, Window::height);
+
     
+    // Set up everything else after  creating shader
     
-    // *Important: Set up the wedding cake model here after creating the shaders
     skybox = new Skybox(zoom_max - zoom_offset/2.0f,
                         "../../Textures/Skybox/mp_orbital/right.ppm",
                         "../../Textures/Skybox/mp_orbital/left.ppm",
@@ -131,14 +124,6 @@ void Window::initialize_objects()
     
     
     
-    glUseProgram(SSAOLightingShaderProgram);
-    SSAO::bindSSAOLight(SSAOLightingShaderProgram);
-    glUseProgram(SSAOShaderProgram);
-    SSAO::bindSSAO(SSAOShaderProgram);
-    
-    //setup light properties
-    SSAO::setupLight(lightPos, lightColor);
-    SSAO::setupGBuffer(width, height);
     
     controlManager = new ControlManager();
     
@@ -166,6 +151,18 @@ void Window::initialize_objects()
     cube->scale(0.7f);
     cube->translate(0.0f, 0.0f, 0.0f);
     
+    
+    asteroid = new OBJObject("../../Models/sphere.obj");
+    asteroid->material.k_a = glm::vec3(1);
+    asteroid->material.k_d = glm::vec3(1);
+    asteroid->material.k_s = glm::vec3(1);
+    asteroid->material.shininess = 0;
+    asteroid->scale(0.7f);
+    asteroid->translate(1.0f, 0.0f, 0.0f);
+    
+    SSAO::add_obj(cube);
+    SSAO::add_obj(asteroid);
+    
 }
 
 
@@ -173,17 +170,14 @@ void Window::clean_up()
 {
     AudioManager::close();
     delete cube;
+    delete asteroid;
     delete controlManager;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
     glDeleteProgram(envirMappingShaderProgram);
     glDeleteProgram(selectionBufferShaderProgram);
-    glDeleteProgram(SSAOShaderProgram);
-    glDeleteProgram(SSAOBlurShaderProgram);
-    glDeleteProgram(SSAOGeometryShaderProgram);
-    glDeleteProgram(SSAOLightingShaderProgram);
-
+    SSAO::delete_shaders();
 }
 
 GLFWwindow* Window::create_window(int width, int height)
@@ -248,7 +242,6 @@ void Window::display_callback(GLFWwindow* window)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     /*====== Draw Sybox ======*/
-    glUseProgram(skyboxShaderProgram);
     skybox->draw(skyboxShaderProgram);
     
     
@@ -267,10 +260,12 @@ void Window::display_callback(GLFWwindow* window)
     /*====== Draw SSAO ======*/
 
     
-    cube->drawSSAOGeometry(SSAOGeometryShaderProgram);
-    cube->drawSSAOTextures(SSAOShaderProgram);
-    cube->drawSSAOBlur(SSAOBlurShaderProgram);
-    cube->drawSSAOLighting(SSAOLightingShaderProgram, 1);
+    SSAO::draw();
+    
+    
+
+    
+    
     
 //    std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
     

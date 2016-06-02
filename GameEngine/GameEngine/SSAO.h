@@ -20,12 +20,14 @@
 #include <fstream>
 #include <string>
 #include <random>
+#include "OBJObject.h"
 
 
 class SSAO{
 private:
     //Linear Interpolation
     static GLfloat lerp(GLfloat a, GLfloat b, GLfloat f);
+
     
 public:
     //Light Properties
@@ -40,13 +42,29 @@ public:
     static GLuint noiseTexture;
     
     static std::vector<glm::vec3> ssaoKernel;
-
-    
     
     static void bindSSAOLight(GLint ShaderProgram);
     static void bindSSAO(GLint ShaderProgram);
     static void setupLight(glm::vec3 light_Pos, glm::vec3 light_Color);
     static void setupGBuffer(int width, int height, int kernelSize = 64);
+    
+    
+    static GLint SSAOShaderProgram;
+    static GLint SSAOBlurShaderProgram;
+    static GLint SSAOGeometryShaderProgram;
+    static GLint SSAOLightingShaderProgram;
+    
+
+    // Create shaders and set up
+    static void init(int width, int height);
+    
+    static void add_obj(OBJObject * obj);
+
+    
+    static void draw();
+    
+    // Delete the shaders
+    static void delete_shaders();
 };
 
 

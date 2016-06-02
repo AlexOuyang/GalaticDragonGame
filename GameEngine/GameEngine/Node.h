@@ -1,6 +1,5 @@
 //
 //  Node.h
-//  Project3_wedding_cake
 //
 //  Created by Chenxing Ouyang on 5/3/16.
 //  Copyright © 2016 Chenxing Ouyang. All rights reserved.
@@ -65,21 +64,15 @@ public:
 };
 
 
+// Geometric node, which are nodes contain models
 class Geode : public Node
 {
-private:
-    OBJObject * bear;
-    bool drawBear;
-    glm::mat4 bearLocalTransform;
 public:
     OBJObject * toDraw;
     GLint shaderProgram;
     glm::mat4 M;
     
     Geode(OBJObject * obj, GLint shader):
-    bear(nullptr),
-    drawBear(false),
-    bearLocalTransform(glm::mat4(1)),
     toDraw(obj),
     shaderProgram(shader),
     M(glm::mat4(1.0f))
@@ -94,9 +87,7 @@ public:
     
     // Call draw on the toDraw pointer
     void draw();
-    
-    // Add bear into the pod.
-    void addBear(OBJObject * bear, glm::mat4 bearLocalTransform);
+
 };
 
 #endif /* Node_h */

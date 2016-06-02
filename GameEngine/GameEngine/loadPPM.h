@@ -1,6 +1,5 @@
 //
 //  loadPPM.h
-//  Project3_wedding_cake
 //
 //  Created by Chenxing Ouyang on 4/27/16.
 //  Copyright © 2016 Chenxing Ouyang. All rights reserved.
