@@ -8,19 +8,22 @@
 
 #include "SSAO.h"
 #include "shader.h"
+#include "Window.h"
 
-
-GLuint SSAO::ssaoFBO, SSAO::ssaoBlurFBO;
-GLuint SSAO::gBuffer;
-GLuint SSAO::gPositionDepth, SSAO::gNormal, SSAO::gAlbedo;
-GLuint SSAO::rboDepth;
-GLuint SSAO::ssaoColorBuffer, SSAO::ssaoColorBufferBlur;
-GLuint SSAO::noiseTexture;
-
+// Define static variables
 glm::vec3 SSAO::lightPos;
 glm::vec3 SSAO::lightColor;
 
-std::vector<glm::vec3> SSAO::ssaoKernel;
+
+//Light Properties
+GLuint ssaoFBO, ssaoBlurFBO;
+GLuint gBuffer;
+GLuint gPositionDepth, gNormal, gAlbedo;
+GLuint rboDepth;
+GLuint ssaoColorBuffer, ssaoColorBufferBlur;
+GLuint noiseTexture;
+
+std::vector<glm::vec3> ssaoKernel;
 
 GLfloat SSAO::lerp(GLfloat a, GLfloat b, GLfloat f)
 {
@@ -147,11 +150,123 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+    
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+    
 }
+
+
+
+/*================ SSAO Shaders =================*/
+
+
+void SSAO::drawSSAOGeometry(GLuint shaderProgram){
+    
+    // 1. Geometry Pass: render scene's geometry/color data into gbuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glUseProgram(shaderProgram);
+    
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, &Window::V[0][0]);
+}
+
+
+void SSAO::drawSSAOTextures(GLuint shaderProgram){
+    glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glUseProgram(shaderProgram);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, gPositionDepth);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, gNormal);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, noiseTexture);
+    // Send kernel + rotation
+    
+    for (GLuint i = 0; i < ssaoKernel.size(); ++i)
+        glUniform3fv(glGetUniformLocation(shaderProgram, ("samples[" + std::to_string(i) + "]").c_str()), 1, &ssaoKernel[i][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);
+    RenderQuad();
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+void SSAO::drawSSAOBlur(GLuint shaderProgram){
+    glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glUseProgram(shaderProgram);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
+    RenderQuad();
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+void SSAO::drawSSAOLighting(GLuint shaderProgram, int draw_mode){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glUseProgram(shaderProgram);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, gPositionDepth);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, gNormal);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, gAlbedo);
+    glActiveTexture(GL_TEXTURE3); // Add extra SSAO texture to lighting pass
+    glBindTexture(GL_TEXTURE_2D, ssaoColorBufferBlur);
+    // Also send light relevant uniforms
+    glm::vec3 lightPosView = glm::vec3(Window::V * glm::vec4(SSAO::lightPos, 1.0));
+    glUniform3fv(glGetUniformLocation(shaderProgram, "light.Position"), 1, &lightPosView[0]);
+    glUniform3fv(glGetUniformLocation(shaderProgram, "light.Color"), 1, &SSAO::lightColor[0]);
+    // Update attenuation parameters
+    //    const GLfloat constant = 1.0; // Note that we don't send this to the shader, we assume it is always 1.0 (in our case)
+    const GLfloat linear = 0.09;
+    const GLfloat quadratic = 0.032;
+    glUniform1f(glGetUniformLocation(shaderProgram, "light.Linear"), linear);
+    glUniform1f(glGetUniformLocation(shaderProgram, "light.Quadratic"), quadratic);
+    glUniform1i(glGetUniformLocation(shaderProgram, "draw_mode"), draw_mode);
+    RenderQuad();
+}
+
+
+
+/*========= Used for rendering quad ===========*/
+
+GLuint quadVAO = 0;
+GLuint quadVBO;
+
+void SSAO::RenderQuad()
+{
+    if (quadVAO == 0)
+    {
+        GLfloat quadVertices[] = {
+            // Positions        // Texture Coords
+            -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+            1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+        };
+        // Setup plane VAO
+        glGenVertexArrays(1, &quadVAO);
+        glGenBuffers(1, &quadVBO);
+        glBindVertexArray(quadVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    }
+    glBindVertexArray(quadVAO);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glBindVertexArray(0);
+}
+
+
 
 
 /*=============  Public methods =============*/
@@ -183,7 +298,7 @@ void SSAO::init(int width, int height)
     SSAO::setupGBuffer(width, height);
 }
 
-
+// Clean up shaders
 void SSAO::delete_shaders()
 {
     glDeleteProgram(SSAOShaderProgram);
@@ -196,25 +311,29 @@ void SSAO::delete_shaders()
 // Keeps track of all the objects to draw
 std::vector<OBJObject *> objects_to_draw;
 
+// Add object to be drawn using SSAO
 void SSAO::add_obj(OBJObject * obj)
 {
     objects_to_draw.push_back(obj);
 }
 
 
+// Delegate to object's draw function using SSAO shaders
 void SSAO::draw()
 {
-    objects_to_draw[0]->drawSSAOGeometry(SSAOGeometryShaderProgram);
+    drawSSAOGeometry(SSAOGeometryShaderProgram);
     
     //draw all objects
     for(int i = 0; i < objects_to_draw.size(); i++)
         objects_to_draw[i]->drawSSAO(SSAOGeometryShaderProgram);
     
-
     //use other shaders
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    objects_to_draw[0]->drawSSAOTextures(SSAOShaderProgram);
-    objects_to_draw[0]->drawSSAOBlur(SSAOBlurShaderProgram);
-    objects_to_draw[0]->drawSSAOLighting(SSAOLightingShaderProgram, 1);
+    drawSSAOTextures(SSAOShaderProgram);
+    drawSSAOBlur(SSAOBlurShaderProgram);
+    drawSSAOLighting(SSAOLightingShaderProgram, 1);
 }
+
+
+
 

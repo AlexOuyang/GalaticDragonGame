@@ -23,44 +23,42 @@
 #include "OBJObject.h"
 
 
-class SSAO{
+class SSAO
+{
 private:
+    static GLint SSAOShaderProgram;
+    static GLint SSAOBlurShaderProgram;
+    static GLint SSAOGeometryShaderProgram;
+    static GLint SSAOLightingShaderProgram;
+    
+    static void RenderQuad();
+    
     //Linear Interpolation
     static GLfloat lerp(GLfloat a, GLfloat b, GLfloat f);
 
+    static void bindSSAOLight(GLint ShaderProgram);
+    static void bindSSAO(GLint ShaderProgram);
+    static void setupLight(glm::vec3 light_Pos, glm::vec3 light_Color);
+    static void setupGBuffer(int width, int height, int kernelSize = 64);
+    
+    /*================ SSAO Shaders =================*/
+    static void drawSSAOGeometry(GLuint shaderProgram);
+    static void drawSSAOTextures(GLuint shaderProgram);
+    static void drawSSAOBlur(GLuint shaderProgram);
+    static void drawSSAOLighting(GLuint shaderProgram, int draw_mode);
     
 public:
     //Light Properties
     static glm::vec3 lightPos;
     static glm::vec3 lightColor;
     
-    static GLuint ssaoFBO, ssaoBlurFBO;
-    static GLuint gBuffer;
-    static GLuint gPositionDepth, gNormal, gAlbedo;
-    static GLuint rboDepth;
-    static GLuint ssaoColorBuffer, ssaoColorBufferBlur;
-    static GLuint noiseTexture;
-    
-    static std::vector<glm::vec3> ssaoKernel;
-    
-    static void bindSSAOLight(GLint ShaderProgram);
-    static void bindSSAO(GLint ShaderProgram);
-    static void setupLight(glm::vec3 light_Pos, glm::vec3 light_Color);
-    static void setupGBuffer(int width, int height, int kernelSize = 64);
-    
-    
-    static GLint SSAOShaderProgram;
-    static GLint SSAOBlurShaderProgram;
-    static GLint SSAOGeometryShaderProgram;
-    static GLint SSAOLightingShaderProgram;
-    
-
     // Create shaders and set up
     static void init(int width, int height);
     
+    // Add object to be drawn using SSAO
     static void add_obj(OBJObject * obj);
-
     
+    // Delegate to object's draw function using SSAO shaders
     static void draw();
     
     // Delete the shaders

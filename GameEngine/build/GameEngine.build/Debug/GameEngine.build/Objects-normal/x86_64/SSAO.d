@@ -461,4 +461,5 @@ dependencies: \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils_core.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/shader.h
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/shader.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Window.h

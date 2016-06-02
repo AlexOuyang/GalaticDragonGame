@@ -33,49 +33,32 @@ struct Material
 class OBJObject
 {
 private:
-    float angle;
-    
-    // Called in draw function before drawing things
-    void bindMaterialToShader(GLuint shaderProgram);
-    
-    // Called moveInTrack to get the velocity based on current and next height
-    float calculateVelocity(float max_height, float cur_height);
-    
-    // Update the object's orientation to face the next position its traveling to
-    void updateOrientation(glm::vec3 curPos, glm::vec3 nextPos);
-    
-    
-public:
-    Material material;
-    glm::mat4 toWorld;
-    float objGravity;
-    float objectSize;
-    std::vector<unsigned int> indices;
-    std::vector<glm::vec3> vertices;
-    std::vector<glm::vec3> normals;
+    /*==== For Rendering Obj ===*/
     GLuint VAO; // Vertex Array Object
     GLuint VBO; // Vertex Buffer Object
     GLuint EBO; // Element Buffer Object
     GLuint NBO; // Vertex Normal Array Object
 
+  
+    /*=== Obj properties ===*/
+    float angle;
+    float objGravity;
+    float objectSize;
+    std::vector<unsigned int> indices;
+    std::vector<glm::vec3> vertices;
+    std::vector<glm::vec3> normals;
+    
+    // Sent this object's material properties to a specified shader program
+    void bindMaterialToShader(GLuint shaderProgram);
+    
+public:
+    Material material;
+    glm::mat4 toWorld;
+    
     OBJObject(const char* filepath);
     ~OBJObject();
     
     void parse(const char* filepath);
-    
-    // This draws the model that is affected by sun lights
-    void draw(GLuint shaderProgram);
-    
-    // This draws the model using environmental mapping
-    void drawGlossy(GLuint shaderProgram);
-    
-    //This draws the model using SSAO
-    void drawSSAO(GLuint shaderProgram);
-    void drawSSAOGeometry(GLuint shaderProgram);
-    void drawSSAOTextures(GLuint shaderProgram);
-    void drawSSAOBlur(GLuint shaderProgram);
-    void drawSSAOLighting(GLuint shaderProgram, int draw_mode);
-    
     
     void update();
     void spin(float deg);
@@ -85,21 +68,16 @@ public:
     void reset();
     void rotate(float rotAngle, glm::vec3 rotAxis);
     void setPosition(glm::vec3 pos);
-
-    /*=== For Rollercoaster ===*/
-    // Move the object in bezier curve track
-    void moveInTrack(CoasterTrack * rollerCosterTrack);
-    void setCurrentAccumulatedTimeStep(float t);
-    
-    /*=== For SSAO ===*/
-    GLuint cubeVAO = 0;
-    GLuint cubeVBO = 0;
-    void RenderCube();
-    GLuint quadVAO = 0;
-    GLuint quadVBO;
-    void RenderQuad();
     
     
+    // This draws the model using Phong shading
+    void draw(GLuint shaderProgram);
+    
+    // This draws the model using environmental mapping
+    void drawGlossy(GLuint shaderProgram);
+    
+    //This draws the model using SSAO
+    void drawSSAO(GLuint shaderProgram);
 };
 
 #endif
