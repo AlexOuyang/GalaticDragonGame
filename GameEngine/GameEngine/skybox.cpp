@@ -1,5 +1,3 @@
-
-
 #include "loadPPM.h"
 #include "Window.h"
 

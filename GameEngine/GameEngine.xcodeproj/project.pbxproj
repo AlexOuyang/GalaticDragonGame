@@ -27,6 +27,7 @@
 		56A8EAFA1CFF81FE0050CF1A /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */; };
 		56A8EAFC1CFF81FE0050CF1A /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF81CFF81FE0050CF1A /* SDL2.framework */; };
 		56A8EB021CFFB0D60050CF1A /* AsteroidManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */; };
+		67D670ED1D00BCFF00C9F5F7 /* ParticleGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,7 +67,7 @@
 		56A8EAD91CFF0DE40050CF1A /* OBJObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBJObject.h; path = GameEngine/OBJObject.h; sourceTree = SOURCE_ROOT; };
 		56A8EADA1CFF0DE40050CF1A /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = GameEngine/shader.cpp; sourceTree = SOURCE_ROOT; };
 		56A8EADB1CFF0DE40050CF1A /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = GameEngine/shader.h; sourceTree = SOURCE_ROOT; };
-		56A8EADC1CFF0DE40050CF1A /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		56A8EADC1CFF0DE40050CF1A /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = GameEngine/shaders; sourceTree = SOURCE_ROOT; };
 		56A8EADD1CFF0DE40050CF1A /* skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = skybox.cpp; path = GameEngine/skybox.cpp; sourceTree = SOURCE_ROOT; };
 		56A8EADE1CFF0DE40050CF1A /* skybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skybox.h; path = GameEngine/skybox.h; sourceTree = SOURCE_ROOT; };
 		56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSAO.cpp; path = GameEngine/SSAO.cpp; sourceTree = SOURCE_ROOT; };
@@ -77,8 +78,10 @@
 		56A8EAF31CFF81620050CF1A /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = GameEngine/AudioManager.h; sourceTree = SOURCE_ROOT; };
 		56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
 		56A8EAF81CFF81FE0050CF1A /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
-		56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsteroidManager.cpp; sourceTree = "<group>"; };
-		56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsteroidManager.h; sourceTree = "<group>"; };
+		56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AsteroidManager.cpp; path = GameEngine/AsteroidManager.cpp; sourceTree = SOURCE_ROOT; };
+		56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsteroidManager.h; path = GameEngine/AsteroidManager.h; sourceTree = SOURCE_ROOT; };
+		67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleGenerator.cpp; sourceTree = "<group>"; };
+		67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,9 +155,11 @@
 				56A8EAE01CFF0DE40050CF1A /* SSAO.h */,
 				56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */,
 				56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */,
+				67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */,
+				67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */,
 			);
 			path = GameEngine;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -213,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56A8EAED1CFF0DE40050CF1A /* shader.cpp in Sources */,
+				67D670ED1D00BCFF00C9F5F7 /* ParticleGenerator.cpp in Sources */,
 				56A8EAE91CFF0DE40050CF1A /* Light.cpp in Sources */,
 				56A8EB021CFFB0D60050CF1A /* AsteroidManager.cpp in Sources */,
 				56A8EAE51CFF0DE40050CF1A /* BezierCurve.cpp in Sources */,
