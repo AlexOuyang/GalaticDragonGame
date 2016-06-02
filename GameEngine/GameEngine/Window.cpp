@@ -83,8 +83,11 @@ GLint envirMappingShaderProgram;
 
 
 // Default camera parameters
-//glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
-glm::vec3 cam_pos(0, 0, 10);		            // e  | Position of camera
+//glm::vec3 cam_pos(0, 0, 10);		            // e  | Position of camera
+
+//glm::vec3 cam_pos(0,-1,0.5);    //game pos of cam (ZOOMED IN)
+glm::vec3 cam_pos(0,-3,1.5);    //game pos of cam (ZOOMED OUT)
+
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
 
@@ -134,6 +137,7 @@ void Window::initialize_objects()
 //    hero->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
     hero->material.shininess = 1;
     hero->scale(0.7f);
+    hero->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
     hero->translate(0.0f, 0.0f, 0.0f);
     SSAO::add_obj(hero);
     
@@ -253,7 +257,7 @@ void Window::display_callback(GLFWwindow* window)
     
     
     
-    //    std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
+        std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
     
     //    V: vec3(-0.486845, 4.401052, 3.899204)
     
@@ -273,6 +277,7 @@ void Window::display_callback(GLFWwindow* window)
 
 void Window::idle_callback()
 {
+    asteroidGroup->moveAsteroids();
     //    if(cake) cake->update();
 }
 
@@ -483,6 +488,31 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
             rotate_spot_light = false;
         }
     }
+    
+    // Holding down key
+    if(action == GLFW_PRESS || action == GLFW_REPEAT)
+    {
+        /*====== Hero Controls =======*/
+        
+        // Arrow keys that move the hero character
+        if (key == GLFW_KEY_LEFT)
+        {
+            hero->translate(-0.2f,0.0f,0.0f);
+        }
+        if (key == GLFW_KEY_RIGHT)
+        {
+            hero->translate(0.2f,0.0f,0.0f);
+        }
+        if (key == GLFW_KEY_UP)
+        {
+            hero->translate(0.0f,0.0f,0.2f);
+        }
+        if (key == GLFW_KEY_DOWN)
+        {
+            hero->translate(0.0f,0.0f,-0.2f);
+        }
+    }
+    
 }
 
 

@@ -8,6 +8,8 @@
 
 class Asteroid : public OBJObject
 {
+private:
+    glm::vec3 velocity;
 public:
     Asteroid(const char* filepath):
     OBJObject(filepath)
@@ -31,6 +33,8 @@ public:
                   float bound_left, float bound_right);
     
     void addAsteroids(float offset);
+    
+    void moveAsteroids();
 };
 
 

@@ -30,3 +30,10 @@ void AsteroidGroup::addAsteroids(float offset)
     asteroid->translate(offset, bound_top , 0);
     asteroids.push_back(asteroid);
 }
+
+void AsteroidGroup::moveAsteroids()
+{
+    for(int i = 0; i < asteroids.size(); i ++){
+        asteroids[i]->translate(0.0f,-0.01f,0.0f);
+    }
+}
