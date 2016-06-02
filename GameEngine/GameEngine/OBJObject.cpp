@@ -11,10 +11,10 @@
 OBJObject::OBJObject(const char *filepath)
 {
     // Default materials are zero vectors
-    material.k_a = glm::vec3(0.0f);
-    material.k_s = glm::vec3(0.0f);
-    material.k_d = glm::vec3(0.0f);
-    material.shininess = 0.0f;
+    material.k_a = glm::vec3(1.0f);
+    material.k_s = glm::vec3(1.0f);
+    material.k_d = glm::vec3(1.0f);
+    material.shininess = 1.0f;
     
     toWorld = glm::mat4(1.0f);
     angle = 0.0f;
@@ -325,8 +325,6 @@ void OBJObject::setPosition(glm::vec3 pos)
 
 void OBJObject::drawSSAO(GLuint shaderProgram)
 {
-    bindMaterialToShader(shaderProgram);
-    
     GLuint M_mat = glGetUniformLocation(shaderProgram, "model");
     glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &Window::P[0][0]);

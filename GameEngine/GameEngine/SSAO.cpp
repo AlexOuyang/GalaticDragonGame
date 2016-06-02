@@ -15,6 +15,17 @@ glm::vec3 SSAO::lightPos;
 glm::vec3 SSAO::lightColor;
 
 
+// Defined in init()
+bool use_material;
+
+GLint SSAO::SSAOShaderProgram;
+GLint SSAO::SSAOBlurShaderProgram;
+GLint SSAO::SSAOGeometryShaderProgram;
+GLint SSAO::SSAOLightingShaderProgram;
+
+// Keeps track of all the objects to draw
+std::vector<OBJObject *> objects_to_draw;
+
 //Light Properties
 GLuint ssaoFBO, ssaoBlurFBO;
 GLuint gBuffer;
@@ -209,7 +220,17 @@ void SSAO::drawSSAOBlur(GLuint shaderProgram){
 
 void SSAO::drawSSAOLighting(GLuint shaderProgram, int draw_mode){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     glUseProgram(shaderProgram);
+    
+    
+    // Pass in for the SSAO lighting shader to choose to use material or not
+    glUniform1i(glGetUniformLocation(shaderProgram, "useMaterial"), use_material);
+    // bind object's material to SSAO lighting shader, only use the first object's material
+    if (use_material)
+        objects_to_draw[0]->bindMaterialToShader(shaderProgram);
+    
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, gPositionDepth);
     glActiveTexture(GL_TEXTURE1);
@@ -272,13 +293,10 @@ void SSAO::RenderQuad()
 /*=============  Public methods =============*/
 
 
-GLint SSAO::SSAOShaderProgram;
-GLint SSAO::SSAOBlurShaderProgram;
-GLint SSAO::SSAOGeometryShaderProgram;
-GLint SSAO::SSAOLightingShaderProgram;
-
-void SSAO::init(int width, int height)
+void SSAO::init(int width, int height, bool use_material)
 {
+    use_material = false;
+    
     SSAOShaderProgram = LoadShaders("./shaders/shader_SSAO.vert",
                                     "./shaders/shader_SSAO.frag");
     SSAOBlurShaderProgram = LoadShaders("./shaders/shader_SSAO_blur.vert",
@@ -307,9 +325,6 @@ void SSAO::delete_shaders()
     glDeleteProgram(SSAOLightingShaderProgram);
 }
 
-
-// Keeps track of all the objects to draw
-std::vector<OBJObject *> objects_to_draw;
 
 // Add object to be drawn using SSAO
 void SSAO::add_obj(OBJObject * obj)

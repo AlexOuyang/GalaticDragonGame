@@ -122,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				56A8EADC1CFF0DE40050CF1A /* shaders */,
+				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
+				56A8EAE41CFF0DE40050CF1A /* Window.h */,
 				56A8EAF21CFF81620050CF1A /* AudioManager.cpp */,
 				56A8EAF31CFF81620050CF1A /* AudioManager.h */,
 				56A8EAC91CFF0DE40050CF1A /* BezierCurve.cpp */,
@@ -148,8 +150,6 @@
 				56A8EADE1CFF0DE40050CF1A /* skybox.h */,
 				56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */,
 				56A8EAE01CFF0DE40050CF1A /* SSAO.h */,
-				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
-				56A8EAE41CFF0DE40050CF1A /* Window.h */,
 				56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */,
 				56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */,
 			);

@@ -129,7 +129,10 @@ void Window::initialize_objects()
     hero->material.k_a = glm::vec3(1);
     hero->material.k_d = glm::vec3(1);
     hero->material.k_s = glm::vec3(1);
-    hero->material.shininess = 0;
+//    hero->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+//    hero->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+//    hero->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+    hero->material.shininess = 1;
     hero->scale(0.7f);
     hero->translate(0.0f, 0.0f, 0.0f);
     SSAO::add_obj(hero);

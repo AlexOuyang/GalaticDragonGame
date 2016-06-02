@@ -48,8 +48,6 @@ private:
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     
-    // Sent this object's material properties to a specified shader program
-    void bindMaterialToShader(GLuint shaderProgram);
     
 public:
     Material material;
@@ -59,6 +57,10 @@ public:
     ~OBJObject();
     
     void parse(const char* filepath);
+    
+    // Sent this object's material properties to a specified shader program
+    void bindMaterialToShader(GLuint shaderProgram);
+    
     
     void update();
     void spin(float deg);

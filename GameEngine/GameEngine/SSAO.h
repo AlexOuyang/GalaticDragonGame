@@ -53,7 +53,7 @@ public:
     static glm::vec3 lightColor;
     
     // Create shaders and set up
-    static void init(int width, int height);
+    static void init(int width, int height, bool use_material = false);
     
     // Add object to be drawn using SSAO
     static void add_obj(OBJObject * obj);
