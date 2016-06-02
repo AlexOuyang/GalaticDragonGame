@@ -147,11 +147,28 @@ void OBJObject::parse(const char *filepath)
                 std::vector<std::string> strs;
                 // Split by ' ' or /
                 boost::split(strs, line, boost::is_any_of(" /"), boost::token_compress_on);
-                // Push vertex indice into indices
-                // Since the face starts from 0th index in the vertices vector, so we need to offset the face index by 1
-                indices.push_back(std::stoi (strs[1])-1);
-                indices.push_back(std::stoi (strs[3])-1);
-                indices.push_back(std::stoi (strs[5])-1);
+                
+//                std::cout << strs.size() << std::endl;
+                // If the object's v indice and vn indice are the same, ex: 1//1, then there are only 7 elements
+                if (strs.size() == 7)
+                {
+                    // Push vertex indice into indices
+                    // Since the face starts from 0th index in the vertices vector, so we need to offset the face index by 1
+                    indices.push_back(std::stoi (strs[1])-1);
+                    indices.push_back(std::stoi (strs[3])-1);
+                    indices.push_back(std::stoi (strs[5])-1);
+                }
+                else if (strs.size() == 10)  // There are 10 elements, ex: 1/2/3
+                {
+                    indices.push_back(std::stoi (strs[1])-1);
+                    indices.push_back(std::stoi (strs[4])-1);
+                    indices.push_back(std::stoi (strs[7])-1);
+                }
+                else
+                {
+                    std::cerr << "This obj has weird face indices" << std::endl;
+                    exit(-1);
+                }
                 
                 //                                std::cout << "f: " << std::stoi (strs[1]) << " " << std::stoi (strs[3]) <<" " << std::stoi (strs[5]) << "\n";
                 

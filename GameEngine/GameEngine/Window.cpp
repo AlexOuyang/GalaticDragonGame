@@ -85,7 +85,7 @@ GLint envirMappingShaderProgram;
 // Default camera parameters
 //glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
 glm::vec3 cam_pos(0, 0, 10);		            // e  | Position of camera
-glm::vec3 cam_look_at(0.0f, 3.0f, 0.0f);	// d  | This is where the camera looks at
+glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
 
 const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
@@ -125,7 +125,7 @@ void Window::initialize_objects()
     
     
     // Hero of the game
-    hero = new OBJObject("../../Models/nanosuit2.obj");
+    hero = new OBJObject("../../Models/nanosuit.obj");
     hero->material.k_a = glm::vec3(1);
     hero->material.k_d = glm::vec3(1);
     hero->material.k_s = glm::vec3(1);
