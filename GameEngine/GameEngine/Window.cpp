@@ -45,7 +45,7 @@ ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
 OBJObject * hero = nullptr;
 OBJObject * asteroid = nullptr;
-AsteroidManager * asteroidManager = nullptr;
+AsteroidGroup * asteroidGroup = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
@@ -84,15 +84,16 @@ GLint envirMappingShaderProgram;
 
 // Default camera parameters
 //glm::vec3 cam_pos(0.0f, 0.0f, 10.0f);		// e  | Position of camera
-glm::vec3 cam_pos(-1.5, 2, 2);		// e  | Position of camera
-
-glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
+glm::vec3 cam_pos(0, 0, 10);		            // e  | Position of camera
+glm::vec3 cam_look_at(0.0f, 3.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
 
 const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
 
 void Window::initialize_objects()
 {
+    controlManager = new ControlManager();
+    
     // Initialize audio manager for audio support
     bool temp = AudioManager::init();
     std::cout << "AudioManager: " << temp << std::endl;
@@ -109,12 +110,11 @@ void Window::initialize_objects()
                                                "./shaders/shader_selection_buffer.frag");
     envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
                                             "./shaders/shader_environmental_mapping.frag");
-
-    SSAO::init(Window::width, Window::height);
-
     
-    // Set up everything else after  creating shader
+    SSAO::init(Window::width, Window::height); // Create shaders for SSAO
     
+    
+    // Set up skybox after creating shaders
     skybox = new Skybox(zoom_max - zoom_offset/2.0f,
                         "../../Textures/Skybox/mp_orbital/right.ppm",
                         "../../Textures/Skybox/mp_orbital/left.ppm",
@@ -124,15 +124,8 @@ void Window::initialize_objects()
                         "../../Textures/Skybox/mp_orbital/front.ppm");
     
     
-    
-    
-    
-    controlManager = new ControlManager();
-    
-    V_SSAO = glm::lookAt(glm::vec3(-1.774541f, 4.895270f, 2.554885f), cam_look_at, cam_up);
-
-    //bunny
-    hero = new OBJObject("../../Models/pod.obj");
+    // Hero of the game
+    hero = new OBJObject("../../Models/nanosuit2.obj");
     hero->material.k_a = glm::vec3(1);
     hero->material.k_d = glm::vec3(1);
     hero->material.k_s = glm::vec3(1);
@@ -140,17 +133,18 @@ void Window::initialize_objects()
     hero->scale(0.7f);
     hero->translate(0.0f, 0.0f, 0.0f);
     SSAO::add_obj(hero);
-
     
-    asteroid = new OBJObject("../../Models/sphere.obj");
-    asteroid->material.k_a = glm::vec3(1);
-    asteroid->material.k_d = glm::vec3(1);
-    asteroid->material.k_s = glm::vec3(1);
-    asteroid->material.shininess = 0;
-    asteroid->scale(0.7f);
-    asteroid->translate(1.0f, 0.0f, 0.0f);
     
-    SSAO::add_obj(asteroid);
+    int num_of_asteroids = 5;
+    float bound_top = 5;
+    float bound_down = -5;
+    float bound_left = -5;
+    float bound_right = 5;
+    asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down, bound_left, bound_right);
+    
+    for (int i = 0; i < asteroidGroup->asteroids.size(); i++) {
+        SSAO::add_obj(asteroidGroup->asteroids[i]);
+    }
     
 }
 
@@ -160,7 +154,7 @@ void Window::clean_up()
     AudioManager::close();
     delete hero;
     delete asteroid;
-    delete asteroidManager;
+    delete asteroidGroup;
     delete controlManager;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
@@ -231,41 +225,40 @@ void Window::display_callback(GLFWwindow* window)
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    /*====== Draw Sybox ======*/
-    skybox->draw(skyboxShaderProgram);
     
     
     /*====== Draw Light ======*/
-    //    glUseProgram(shaderProgram);
-    // Bind cameraPosition, or 'eye' to the shaderProgram
-    //    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
-    //    glUniform3fv(v3_eye, 1, &cam_pos[0]);
-    //
-    //    // Bind light to the shaderProgram
-    //    Light::bindDirectionalLightToShader(shaderProgram);
-    //    Light::bindPointLightToShader(shaderProgram);
-    //    Light::bindSpotLightToShader(shaderProgram);
-    
+//    glUseProgram(shaderProgram);
+//    //     Bind cameraPosition, or 'eye' to the shaderProgram
+//    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
+//    glUniform3fv(v3_eye, 1, &cam_pos[0]);
+//    
+//    // Bind light to the shaderProgram
+//    Light::bindDirectionalLightToShader(shaderProgram);
+//    Light::bindPointLightToShader(shaderProgram);
+//    Light::bindSpotLightToShader(shaderProgram);
+//    
     
     /*====== Draw SSAO ======*/
-
+    
     
     SSAO::draw();
     
     
-
+    /*====== Draw Sybox ======*/
+//    skybox->draw(skyboxShaderProgram);
     
     
     
-//    std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
+    //    std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
     
-//    V: vec3(-0.486845, 4.401052, 3.899204)
+    //    V: vec3(-0.486845, 4.401052, 3.899204)
     
     /*====== Draw hero ======*/
-//    glUseProgram(envirMappingShaderProgram);
-//    hero->draw(envirMappingShaderProgram);
+//    glUseProgram(shaderProgram);
+//    asteroid->draw(shaderProgram);
     
-
+    
     // Swap buffers
     glfwSwapBuffers(window);
     
@@ -632,37 +625,37 @@ void Window::selection_buffer_click(double xpos, double ypos)
 // Move control points by displacement
 void Window::drag_control_point(glm::vec2 displacement)
 {
-//    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
-//    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
-//    if (affected_control_points.size() == 0) return;
-//    
-//    // 0.116f is a good constant to make sure control points moves as fast as cursor
-//    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
-//    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
-//    
-//    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
-//    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
-//    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
-//    
-//    if (clicked_point->type == ANCHOR_POINT)
-//    {
-//        for (int i = 0; i < affected_control_points.size(); i++)
-//        {
-//            auto control_point = affected_control_points[i];
-//            
-//            if (!control_point) return;
-//            
-//            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
-//        }
-//    }
-//    else if (clicked_point->type == CONTROL_POINT)
-//    {
-//        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
-//        auto mirror_point = affected_control_points[0];
-//        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
-//    }
-//    
-//    track->updateCurve();
+    //    auto clicked_point = controlManager->getCurrentlySelectedControlPoint();
+    //    auto affected_control_points = track->getAffectedControlPoints(clicked_point);
+    //    if (affected_control_points.size() == 0) return;
+    //
+    //    // 0.116f is a good constant to make sure control points moves as fast as cursor
+    //    float distance_dragging_multiplier = 0.1f * glm::length(cam_pos - cam_look_at);
+    //    displacement = displacement * cursor_dragging_speed * distance_dragging_multiplier;
+    //
+    //    glm::vec3 cam_z = glm::normalize(cam_pos - cam_look_at);
+    //    glm::vec3 cam_x = glm::normalize(glm::cross(cam_up, cam_z));
+    //    glm::vec3 cam_y = glm::cross(cam_z, cam_x);
+    //
+    //    if (clicked_point->type == ANCHOR_POINT)
+    //    {
+    //        for (int i = 0; i < affected_control_points.size(); i++)
+    //        {
+    //            auto control_point = affected_control_points[i];
+    //
+    //            if (!control_point) return;
+    //
+    //            control_point->pos = control_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+    //        }
+    //    }
+    //    else if (clicked_point->type == CONTROL_POINT)
+    //    {
+    //        clicked_point->pos = clicked_point->pos + glm::vec4(displacement.x * cam_x, 0.0f) + glm::vec4(displacement.y * cam_y, 0.0f);
+    //        auto mirror_point = affected_control_points[0];
+    //        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
+    //    }
+    //    
+    //    track->updateCurve();
     
 }
 

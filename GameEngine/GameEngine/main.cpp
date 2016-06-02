@@ -70,7 +70,7 @@ void print_versions()
 int main(void)
 {
 	// Create the GLFW window
-	window = Window::create_window(960, 680);
+	window = Window::create_window(680, 860);
 	// Print OpenGL and GLSL versions
 	print_versions();
 	// Setup callbacks

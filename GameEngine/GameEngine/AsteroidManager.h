@@ -4,21 +4,33 @@
 
 #include <stdio.h>
 #include <iostream>
-#include "OBJObject.h"
 
 
 class Asteroid : public OBJObject
 {
-    
+public:
+    Asteroid(const char* filepath):
+    OBJObject(filepath)
+    {}
 };
 
 
-class AsteroidManager
+class AsteroidGroup
 {
+private:
+    int num_of_asteroids;
+    float bound_top;
+    float bound_down;
+    float bound_left;
+    float bound_right;
+    
 public:
     std::vector<Asteroid*> asteroids;
     
+    AsteroidGroup(int num_of_asteroids, float bound_top, float bound_down,
+                  float bound_left, float bound_right);
     
+    void addAsteroids(float offset);
 };
 
 

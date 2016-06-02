@@ -14,6 +14,8 @@
 #include <string>
 #include "glm/ext.hpp" // print out glm matrices
 
+// Remember to set up skybox after creating shaders
+
 class Skybox
 {
 private:

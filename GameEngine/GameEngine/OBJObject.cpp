@@ -164,6 +164,7 @@ void OBJObject::parse(const char *filepath)
             std::cerr << "Model has not vertices" << std::endl;
             exit(1);
         }
+//        std::cout << "indice size" << indices.size() << std::endl;
         
         // Center the model by subtractng the model from the average
         // Also, normalize the scale of the model into a standard cube(a 2x2x2 cube,
