@@ -112,6 +112,10 @@ void OBJObject::parse(const char *filepath)
                 //                                std::cout << "vn: " << n.x << " " << n.y << " " << n.z << "\n";
                 
             }
+            else if (boost::starts_with(line, "vt")) // We ignore texture mapping
+            {
+                continue;
+            }
             else if (boost::starts_with(line, "v"))
             {
                 // Split the strings by space
@@ -214,7 +218,7 @@ void OBJObject::draw(GLuint shaderProgram)
 void OBJObject::drawGlossy(GLuint shaderProgram)
 {
     glUseProgram(shaderProgram);
-
+    
     GLuint P_mat = glGetUniformLocation(shaderProgram, "perspective");
     glUniformMatrix4fv(P_mat, 1, GL_FALSE, &Window::P[0][0]);
     

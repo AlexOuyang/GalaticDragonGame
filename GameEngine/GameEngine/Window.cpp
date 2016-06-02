@@ -10,6 +10,7 @@
 #include "CoasterTrack.h"
 #include "SSAO.h"
 #include "AudioManager.h"
+#include "AsteroidManager.h"
 
 //defined static member variables
 int Window::width;
@@ -42,8 +43,9 @@ float cursor_dragging_speed = 0.01f;
 
 ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
-OBJObject * cube = nullptr;
+OBJObject * hero = nullptr;
 OBJObject * asteroid = nullptr;
+AsteroidManager * asteroidManager = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
@@ -128,29 +130,17 @@ void Window::initialize_objects()
     controlManager = new ControlManager();
     
     V_SSAO = glm::lookAt(glm::vec3(-1.774541f, 4.895270f, 2.554885f), cam_look_at, cam_up);
-//    cube = new OBJObject("../../Models/nanosuit2.obj");
-    
-    
-    //    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 5.0));
-    //    model = glm::rotate(model, -90.0f, glm::vec3(1.0, 0.0, 0.0));
-    //    model = glm::scale(model, glm::vec3(0.5f));
-    
-    
-    // nanosuit
-//    cube = new OBJObject("../../Models/nanosuit2.obj");
-//    cube->scale(7.0f);
-//    cube->rotate(-90.0f,glm::vec3(1.0f,0.0f,.0f));
-    
-    
+
     //bunny
-    cube = new OBJObject("../../Models/bunny.obj");
-    cube->material.k_a = glm::vec3(1);
-    cube->material.k_d = glm::vec3(1);
-    cube->material.k_s = glm::vec3(1);
-    cube->material.shininess = 0;
-    cube->scale(0.7f);
-    cube->translate(0.0f, 0.0f, 0.0f);
-    
+    hero = new OBJObject("../../Models/pod.obj");
+    hero->material.k_a = glm::vec3(1);
+    hero->material.k_d = glm::vec3(1);
+    hero->material.k_s = glm::vec3(1);
+    hero->material.shininess = 0;
+    hero->scale(0.7f);
+    hero->translate(0.0f, 0.0f, 0.0f);
+    SSAO::add_obj(hero);
+
     
     asteroid = new OBJObject("../../Models/sphere.obj");
     asteroid->material.k_a = glm::vec3(1);
@@ -160,7 +150,6 @@ void Window::initialize_objects()
     asteroid->scale(0.7f);
     asteroid->translate(1.0f, 0.0f, 0.0f);
     
-    SSAO::add_obj(cube);
     SSAO::add_obj(asteroid);
     
 }
@@ -169,8 +158,9 @@ void Window::initialize_objects()
 void Window::clean_up()
 {
     AudioManager::close();
-    delete cube;
+    delete hero;
     delete asteroid;
+    delete asteroidManager;
     delete controlManager;
     glDeleteProgram(shaderProgram);
     glDeleteProgram(skyboxShaderProgram);
@@ -271,9 +261,9 @@ void Window::display_callback(GLFWwindow* window)
     
 //    V: vec3(-0.486845, 4.401052, 3.899204)
     
-    /*====== Draw Cube ======*/
+    /*====== Draw hero ======*/
 //    glUseProgram(envirMappingShaderProgram);
-//    cube->draw(envirMappingShaderProgram);
+//    hero->draw(envirMappingShaderProgram);
     
 
     // Swap buffers
