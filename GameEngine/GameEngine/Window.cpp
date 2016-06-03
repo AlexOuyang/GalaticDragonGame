@@ -29,6 +29,8 @@ float zoom_sum = 0;
 
 bool rotate_spot_light = false;
 
+float hero_movement_scale = 0.2f;
+
 // Used for mouse trackball
 glm::vec3 lastPoint;
 glm::vec3 curPoint;
@@ -50,9 +52,9 @@ AsteroidGroup * asteroidGroup = nullptr;
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
 //glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
-glm::vec3 lightColor = glm::vec3(0, 0, 0);
+//glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(1,1,1);
-//glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
+glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
 enum MouseActions
@@ -524,19 +526,20 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         // Arrow keys that move the hero character
         if (key == GLFW_KEY_LEFT)
         {
-            hero->translate(-0.2f,0.0f,0.0f);
+//            std::cerr << "left pressed " << std::endl;
+            hero->translate(-hero_movement_scale,0.0f,0.0f);
         }
         if (key == GLFW_KEY_RIGHT)
         {
-            hero->translate(0.2f,0.0f,0.0f);
+            hero->translate(hero_movement_scale,0.0f,0.0f);
         }
         if (key == GLFW_KEY_UP)
         {
-            hero->translate(0.0f,0.0f,0.2f);
+            hero->translate(0.0f,0.0f,hero_movement_scale);
         }
         if (key == GLFW_KEY_DOWN)
         {
-            hero->translate(0.0f,0.0f,-0.2f);
+            hero->translate(0.0f,0.0f,-hero_movement_scale);
         }
     }
     
