@@ -293,7 +293,7 @@ void SSAO::RenderQuad()
 /*=============  Public methods =============*/
 
 
-void SSAO::init(int width, int height, bool use_material)
+void SSAO::init(int width, int height, glm::vec3 light_pos, glm::vec3 light_color, bool use_material)
 {
     use_material = false;
     
@@ -312,7 +312,7 @@ void SSAO::init(int width, int height, bool use_material)
     SSAO::bindSSAO(SSAOShaderProgram);
     
     //setup light properties
-    SSAO::setupLight(lightPos, lightColor);
+    SSAO::setupLight(light_pos, light_color);
     SSAO::setupGBuffer(width, height);
 }
 

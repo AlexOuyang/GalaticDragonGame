@@ -49,7 +49,9 @@ AsteroidGroup * asteroidGroup = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
-glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
+//glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
+glm::vec3 lightColor = glm::vec3(0, 0, 0);
+//glm::vec3 lightColor = glm::vec3(1,1,1);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
@@ -62,7 +64,7 @@ enum MouseActions
 
 MouseActions currentMouseAction = NONE; // Set Mouse action to none by default
 
-// Control mdoe designates the mouse control to either the model or lights
+// Control mode designates the mouse control to either the model or lights
 enum ControlMode
 {
     MODEL_CONTROL,
@@ -73,6 +75,16 @@ enum ControlMode
 };
 
 ControlMode currentControlMode = CAMERA_CONTROL; // Set Mouse action to none by default
+
+// Control camera view
+enum CameraView
+{
+    ORIGINAL_VIEW,
+    FEET_VIEW,
+    ZOOMEDOUT_VIEW,
+};
+
+CameraView camera_view = ORIGINAL_VIEW;
 
 // Shader programs
 GLint shaderProgram;
@@ -114,7 +126,7 @@ void Window::initialize_objects()
     envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
                                             "./shaders/shader_environmental_mapping.frag");
     
-    SSAO::init(Window::width, Window::height); // Create shaders for SSAO
+    SSAO::init(Window::width, Window::height, lightPos, lightColor); // Create shaders for SSAO
     
     
     // Set up skybox after creating shaders
@@ -126,6 +138,9 @@ void Window::initialize_objects()
                         "../../Textures/Skybox/mp_orbital/back.ppm",
                         "../../Textures/Skybox/mp_orbital/front.ppm");
     
+    
+    //setting random seed
+    srand((unsigned int)time(NULL));
     
     // Hero of the game
     hero = new OBJObject("../../Models/nanosuit.obj");
@@ -142,12 +157,14 @@ void Window::initialize_objects()
     SSAO::add_obj(hero);
     
     
-    int num_of_asteroids = 5;
-    float bound_top = 5;
+    int num_of_asteroids = 60;
+    float bound_top = 50;
     float bound_down = -5;
     float bound_left = -5;
     float bound_right = 5;
-    asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down, bound_left, bound_right);
+    float bound_z_pos = 5;
+    float bound_z_neg = -5;
+    asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down, bound_left, bound_right, bound_z_pos, bound_z_neg);
     
     for (int i = 0; i < asteroidGroup->asteroids.size(); i++) {
         SSAO::add_obj(asteroidGroup->asteroids[i]);
@@ -256,8 +273,8 @@ void Window::display_callback(GLFWwindow* window)
 //    skybox->draw(skyboxShaderProgram);
     
     
-    
-        std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
+//    std::cout << "hero_pos: " << glm::to_string(hero->toWorld[3]) << std::endl;
+//        std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
     
     //    V: vec3(-0.486845, 4.401052, 3.899204)
     
@@ -278,6 +295,8 @@ void Window::display_callback(GLFWwindow* window)
 void Window::idle_callback()
 {
     asteroidGroup->moveAsteroids();
+    asteroidGroup->checkBounds();
+    std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
     //    if(cake) cake->update();
 }
 
@@ -487,6 +506,14 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         } else {
             rotate_spot_light = false;
         }
+        
+        /*====== Camera Controls =======*/
+        
+        if (key == GLFW_KEY_C)
+        {
+            change_cam();
+        }
+        
     }
     
     // Holding down key
@@ -690,6 +717,35 @@ void Window::drag_control_point(glm::vec2 displacement)
     //    
     //    track->updateCurve();
     
+}
+
+void Window::change_cam()
+{
+    switch(camera_view){
+        case ORIGINAL_VIEW:
+            std::cout << "FEET_VIEW" << std::endl;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            cam_pos = glm::vec3(0.0f,-3.0f,0.1f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            camera_view = FEET_VIEW;
+            break;
+        case FEET_VIEW:
+            std::cout << "ZOOMEDOUT_VIEW" << std::endl;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            cam_pos = glm::vec3(0.0f,-6.5f,3.0f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            camera_view = ZOOMEDOUT_VIEW;
+            break;
+        case ZOOMEDOUT_VIEW:
+            std::cout << "ORIGINAL_VIEW" << std::endl;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            cam_pos = glm::vec3(0.0f,-3.0f,1.5f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            camera_view = ORIGINAL_VIEW;
+            break;
+        default:
+            break;
+    }
 }
 
 

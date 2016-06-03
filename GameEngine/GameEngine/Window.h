@@ -6,6 +6,8 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <time.h>
+#include <stdlib.h>
 
 class Window
 {
@@ -20,6 +22,7 @@ private:
     static void mouse_scroll(float xoffset, float yoffset);
     static void selection_buffer_click(double xpos, double ypos);
     static void drag_control_point(glm::vec2 displacement);
+    static void change_cam();
 
 public:
 	static int width;
