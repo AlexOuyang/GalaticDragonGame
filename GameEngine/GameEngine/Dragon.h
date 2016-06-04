@@ -14,13 +14,13 @@
 class DragonWing : public OBJObject
 {
 private:
+    int type; // 0 for left wing, 1 for right wing
+    float speed;
     float angle;
+    int direction;
     
 public:
-    DragonWing(const char* filepath):
-    OBJObject(filepath),
-    angle(0)
-    {}
+    DragonWing(const char* filepath, int type);
     
     void update();
 };

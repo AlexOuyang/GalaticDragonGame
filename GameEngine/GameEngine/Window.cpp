@@ -54,8 +54,8 @@ AsteroidGroup * asteroidGroup = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
-glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
-//glm::vec3 lightColor = glm::vec3(0, 0, 0);
+//glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
+glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(1,1,1);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
@@ -149,11 +149,12 @@ void Window::initialize_objects()
     
     // Hero of the game
     hero = new OBJObject("../../Models/dragon_2_body.obj");
-    leftWing = new DragonWing("../../Models/dragon_2_left_wing.obj");
-    rightWing = new DragonWing("../../Models/dragon_2_right_wing.obj");
+    leftWing = new DragonWing("../../Models/dragon_2_left_wing.obj", 0);
+    rightWing = new DragonWing("../../Models/dragon_2_right_wing.obj", 1);
     
     leftWing->scale(0.7f);
     rightWing->scale(0.7f);
+    hero->translate(-0.015f, 0, 0);
     leftWing->translate(0.35f, 0.24f, -0.05f);
     rightWing->translate(-0.35f, 0.24f, -0.05f);
     
@@ -312,6 +313,7 @@ void Window::idle_callback()
     std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
     
     leftWing->update();
+    rightWing->update();
 }
 
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)

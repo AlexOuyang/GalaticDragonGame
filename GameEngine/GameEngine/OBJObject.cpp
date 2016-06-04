@@ -203,7 +203,7 @@ void OBJObject::parse(const char *filepath)
                 }
                 else
                 {
-                    std::cerr << "This obj has weird face vertexIndices" << std::endl;
+                    std::cerr << filepath << " has weird face vertexIndices" << std::endl;
                     exit(-1);
                 }
                 
