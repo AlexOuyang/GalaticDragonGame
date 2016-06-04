@@ -108,6 +108,10 @@ public:
     
     //This draws the model using SSAO
     void drawSSAO(GLuint shaderProgram);
+    
+    // Collision detection from this object to other game object
+    bool onCollision(OBJObject * gameObject);
+
 };
 
 #endif

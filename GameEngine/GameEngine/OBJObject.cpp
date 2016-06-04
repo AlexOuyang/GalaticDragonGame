@@ -367,3 +367,21 @@ void OBJObject::drawSSAO(GLuint shaderProgram)
     glDrawElements(GL_TRIANGLES, (int)vertexIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
+
+
+/*========= Collision Detection ===========*/
+
+bool OBJObject::onCollision(OBJObject * gameObject)
+{
+    BoundingBox a = this->bound;
+    BoundingBox b = gameObject->bound;
+    int r;
+    r = a.r[0] + b.r[0]; if ((unsigned int)(a.center[0] - b.center[0] + r) > r + r) return false;
+    r = a.r[1] + b.r[1]; if ((unsigned int)(a.center[1] - b.center[1] + r) > r + r) return false;
+    r = a.r[2] + b.r[2]; if ((unsigned int)(a.center[2] - b.center[2] + r) > r + r) return false;
+    return true;
+}
+
+
+
+
