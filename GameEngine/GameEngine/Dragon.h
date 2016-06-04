@@ -26,5 +26,15 @@ public:
 };
 
 
+class Dragon
+{
+public:
+    OBJObject * hero;
+    DragonWing * leftWing;
+    DragonWing * rightWing;
+    
+};
+
+
 
 #endif /* Dragon_h */

@@ -49,7 +49,7 @@ Skybox * skybox = nullptr;
 OBJObject * hero = nullptr;
 DragonWing * leftWing = nullptr;
 DragonWing * rightWing = nullptr;
-OBJObject * asteroid = nullptr;
+OBJObject * castle = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
 
 //SSAO Light Properties
@@ -152,9 +152,11 @@ void Window::initialize_objects()
     leftWing = new DragonWing("../../Models/dragon_2_left_wing.obj", 0);
     rightWing = new DragonWing("../../Models/dragon_2_right_wing.obj", 1);
     
-    leftWing->scale(0.7f);
-    rightWing->scale(0.7f);
-    hero->translate(-0.015f, 0, 0);
+    hero->scale(1.1f);
+    hero->translate(0, -0.02f, 0);
+    leftWing->scale(0.8f);
+    rightWing->scale(0.8f);
+//    hero->translate(-0.015f, 0, 0);
     leftWing->translate(0.35f, 0.24f, -0.05f);
     rightWing->translate(-0.35f, 0.24f, -0.05f);
     
@@ -171,6 +173,7 @@ void Window::initialize_objects()
     SSAO::add_obj(rightWing);
     
     
+    // Create asteroid group
     int num_of_asteroids = 60;
     float bound_top = 50;
     float bound_down = -5;
@@ -184,6 +187,12 @@ void Window::initialize_objects()
         SSAO::add_obj(asteroidGroup->asteroids[i]);
     }
     
+    // Create castle
+//    castle = new OBJObject("../../Models/castle.obj");
+//    castle->rotate(90.0f,glm::vec3(1.0f,0.0f,0.0f));
+//    castle->scale(10);
+//    castle->translate(0, -2, 0);
+//    SSAO::add_obj(castle);
 }
 
 
@@ -191,7 +200,7 @@ void Window::clean_up()
 {
     AudioManager::close();
     delete hero;
-    delete asteroid;
+    delete castle;
     delete asteroidGroup;
     delete controlManager;
     glDeleteProgram(shaderProgram);
