@@ -57,7 +57,7 @@ Control::ControlObj * Control::ControlManager::getCurrentlySelectedControlPoint(
 
 unsigned int Control::ControlManager::getNumOfControlPoints()
 {
-    return controlPoints.size();
+    return (unsigned int)controlPoints.size();
 }
 
 

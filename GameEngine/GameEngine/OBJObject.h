@@ -16,17 +16,32 @@
 #include <boost/algorithm/string/split.hpp> // Split strings
 
 
+/**
+ * AABB Bounding box
+ * region R = (x, y, z) | |c.x-x|<=rx, |c.y-y|<=ry, |c.z-z|<=rz
+ */
+struct BoundingBox
+{
+    glm::vec3 center; // center point of AABB
+    glm::vec3 r; // radius or halfwidth extents (rx, ry, rz)
+};
 
-class CoasterTrack;
 
-
-// Material settings
+// Object material property
 struct Material
 {
     glm::vec3 k_a; // Ambient coefficient, it is used to define the "inherent color" of the object.
     glm::vec3 k_d; // Material Diffuse reflectance, diffuse material is a material that reflects light rays in many directions
     glm::vec3 k_s; // Specular coefficient, A Specular material is to simulate the effect of shiny objects(such as in metals) creating a "spec" where the reflection direction and eye match up.
     GLfloat shininess; // Denoted alpha. It is how much the specular is dispersed over the object. The higher this value, the smaller the highlight "spec".
+};
+
+// Object transform property
+struct Transform
+{
+    glm::vec3 position;
+//    glm::vec3 rotation;
+    glm::vec3 scale;
 };
 
 
@@ -50,7 +65,9 @@ private:
     
     
 public:
+    Transform transform;
     Material material;
+    BoundingBox bound;
     glm::mat4 toWorld;
     
     OBJObject(const char* filepath);

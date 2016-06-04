@@ -219,9 +219,7 @@ dependencies: \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Window.h \
   ../lib/glew-1.13.0/include/GL/glew.h \
   ../lib/glfw-3.1.2/include/GLFW/glfw3.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/BezierCurve.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Control.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/CoasterTrack.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/SSAO.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/OBJObject.h \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/predicate.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/config.hpp \
@@ -600,5 +598,4 @@ dependencies: \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/config_end.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils_core.hpp \
-  /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/SSAO.h
+  /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp

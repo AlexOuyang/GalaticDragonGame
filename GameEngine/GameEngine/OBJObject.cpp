@@ -1,25 +1,32 @@
 
 #include "glm/ext.hpp" // print out glm matrices
 #include "Window.h"
-#include "BezierCurve.h"
-#include "CoasterTrack.h"
+#include "SSAO.h"
 
 #include "OBJObject.h"
-#include "SSAO.h"
+
 
 
 OBJObject::OBJObject(const char *filepath)
 {
-    // Default materials are zero vectors
-    material.k_a = glm::vec3(1.0f);
-    material.k_s = glm::vec3(1.0f);
-    material.k_d = glm::vec3(1.0f);
-    material.shininess = 1.0f;
+    // Default transform
+    this->transform.position = glm::vec3(0);
+    this->transform.scale = glm::vec3(1.0f);
     
-    toWorld = glm::mat4(1.0f);
-    angle = 0.0f;
-    objGravity = 0.5f; // Gravity coefficient
-    objectSize = 1.0f;
+    // Default materials are zero vectors
+    this->material.k_a = glm::vec3(1.0f);
+    this->material.k_s = glm::vec3(1.0f);
+    this->material.k_d = glm::vec3(1.0f);
+    this->material.shininess = 1.0f;
+    
+    // By Default, the bounding box has size rx = 0.5, ry = 0.5, rz = 0.5
+    this->bound.center = transform.position;
+    this->bound.r = glm::vec3(0.5f);
+    
+    this->toWorld = glm::mat4(1.0f);
+    this->angle = 0.0f;
+    this->objGravity = 0.5f; // Gravity coefficient
+    this->objectSize = 1.0f;
     
     parse(filepath);
     
@@ -228,7 +235,7 @@ void OBJObject::draw(GLuint shaderProgram)
     glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -247,7 +254,7 @@ void OBJObject::drawGlossy(GLuint shaderProgram)
     glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -331,6 +338,6 @@ void OBJObject::drawSSAO(GLuint shaderProgram)
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, &Window::V[0][0]);
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
