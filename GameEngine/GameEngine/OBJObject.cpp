@@ -30,6 +30,14 @@ OBJObject::OBJObject(const char *filepath)
     
     parse(filepath);
     
+    setUpVertexArrayBuffer();
+}
+
+
+
+
+void OBJObject::setUpVertexArrayBuffer()
+{
     // Create buffers/arrays
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO); // Create a variable called VBO to hold all the vertices vector in the GPU
@@ -50,13 +58,12 @@ OBJObject::OBJObject(const char *filepath)
                           GL_FALSE, // GL_TRUE means the values should be normalized. GL_FALSE means they shouldn't
                           3 * sizeof(GLfloat), // Offset between consecutive vertex attributes. Since each of our vertices have 3 floats, they should have the size of 3 floats in between
                           (GLvoid*)0); // Offset of the first vertex's component. In our case it's 0 since we don't pad the vertices array with anything.
-    
     glEnableVertexAttribArray(0);
     
     
-    /*====== Sent indices information from CPU to GPU =======*/
+    /*====== Sent vertexIndices information from CPU to GPU =======*/
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * vertexIndices.size(), &vertexIndices[0], GL_STATIC_DRAW);
     
     
     /*====== Sent vertices information from CPU to GPU =======*/
@@ -64,24 +71,36 @@ OBJObject::OBJObject(const char *filepath)
     glBindBuffer(GL_ARRAY_BUFFER, NBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * normals.size(), &normals[0], GL_STATIC_DRAW);
     
-    // This gives vertex information to the shader
+//    // This gives vertex position and offset information to the shader
+//    glVertexAttribPointer(0,// This first parameter x should be the same as the number passed into the line "layout (location = x)" in the vertex shader. In this case, it's 0. Valid values are 0 to GL_MAX_UNIFORM_LOCATIONS.
+//                          3, // This second line tells us how any components there are per vertex. In this case, it's 3 (we have an x, y, and z component)
+//                          GL_FLOAT, // What type these components are
+//                          GL_FALSE, // GL_TRUE means the values should be normalized. GL_FALSE means they shouldn't
+//                          3 * sizeof(GLfloat), // Offset between consecutive vertex attributes. Since each of our vertices have 3 floats, they should have the size of 3 floats in between
+//                          (GLvoid*)0); // Offset of the first vertex's component. In our case it's 0 since we don't pad the vertices array with anything.
+//    glEnableVertexAttribArray(0);
+//    
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * normalIndices.size(), &normalIndices[0], GL_STATIC_DRAW);
+//    
+    
+    /*====== Sent vertex array information to the shader =======*/
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(1);
-    
-    
-    
     
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
     
     glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
 }
 
+
+
 OBJObject::~OBJObject() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
     glDeleteBuffers(1, &NBO);
-    
+    glDeleteBuffers(1, &EBO);
+    glDeleteBuffers(1, &EBO2);
 }
 
 
@@ -95,7 +114,7 @@ void OBJObject::parse(const char *filepath)
     float maxZ = FLT_MIN;
     
     //TODO parse the OBJ file
-    // Populate the face indices, vertices, and normals vectors with the OBJ Object data
+    // Populate the face vertexIndices, vertices, and normals vectors with the OBJ Object data
     std::ifstream infile(filepath, std::ifstream::in);
     std::string line;
     
@@ -155,25 +174,36 @@ void OBJObject::parse(const char *filepath)
                 // Split by ' ' or /
                 boost::split(strs, line, boost::is_any_of(" /"), boost::token_compress_on);
                 
-//                std::cout << strs.size() << std::endl;
-                // If the object's v indice and vn indice are the same, ex: 1//1, then there are only 7 elements
+                // std::cout << strs.size() << std::endl;
+                
+
+                // If the object's doesn't have texture mapping
+                // ex: 1//1, then there are only 7 elements
                 if (strs.size() == 7)
                 {
-                    // Push vertex indice into indices
+                    // Push vertex indice into vertexIndices
                     // Since the face starts from 0th index in the vertices vector, so we need to offset the face index by 1
-                    indices.push_back(std::stoi (strs[1])-1);
-                    indices.push_back(std::stoi (strs[3])-1);
-                    indices.push_back(std::stoi (strs[5])-1);
+                    vertexIndices.push_back(std::stoi (strs[1])-1);
+                    vertexIndices.push_back(std::stoi (strs[3])-1);
+                    vertexIndices.push_back(std::stoi (strs[5])-1);
+                    
+                    normalIndices.push_back(std::stoi (strs[2])-1);
+                    normalIndices.push_back(std::stoi (strs[4])-1);
+                    normalIndices.push_back(std::stoi (strs[6])-1);
                 }
-                else if (strs.size() == 10)  // There are 10 elements, ex: 1/2/3
+                else if (strs.size() == 10) // There are 10 elements, ex: 1/2/3
                 {
-                    indices.push_back(std::stoi (strs[1])-1);
-                    indices.push_back(std::stoi (strs[4])-1);
-                    indices.push_back(std::stoi (strs[7])-1);
+                    vertexIndices.push_back(std::stoi (strs[1])-1);
+                    vertexIndices.push_back(std::stoi (strs[4])-1);
+                    vertexIndices.push_back(std::stoi (strs[7])-1);
+                    
+                    normalIndices.push_back(std::stoi (strs[3])-1);
+                    normalIndices.push_back(std::stoi (strs[6])-1);
+                    normalIndices.push_back(std::stoi (strs[9])-1);
                 }
                 else
                 {
-                    std::cerr << "This obj has weird face indices" << std::endl;
+                    std::cerr << "This obj has weird face vertexIndices" << std::endl;
                     exit(-1);
                 }
                 
@@ -184,11 +214,11 @@ void OBJObject::parse(const char *filepath)
         infile.close();
         
         // Check for empty file
-        if (indices.size() == 0) {
+        if (vertexIndices.size() == 0) {
             std::cerr << "Model has not vertices" << std::endl;
             exit(1);
         }
-//        std::cout << "indice size" << indices.size() << std::endl;
+        //        std::cout << "indice size" << vertexIndices.size() << std::endl;
         
         // Center the model by subtractng the model from the average
         // Also, normalize the scale of the model into a standard cube(a 2x2x2 cube,
@@ -235,7 +265,7 @@ void OBJObject::draw(GLuint shaderProgram)
     glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (int)vertexIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -254,7 +284,7 @@ void OBJObject::drawGlossy(GLuint shaderProgram)
     glUniformMatrix4fv(M_mat, 1, GL_FALSE, &toWorld[0][0]);
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (int)vertexIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -283,16 +313,12 @@ void OBJObject::reset()
 }
 
 
-void OBJObject::update()
-{
-    spin(1.0f);
-}
 
-void OBJObject::spin(float deg)
+void OBJObject::spin(float deg, glm::vec3 axis)
 {
     this->angle += deg;
     if (this->angle > 360.0f || this->angle < -360.0f) this->angle = 0.0f;
-    auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), glm::vec3(0.0f, 1.0f, 0.0f));
+    auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), axis);
     this->toWorld = this->toWorld * rotationMat;
 }
 
@@ -338,6 +364,6 @@ void OBJObject::drawSSAO(GLuint shaderProgram)
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, &Window::V[0][0]);
     
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (int)vertexIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }

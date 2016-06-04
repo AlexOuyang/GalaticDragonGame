@@ -27,7 +27,9 @@ struct BoundingBox
 };
 
 
-// Object material property
+/**
+ * Object material property
+ */
 struct Material
 {
     glm::vec3 k_a; // Ambient coefficient, it is used to define the "inherent color" of the object.
@@ -36,7 +38,9 @@ struct Material
     GLfloat shininess; // Denoted alpha. It is how much the specular is dispersed over the object. The higher this value, the smaller the highlight "spec".
 };
 
-// Object transform property
+/**
+ * Object transform property
+ */
 struct Transform
 {
     glm::vec3 position;
@@ -45,24 +49,33 @@ struct Transform
 };
 
 
+/**
+ * Object is initialized to be a standard cube(a 2x2x2 cube, 
+ * with all vertices in the range [-1,1])
+ */
 class OBJObject
 {
 private:
     /*==== For Rendering Obj ===*/
     GLuint VAO; // Vertex Array Object
     GLuint VBO; // Vertex Buffer Object
-    GLuint EBO; // Element Buffer Object
     GLuint NBO; // Vertex Normal Array Object
-
-  
+    GLuint EBO; // Element Buffer Object
+    GLuint EBO2; // Element Buffer Object
+    
     /*=== Obj properties ===*/
     float angle;
     float objGravity;
     float objectSize;
-    std::vector<unsigned int> indices;
+    
+    /*=== Obj information ====*/
+    std::vector<unsigned int> vertexIndices;
     std::vector<glm::vec3> vertices;
+    std::vector<unsigned int> normalIndices;
     std::vector<glm::vec3> normals;
     
+    void parse(const char* filepath);
+    void setUpVertexArrayBuffer();
     
 public:
     Transform transform;
@@ -72,21 +85,19 @@ public:
     
     OBJObject(const char* filepath);
     ~OBJObject();
-    
-    void parse(const char* filepath);
+
     
     // Sent this object's material properties to a specified shader program
     void bindMaterialToShader(GLuint shaderProgram);
     
-    
-    void update();
-    void spin(float deg);
+    void spin(float deg, glm::vec3 axis);
     void translate(float x, float y, float z);
     void translate(glm::vec3 vec);
     void scale(float ratio);
     void reset();
     void rotate(float rotAngle, glm::vec3 rotAxis);
     void setPosition(glm::vec3 pos);
+
     
     
     // This draws the model using Phong shading

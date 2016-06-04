@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56A7A8931D02E81A001DBB16 /* Dragon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A7A8911D02E81A001DBB16 /* Dragon.cpp */; };
 		56A8EABD1CFF0D450050CF1A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EABC1CFF0D450050CF1A /* main.cpp */; };
 		56A8EAC41CFF0DAB0050CF1A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */; };
 		56A8EAC61CFF0DB60050CF1A /* libGLEW.1.13.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */; };
@@ -43,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		56A7A8911D02E81A001DBB16 /* Dragon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dragon.cpp; sourceTree = "<group>"; };
+		56A7A8921D02E81A001DBB16 /* Dragon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dragon.h; sourceTree = "<group>"; };
 		56A8EAB91CFF0D450050CF1A /* GameEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		56A8EABC1CFF0D450050CF1A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = GameEngine/main.cpp; sourceTree = SOURCE_ROOT; };
 		56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -157,6 +160,8 @@
 				56A8EAE41CFF0DE40050CF1A /* Window.h */,
 				67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */,
 				67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */,
+				56A7A8911D02E81A001DBB16 /* Dragon.cpp */,
+				56A7A8921D02E81A001DBB16 /* Dragon.h */,
 			);
 			path = GameEngine;
 			sourceTree = SOURCE_ROOT;
@@ -232,6 +237,7 @@
 				56A8EABD1CFF0D450050CF1A /* main.cpp in Sources */,
 				56A8EAEC1CFF0DE40050CF1A /* OBJObject.cpp in Sources */,
 				56A8EAE81CFF0DE40050CF1A /* Cube.cpp in Sources */,
+				56A7A8931D02E81A001DBB16 /* Dragon.cpp in Sources */,
 				56A8EAEB1CFF0DE40050CF1A /* Node.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

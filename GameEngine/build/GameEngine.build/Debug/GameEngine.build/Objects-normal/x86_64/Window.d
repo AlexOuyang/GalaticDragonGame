@@ -649,4 +649,5 @@ dependencies: \
   /Library/Frameworks/SDL2.framework/Headers/SDL_timer.h \
   /Library/Frameworks/SDL2.framework/Headers/SDL_version.h \
   /Library/Frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AsteroidManager.h
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AsteroidManager.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Dragon.h

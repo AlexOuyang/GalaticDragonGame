@@ -11,6 +11,7 @@
 #include "SSAO.h"
 #include "AudioManager.h"
 #include "AsteroidManager.h"
+#include "Dragon.h"
 
 //defined static member variables
 int Window::width;
@@ -46,15 +47,17 @@ float cursor_dragging_speed = 0.01f;
 ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
 OBJObject * hero = nullptr;
+DragonWing * leftWing = nullptr;
+DragonWing * rightWing = nullptr;
 OBJObject * asteroid = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
-//glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
+glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
 //glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(1,1,1);
-glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
+//glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
 enum MouseActions
@@ -145,18 +148,26 @@ void Window::initialize_objects()
     srand((unsigned int)time(NULL));
     
     // Hero of the game
-    hero = new OBJObject("../../Models/nanosuit.obj");
-    hero->material.k_a = glm::vec3(1);
-    hero->material.k_d = glm::vec3(1);
-    hero->material.k_s = glm::vec3(1);
-//    hero->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
-//    hero->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
-//    hero->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
-    hero->material.shininess = 1;
-    hero->scale(0.7f);
+    hero = new OBJObject("../../Models/dragon_2_body.obj");
+    leftWing = new DragonWing("../../Models/dragon_2_left_wing.obj");
+    rightWing = new DragonWing("../../Models/dragon_2_right_wing.obj");
+    
+    leftWing->scale(0.7f);
+    rightWing->scale(0.7f);
+    leftWing->translate(0.35f, 0.24f, -0.05f);
+    rightWing->translate(-0.35f, 0.24f, -0.05f);
+    
+    
+    hero->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    leftWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    rightWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
     hero->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
-    hero->translate(0.0f, 0.0f, 0.0f);
+    leftWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+    rightWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+    
     SSAO::add_obj(hero);
+    SSAO::add_obj(leftWing);
+    SSAO::add_obj(rightWing);
     
     
     int num_of_asteroids = 60;
@@ -299,7 +310,8 @@ void Window::idle_callback()
     asteroidGroup->moveAsteroids();
     asteroidGroup->checkBounds();
     std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
-    //    if(cake) cake->update();
+    
+    leftWing->update();
 }
 
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -528,18 +540,26 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         {
 //            std::cerr << "left pressed " << std::endl;
             hero->translate(-hero_movement_scale,0.0f,0.0f);
+            leftWing->translate(-hero_movement_scale,0.0f,0.0f);
+            rightWing->translate(-hero_movement_scale,0.0f,0.0f);
         }
         if (key == GLFW_KEY_RIGHT)
         {
             hero->translate(hero_movement_scale,0.0f,0.0f);
+            leftWing->translate(hero_movement_scale,0.0f,0.0f);
+            rightWing->translate(hero_movement_scale,0.0f,0.0f);
         }
         if (key == GLFW_KEY_UP)
         {
             hero->translate(0.0f,0.0f,hero_movement_scale);
+            leftWing->translate(0.0f,0.0f,hero_movement_scale);
+            rightWing->translate(0.0f,0.0f,hero_movement_scale);
         }
         if (key == GLFW_KEY_DOWN)
         {
             hero->translate(0.0f,0.0f,-hero_movement_scale);
+            leftWing->translate(0.0f,0.0f,-hero_movement_scale);
+            rightWing->translate(0.0f,0.0f,-hero_movement_scale);
         }
     }
     
