@@ -30,8 +30,6 @@ float zoom_sum = 0;
 
 bool rotate_spot_light = false;
 
-float hero_movement_scale = 0.2f;
-
 // Used for mouse trackball
 glm::vec3 lastPoint;
 glm::vec3 curPoint;
@@ -46,20 +44,26 @@ float cursor_dragging_speed = 0.01f;
 
 ControlManager * controlManager = nullptr;
 Skybox * skybox = nullptr;
-OBJObject * hero = nullptr;
-DragonWing * leftWing = nullptr;
-DragonWing * rightWing = nullptr;
+Dragon * dragon = nullptr;
 OBJObject * castle = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
+
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
 //glm::vec3 lightPos = glm::vec3(3.0f, 0, 0);
 //glm::vec3 lightColor = glm::vec3(0.9, 0.9, 0.9);
-glm::vec3 lightColor = glm::vec3(1, 0, 0);
+//glm::vec3 lightColor = glm::vec3(1, 0, 0);
+glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(1,1,1);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
+
+
+bool moveLeft = false;
+bool moveRight = false;
+bool moveUp = false;
+bool moveDown = false;
 
 enum MouseActions
 {
@@ -148,30 +152,20 @@ void Window::initialize_objects()
     //setting random seed
     srand((unsigned int)time(NULL));
     
+    
+    // Set up light
+    Light::setup();
+    Light::useLight(Light::DIRECTIONAL_LIGHT);
+    
+    
     // Hero of the game
-    hero = new OBJObject("../../Models/dragon_2_body.obj");
-    leftWing = new DragonWing("../../Models/dragon_2_left_wing.obj", 0);
-    rightWing = new DragonWing("../../Models/dragon_2_right_wing.obj", 1);
+    dragon = new Dragon("../../Models/dragon_2_body.obj",
+                        "../../Models/dragon_2_left_wing.obj",
+                        "../../Models/dragon_2_right_wing.obj");
     
-    hero->scale(1.1f);
-    hero->translate(0, -0.02f, 0);
-    leftWing->scale(0.8f);
-    rightWing->scale(0.8f);
-//    hero->translate(-0.015f, 0, 0);
-    leftWing->translate(0.35f, 0.24f, -0.05f);
-    rightWing->translate(-0.35f, 0.24f, -0.05f);
-    
-    
-    hero->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
-    leftWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
-    rightWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
-    hero->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
-    leftWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
-    rightWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
-    
-    SSAO::add_obj(hero);
-    SSAO::add_obj(leftWing);
-    SSAO::add_obj(rightWing);
+    SSAO::add_obj(dragon->body);
+    SSAO::add_obj(dragon->leftWing);
+    SSAO::add_obj(dragon->rightWing);
     
     
     // Create asteroid group
@@ -200,7 +194,7 @@ void Window::initialize_objects()
 void Window::clean_up()
 {
     AudioManager::close();
-    delete hero;
+    delete dragon;
     delete castle;
     delete asteroidGroup;
     delete controlManager;
@@ -275,17 +269,7 @@ void Window::display_callback(GLFWwindow* window)
     
     
     
-    /*====== Draw Light ======*/
-//    glUseProgram(shaderProgram);
-//    //     Bind cameraPosition, or 'eye' to the shaderProgram
-//    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
-//    glUniform3fv(v3_eye, 1, &cam_pos[0]);
-//    
-//    // Bind light to the shaderProgram
-//    Light::bindDirectionalLightToShader(shaderProgram);
-//    Light::bindPointLightToShader(shaderProgram);
-//    Light::bindSpotLightToShader(shaderProgram);
-//    
+//
     
     /*====== Draw SSAO ======*/
     
@@ -297,14 +281,19 @@ void Window::display_callback(GLFWwindow* window)
 //    skybox->draw(skyboxShaderProgram);
     
     
-//    std::cout << "hero_pos: " << glm::to_string(hero->toWorld[3]) << std::endl;
-//        std::cout << "V: " <<glm::to_string(cam_pos) << std::endl;
-    
-    //    V: vec3(-0.486845, 4.401052, 3.899204)
-    
-    /*====== Draw hero ======*/
+//    /*====== Draw Light ======*/
 //    glUseProgram(shaderProgram);
-//    asteroid->draw(shaderProgram);
+//    // Bind cameraPosition, or 'eye' to the shaderProgram
+//    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
+//    glUniform3fv(v3_eye, 1, &cam_pos[0]);
+//    // Bind light to the shaderProgram
+//    Light::bindDirectionalLightToShader(shaderProgram);
+//    Light::bindPointLightToShader(shaderProgram);
+//    Light::bindSpotLightToShader(shaderProgram);
+//    
+//    /*====== Draw hero ======*/
+//    glUseProgram(shaderProgram);
+//    hero->draw(shaderProgram);
     
     
     // Swap buffers
@@ -320,10 +309,11 @@ void Window::idle_callback()
 {
     asteroidGroup->moveAsteroids();
     asteroidGroup->checkBounds();
-    std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
+//    std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
     
-    leftWing->update();
-    rightWing->update();
+    dragon->flap();
+    dragon->move(moveLeft, moveRight, moveUp, moveDown);
+    
 }
 
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -345,7 +335,7 @@ void Window::cursor_position_callback(GLFWwindow* window, double xpos, double yp
             {
                 // Map the mouse position to a logical sphere location.
                 // Keep it in the class variable lastPoint.
-                lastPoint = trackBallMapping(xpos, ypos);
+                lastPoint = trackBallMapping(-xpos, -ypos);
                 
                 last_cursor_position = glm::vec2(xpos, -ypos);
                 
@@ -358,7 +348,7 @@ void Window::cursor_position_callback(GLFWwindow* window, double xpos, double yp
                 // Drag control points
                 if (controlManager->hasControlPointSelected())
                 {
-                    curr_cursor_position = glm::vec2(xpos, -ypos);
+                    curr_cursor_position = glm::vec2(xpos, ypos);
                     glm::vec2 cursor_displacement = curr_cursor_position - last_cursor_position;
                     
                     
@@ -550,28 +540,39 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         // Arrow keys that move the hero character
         if (key == GLFW_KEY_LEFT)
         {
-//            std::cerr << "left pressed " << std::endl;
-            hero->translate(-hero_movement_scale,0.0f,0.0f);
-            leftWing->translate(-hero_movement_scale,0.0f,0.0f);
-            rightWing->translate(-hero_movement_scale,0.0f,0.0f);
+            moveLeft = true;
         }
         if (key == GLFW_KEY_RIGHT)
         {
-            hero->translate(hero_movement_scale,0.0f,0.0f);
-            leftWing->translate(hero_movement_scale,0.0f,0.0f);
-            rightWing->translate(hero_movement_scale,0.0f,0.0f);
+            moveRight = true;
         }
         if (key == GLFW_KEY_UP)
         {
-            hero->translate(0.0f,0.0f,hero_movement_scale);
-            leftWing->translate(0.0f,0.0f,hero_movement_scale);
-            rightWing->translate(0.0f,0.0f,hero_movement_scale);
+            moveUp = true;
         }
         if (key == GLFW_KEY_DOWN)
         {
-            hero->translate(0.0f,0.0f,-hero_movement_scale);
-            leftWing->translate(0.0f,0.0f,-hero_movement_scale);
-            rightWing->translate(0.0f,0.0f,-hero_movement_scale);
+            moveDown = true;
+        }
+    }
+    
+    if(action == GLFW_RELEASE)
+    {
+        if (key == GLFW_KEY_LEFT)
+        {
+            moveLeft = false;
+        }
+        if (key == GLFW_KEY_RIGHT)
+        {
+            moveRight = false;
+        }
+        if (key == GLFW_KEY_UP)
+        {
+            moveUp = false;
+        }
+        if (key == GLFW_KEY_DOWN)
+        {
+            moveDown = false;
         }
     }
     

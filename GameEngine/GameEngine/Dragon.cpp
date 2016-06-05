@@ -5,10 +5,11 @@
 //  Created by Chenxing Ouyang on 6/4/16.
 //  Copyright © 2016 CSE167. All rights reserved.
 //
-
+#include "glm/ext.hpp" // print out glm matrices
 #include "OBJObject.h"
 #include "Dragon.h"
 
+/*================== Dragon Wing ==================*/
 
 DragonWing::DragonWing(const char* filepath, int type):
 OBJObject(filepath),
@@ -19,6 +20,15 @@ type(type)
     if (type == 0) this->direction = 1;
     else if (type == 1) this->direction = -1;
 }
+
+
+void DragonWing::translationWing(float x, float y, float z)
+{
+    this->transform.position += glm::vec3(x, y, z);
+    std::cout << glm::to_string(this->transform.position) << std::endl;
+    this->translate(x,y,z);
+}
+
 
 void DragonWing::update()
 {
@@ -31,10 +41,16 @@ void DragonWing::update()
         this->angle += deg;
         if (this->angle > 360.0f || this->angle < -360.0f) this->angle = 0.0f;
         auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), glm::vec3(0,1,0));
+        
+        this->translate(-this->transform.position);
+        
         this->translate(0.05f, -0.5f, 0);
         this->toWorld = rotationMat * this->toWorld;
         this->translate(-0.05f, 0.5f, 0);
-        std::cout << angle << std::endl;
+        
+        this->translate(this->transform.position);
+        
+//        std::cout << angle << std::endl;
     }
     else if (this->type == 1) // right wing
     {
@@ -45,9 +61,85 @@ void DragonWing::update()
         this->angle += deg;
         if (this->angle > 360.0f || this->angle < -360.0f) this->angle = 0.0f;
         auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), glm::vec3(0,1,0));
+        
+        this->translate(-this->transform.position);
+
         this->translate(-0.05f, 0, 0);
         this->toWorld = rotationMat * this->toWorld;
         this->translate(0.05f, 0, 0);
-        std::cout << angle << std::endl;
+        
+        this->translate(this->transform.position);
+
+//        std::cout << angle << std::endl;
     }
 }
+
+
+/*=============== Dragon ==================*/
+
+
+Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path)
+{
+    speed = 0.05f;
+    
+    body = new OBJObject(dragon_body_path);
+    leftWing = new DragonWing(dragon_left_wing_path, 0);
+    rightWing = new DragonWing(dragon_right_wing_path, 1);
+    
+    // Set up the dragon model
+    body->scale(1.1f);
+    body->translate(0, -0.02f, 0);
+    leftWing->scale(0.8f);
+    rightWing->scale(0.8f);
+    //    hero->translate(-0.015f, 0, 0);
+    leftWing->translate(0.35f, 0.24f, -0.05f);
+    rightWing->translate(-0.35f, 0.24f, -0.05f);
+    
+    // Rotate the dragon body parts since blender exported orientation is off
+    body->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    body->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+
+    leftWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    leftWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+
+    rightWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    rightWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+}
+
+void Dragon::translate(float x, float y, float z)
+{
+    body->translate(x, y, z);
+    leftWing->translationWing(x, y, z);
+    rightWing->translationWing(x, y, z);
+}
+
+void Dragon::flap()
+{
+    leftWing->update();
+    rightWing->update();
+}
+
+Dragon::~Dragon()
+{
+    delete body;
+    delete leftWing;
+    delete rightWing;
+}
+
+void Dragon::move(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
+{
+    if(moveLeft)
+        this->translate(-speed,0.0f,0.0f);
+    if(moveRight)
+        this->translate(speed, 0.0f,0.0f);
+    if(moveUp)
+        this->translate(0.0f,0.0f,speed);
+    if(moveDown)
+        this->translate(0.0f,0.0f,-speed);
+}
+
+
+
+
+
+

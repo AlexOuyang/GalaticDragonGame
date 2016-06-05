@@ -23,16 +23,24 @@ public:
     DragonWing(const char* filepath, int type);
     
     void update();
+    void translationWing(float x, float y, float z);
 };
 
 
 class Dragon
 {
 public:
-    OBJObject * hero;
+    float speed;
+    OBJObject * body;
     DragonWing * leftWing;
     DragonWing * rightWing;
     
+    Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path);
+    ~Dragon();
+    
+    void translate(float x, float y, float z);
+    void flap();
+    void move(bool moveLeft, bool moveRight, bool moveUp, bool moveDown);
 };
 
 
