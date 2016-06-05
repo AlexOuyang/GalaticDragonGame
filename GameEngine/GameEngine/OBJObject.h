@@ -63,16 +63,15 @@ private:
     GLuint EBO; // Element Buffer Object
     GLuint EBO2; // Element Buffer Object
     
-    /*=== Obj properties ===*/
-    float angle;
-    float objGravity;
-    float objectSize;
-    
     /*=== Obj information ====*/
     std::vector<unsigned int> vertexIndices;
     std::vector<glm::vec3> vertices;
     std::vector<unsigned int> normalIndices;
     std::vector<glm::vec3> normals;
+    
+    /*=== Others ===*/
+    float angle;
+    
     
     void parse(const char* filepath);
     void setUpVertexArrayBuffer();
@@ -94,7 +93,8 @@ public:
     void translate(float x, float y, float z);
     void translate(glm::vec3 vec);
     void scale(float ratio);
-    void reset();
+    void scale(glm::vec3 vec);
+        void reset();
     void rotate(float rotAngle, glm::vec3 rotAxis);
     void setPosition(glm::vec3 pos);
 

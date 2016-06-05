@@ -29,6 +29,10 @@ public:
 
 class Dragon
 {
+private:
+    void translate(float x, float y, float z);
+    void flap();
+    
 public:
     float speed;
     OBJObject * body;
@@ -38,9 +42,7 @@ public:
     Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path);
     ~Dragon();
     
-    void translate(float x, float y, float z);
-    void flap();
-    void move(bool moveLeft, bool moveRight, bool moveUp, bool moveDown);
+    void update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown);
 };
 
 

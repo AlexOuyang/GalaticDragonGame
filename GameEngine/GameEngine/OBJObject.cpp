@@ -25,8 +25,6 @@ OBJObject::OBJObject(const char *filepath)
     
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
-    this->objGravity = 0.5f; // Gravity coefficient
-    this->objectSize = 1.0f;
     
     parse(filepath);
     
@@ -337,10 +335,16 @@ void OBJObject::translate(glm::vec3 vec)
 
 void OBJObject::scale(float ratio)
 {
-    objectSize = ratio;
     auto scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(ratio));
     this->toWorld = this->toWorld * scaleMat;
 }
+
+void OBJObject::scale(glm::vec3 vec)
+{
+    auto scaleMat = glm::scale(glm::mat4(1.0f), vec);
+    this->toWorld = this->toWorld * scaleMat;
+}
+
 
 void OBJObject::rotate(float rotAngle, glm::vec3 rotAxis)
 {

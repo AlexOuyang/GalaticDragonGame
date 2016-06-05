@@ -126,8 +126,10 @@ Dragon::~Dragon()
     delete rightWing;
 }
 
-void Dragon::move(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
+void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
 {
+    flap();
+    
     if(moveLeft)
         this->translate(-speed,0.0f,0.0f);
     if(moveRight)

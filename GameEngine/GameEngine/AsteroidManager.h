@@ -10,15 +10,18 @@
 class Asteroid : public OBJObject
 {
 public:
+    glm::vec3 velocity;
+    
     Asteroid(const char* filepath):
     OBJObject(filepath)
     {}
-    
-    glm::vec3 velocity;
-    glm::vec4 original_pos;
+
 };
 
 
+/**
+ * Create an asteroid group in a 3d space
+ */
 class AsteroidGroup
 {
 private:
@@ -30,27 +33,37 @@ private:
     float bound_z_pos;
     float bound_z_neg;
     
-    //get a random float between max and min values
+    // Add an asteroid to group
+    void addAsteroid(glm::vec4 position, glm::vec3 scale);
+
+    // Get a random float between max and min values
     float randFloat(float max, float min);
     
+    // Give a randomized the position of the asteroid
+    glm::vec4 randomPosition();
+    
+    // Give a randomized the scale of the asteroid
+    glm::vec3 randomScale();
+    
+    // Reset asteroid if out of bound
+    void reset(Asteroid* asteroid);
+    
+    // Done in every update() to move asteroids
+    void moveAsteroids();
+    
+    // Done in every update() to check if asteroids out of bound, if true the reset them.
+    void checkBounds();
+    
 public:
-    static int num_of_asteroids_passed;
+    int numOfAsteroidsPassed;
     
     std::vector<Asteroid*> asteroids;
     
     AsteroidGroup(int num_of_asteroids, float bound_top, float bound_down,
                   float bound_left, float bound_right, float bound_z_pos, float bound_z_neg);
     
-    void addAsteroids(glm::vec4 new_pos);
-    
     void update();
-    //done every update()
-    void moveAsteroids();
-    void checkBounds();
-    
-    //randomize the position of the asteroids
-    glm::vec4 randomize_position();
-    void reset(Asteroid* asteroid);
+
 };
 
 

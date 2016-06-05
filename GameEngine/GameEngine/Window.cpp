@@ -149,20 +149,15 @@ void Window::initialize_objects()
                         "../../Textures/Skybox/mp_orbital/front.ppm");
     
     
-    //setting random seed
-    srand((unsigned int)time(NULL));
-    
-    
-    // Set up light
-    Light::setup();
-    Light::useLight(Light::DIRECTIONAL_LIGHT);
+//    // Set up light
+//    Light::setup();
+//    Light::useLight(Light::DIRECTIONAL_LIGHT);
     
     
     // Hero of the game
     dragon = new Dragon("../../Models/dragon_2_body.obj",
                         "../../Models/dragon_2_left_wing.obj",
                         "../../Models/dragon_2_right_wing.obj");
-    
     SSAO::add_obj(dragon->body);
     SSAO::add_obj(dragon->leftWing);
     SSAO::add_obj(dragon->rightWing);
@@ -176,11 +171,12 @@ void Window::initialize_objects()
     float bound_right = 5;
     float bound_z_pos = 5;
     float bound_z_neg = -5;
-    asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down, bound_left, bound_right, bound_z_pos, bound_z_neg);
+    asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down,
+                                      bound_left, bound_right, bound_z_pos, bound_z_neg);
     
-    for (int i = 0; i < asteroidGroup->asteroids.size(); i++) {
+    for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
         SSAO::add_obj(asteroidGroup->asteroids[i]);
-    }
+    
     
     // Create castle
 //    castle = new OBJObject("../../Models/castle.obj");
@@ -307,12 +303,10 @@ void Window::display_callback(GLFWwindow* window)
 
 void Window::idle_callback()
 {
-    asteroidGroup->moveAsteroids();
-    asteroidGroup->checkBounds();
-//    std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
+    asteroidGroup->update();
+//    std::cout << "Num of Asteroids passed: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
     
-    dragon->flap();
-    dragon->move(moveLeft, moveRight, moveUp, moveDown);
+    dragon->update(moveLeft, moveRight, moveUp, moveDown);
     
 }
 
