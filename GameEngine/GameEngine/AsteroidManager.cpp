@@ -41,12 +41,10 @@ void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
     }
     else
     {
-        if (asteroids.size() % 3 == 0)
+        if (asteroids.size() % 2 == 0)
             asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_1.obj");
-        else if (asteroids.size() % 3 == 1)
-            asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_2.obj");
         else
-            asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_3.obj");
+            asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_2.obj");
     }
     asteroid->material.k_a = glm::vec3(1);
     asteroid->material.k_d = glm::vec3(1);
@@ -54,6 +52,7 @@ void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
     asteroid->material.shininess = 0;
     asteroid->setPosition(position);
     asteroid->scale(scale);
+    asteroid->rotate(randFloat(0, 180), glm::vec3(randFloat(0, 1),randFloat(0, 1),randFloat(0, 1)));
     asteroid->velocity = randomVelocity();
     asteroids.push_back(asteroid);
 }
