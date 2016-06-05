@@ -9,6 +9,7 @@
 #include "OBJObject.h"
 #include "Dragon.h"
 
+/*================== Dragon Wing ==================*/
 
 DragonWing::DragonWing(const char* filepath, int type):
 OBJObject(filepath),
@@ -72,3 +73,69 @@ void DragonWing::update()
 //        std::cout << angle << std::endl;
     }
 }
+
+
+/*=============== Dragon ==================*/
+
+
+Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path)
+{
+    speed = 0.1f;
+    body = new OBJObject(dragon_body_path);
+    leftWing = new DragonWing(dragon_left_wing_path, 0);
+    rightWing = new DragonWing(dragon_right_wing_path, 1);
+    
+    // Set up the dragon model
+    body->scale(1.1f);
+    body->translate(0, -0.02f, 0);
+    leftWing->scale(0.8f);
+    rightWing->scale(0.8f);
+    //    hero->translate(-0.015f, 0, 0);
+    leftWing->translate(0.35f, 0.24f, -0.05f);
+    rightWing->translate(-0.35f, 0.24f, -0.05f);
+    
+    body->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    leftWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    rightWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
+    body->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+    leftWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+    rightWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
+}
+
+void Dragon::translate(float x, float y, float z)
+{
+    body->translate(x, y, z);
+    leftWing->translationWing(x, y, z);
+    rightWing->translationWing(x, y, z);
+}
+
+void Dragon::flap()
+{
+    leftWing->update();
+    rightWing->update();
+}
+
+Dragon::~Dragon()
+{
+    delete body;
+    delete leftWing;
+    delete rightWing;
+}
+
+void Dragon::move(bool moveLeft, bool moveRight, bool moveUp, bool moveDown, float hero_movement_scale)
+{
+    if(moveLeft)
+        this->translate(-hero_movement_scale,0.0f,0.0f);
+    if(moveRight)
+        this->translate(hero_movement_scale, 0.0f,0.0f);
+    if(moveUp)
+        this->translate(0.0f,0.0f,hero_movement_scale);
+    if(moveDown)
+        this->translate(0.0f,0.0f,-hero_movement_scale);
+}
+
+
+
+
+
+

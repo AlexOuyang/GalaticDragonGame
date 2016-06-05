@@ -30,10 +30,17 @@ public:
 class Dragon
 {
 public:
-    OBJObject * hero;
+    OBJObject * body;
     DragonWing * leftWing;
     DragonWing * rightWing;
+    float speed;
     
+    Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path);
+    ~Dragon();
+    
+    void translate(float x, float y, float z);
+    void flap();
+    void move(bool moveLeft, bool moveRight, bool moveUp, bool moveDown, float hero_movement_scale);
 };
 
 
