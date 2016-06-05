@@ -12,7 +12,7 @@ bound_left(bound_left),
 bound_right(bound_right),
 bound_z_pos(bound_z_pos),
 bound_z_neg(bound_z_neg),
-speed_multiplier(0.5f),
+speed_multiplier(0.8f),
 numOfAsteroidsPassed(0)
 {
     //setting random seed
@@ -20,13 +20,34 @@ numOfAsteroidsPassed(0)
     
     for(int i = 0; i < num_of_asteroids; i ++)
     {
-        addAsteroid(randomPosition(), randFloat(0.2f, 1.5f));
+        addAsteroid(randomPosition(), randFloat(0.2f, 2.0f));
     }
 }
 
+AsteroidGroup::~AsteroidGroup()
+{
+    for (int i = 0; i < asteroids.size(); i++)
+        delete asteroids[i];
+}
+
+
 void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
 {
-    Asteroid * asteroid = new Asteroid("../../Models/sphere.obj");
+    Asteroid * asteroid;
+    // Chose the asteroid based on scale
+    if (scale < 0.8f)
+    {
+        asteroid = new Asteroid("../../Models/Asteroid/asteroid_simple_1.obj");
+    }
+    else
+    {
+        if (asteroids.size() % 3 == 0)
+            asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_1.obj");
+        else if (asteroids.size() % 3 == 1)
+            asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_2.obj");
+        else
+            asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_3.obj");
+    }
     asteroid->material.k_a = glm::vec3(1);
     asteroid->material.k_d = glm::vec3(1);
     asteroid->material.k_s = glm::vec3(1);

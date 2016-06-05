@@ -15,7 +15,7 @@ DragonWing::DragonWing(const char* filepath, int type):
 OBJObject(filepath),
 type(type)
 {
-    this->speed = 2.0f;
+    this->speed = 3.0f;
     this->angle = 0;
     if (type == 0) this->direction = 1;
     else if (type == 1) this->direction = -1;

@@ -62,6 +62,7 @@ public:
     
     AsteroidGroup(int num_of_asteroids, float bound_top, float bound_down,
                   float bound_left, float bound_right, float bound_z_pos, float bound_z_neg);
+    ~AsteroidGroup();
     
     void update();
 
