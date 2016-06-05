@@ -32,9 +32,10 @@ private:
     float bound_right;
     float bound_z_pos;
     float bound_z_neg;
+    float speed_multiplier;
     
     // Add an asteroid to group
-    void addAsteroid(glm::vec4 position, glm::vec3 scale);
+    void addAsteroid(glm::vec4 position, float scale);
 
     // Get a random float between max and min values
     float randFloat(float max, float min);
@@ -42,8 +43,8 @@ private:
     // Give a randomized the position of the asteroid
     glm::vec4 randomPosition();
     
-    // Give a randomized the scale of the asteroid
-    glm::vec3 randomScale();
+    // Give a randomized the velocity for the asteroid
+    glm::vec3 randomVelocity();
     
     // Reset asteroid if out of bound
     void reset(Asteroid* asteroid);

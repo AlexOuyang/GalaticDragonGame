@@ -94,7 +94,7 @@ public:
     void translate(glm::vec3 vec);
     void scale(float ratio);
     void scale(glm::vec3 vec);
-        void reset();
+    void reset();
     void rotate(float rotAngle, glm::vec3 rotAxis);
     void setPosition(glm::vec3 pos);
 

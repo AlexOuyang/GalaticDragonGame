@@ -12,6 +12,7 @@ bound_left(bound_left),
 bound_right(bound_right),
 bound_z_pos(bound_z_pos),
 bound_z_neg(bound_z_neg),
+speed_multiplier(0.5f),
 numOfAsteroidsPassed(0)
 {
     //setting random seed
@@ -19,11 +20,11 @@ numOfAsteroidsPassed(0)
     
     for(int i = 0; i < num_of_asteroids; i ++)
     {
-        addAsteroid(randomPosition(), randomScale());
+        addAsteroid(randomPosition(), randFloat(0.2f, 1.5f));
     }
 }
 
-void AsteroidGroup::addAsteroid(glm::vec4 position, glm::vec3 scale)
+void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
 {
     Asteroid * asteroid = new Asteroid("../../Models/sphere.obj");
     asteroid->material.k_a = glm::vec3(1);
@@ -31,8 +32,8 @@ void AsteroidGroup::addAsteroid(glm::vec4 position, glm::vec3 scale)
     asteroid->material.k_s = glm::vec3(1);
     asteroid->material.shininess = 0;
     asteroid->setPosition(position);
-    asteroid->scale(1);
-    asteroid->velocity = glm::vec3(0.0f,randFloat(0.0f,-1.0f),0.0f);
+    asteroid->scale(scale);
+    asteroid->velocity = randomVelocity();
     asteroids.push_back(asteroid);
 }
 
@@ -72,21 +73,17 @@ glm::vec4 AsteroidGroup::randomPosition()
     return glm::vec4(x_rand, y_rand, z_rand, 1.0f);
 }
 
-// Give a randomized scale
-glm::vec3 AsteroidGroup::randomScale()
+// Give a randomized velocity
+glm::vec3 AsteroidGroup::randomVelocity()
 {
-    float x_rand = randFloat(bound_right, bound_left);
-    float y_rand = randFloat(bound_top+35,bound_top);
-    float z_rand = randFloat(bound_z_pos, bound_z_neg);
-    
-    return glm::vec3(x_rand, y_rand, z_rand);
+    return glm::vec3(0.0f,randFloat(0.0f,-1.0f),0.0f) * speed_multiplier;
 }
 
 // Reset asteroid if out of bound
 void AsteroidGroup::reset(Asteroid* asteroid)
 {
     asteroid->setPosition(randomPosition());
-    asteroid->velocity = glm::vec3(0.0f,randFloat(0.0f,-1.0f),0.0f);
+    asteroid->velocity = randomVelocity();
 }
 
 

@@ -164,7 +164,7 @@ void Window::initialize_objects()
     
     
     // Create asteroid group
-    int num_of_asteroids = 60;
+    int num_of_asteroids = 40;
     float bound_top = 50;
     float bound_down = -5;
     float bound_left = -5;
