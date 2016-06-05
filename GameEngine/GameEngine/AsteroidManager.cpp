@@ -12,7 +12,7 @@ bound_left(bound_left),
 bound_right(bound_right),
 bound_z_pos(bound_z_pos),
 bound_z_neg(bound_z_neg),
-speed_multiplier(0.8f),
+speed_multiplier(0.5f),
 numOfAsteroidsPassed(0)
 {
     //setting random seed
@@ -52,7 +52,8 @@ void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
     asteroid->material.shininess = 0;
     asteroid->setPosition(position);
     asteroid->scale(scale);
-    asteroid->rotate(randFloat(0, 180), glm::vec3(randFloat(0, 1),randFloat(0, 1),randFloat(0, 1)));
+    asteroid->rotationVelocity = randFloat(0, 5);
+    asteroid->transform.rotation = glm::vec3(randFloat(0, 1),randFloat(0, 1),randFloat(0, 1));
     asteroid->velocity = randomVelocity();
     asteroids.push_back(asteroid);
 }
@@ -62,6 +63,7 @@ void AsteroidGroup::moveAsteroids()
 {
     for(int i = 0; i < asteroids.size(); i ++){
         asteroids[i]->translate(asteroids[i]->velocity);
+        asteroids[i]->spin(asteroids[i]->rotationVelocity);
     }
 }
 
@@ -103,14 +105,48 @@ glm::vec3 AsteroidGroup::randomVelocity()
 void AsteroidGroup::reset(Asteroid* asteroid)
 {
     asteroid->setPosition(randomPosition());
+    asteroid->rotationVelocity = randFloat(0, 5);
+    asteroid->transform.rotation = glm::vec3(randFloat(0, 1),randFloat(0, 1),randFloat(0, 1));
     asteroid->velocity = randomVelocity();
 }
 
+// Called in update() to speed up asteroids over time based on the total num of asteroids passed
+void AsteroidGroup::levelUp()
+{
+    if (numOfAsteroidsPassed / 50 == 1)
+    {
+        speed_multiplier = 0.6f;
+        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
+    }
+    else if (numOfAsteroidsPassed / 100 == 1)
+    {
+        speed_multiplier = 0.7f;
+        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
+    }
+    else if (numOfAsteroidsPassed / 150 == 1)
+    {
+        speed_multiplier = 0.8f;
+        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
+    }
+    else if (numOfAsteroidsPassed / 150 == 1)
+    {
+        speed_multiplier = 0.9f;
+        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
+    }
+    else if (numOfAsteroidsPassed / 200 == 1)
+    {
+        speed_multiplier = 1.0f;
+        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
+    }
+
+//    std::cout << "Time since start up: " << glfwGetTime() << std::endl;
+}
 
 void AsteroidGroup::update()
 {
     moveAsteroids();
     checkBounds();
+    levelUp();
 }
 
 

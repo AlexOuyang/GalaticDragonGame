@@ -320,6 +320,12 @@ void OBJObject::spin(float deg, glm::vec3 axis)
     this->toWorld = this->toWorld * rotationMat;
 }
 
+// Spin based on transform rotation
+void OBJObject::spin(float deg)
+{
+    spin(deg, this->transform.rotation);
+}
+
 
 void OBJObject::translate(float x, float y, float z)
 {

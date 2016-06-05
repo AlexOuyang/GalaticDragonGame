@@ -44,7 +44,7 @@ struct Material
 struct Transform
 {
     glm::vec3 position;
-//    glm::vec3 rotation;
+    glm::vec3 rotation;
     glm::vec3 scale;
 };
 
@@ -90,6 +90,7 @@ public:
     void bindMaterialToShader(GLuint shaderProgram);
     
     void spin(float deg, glm::vec3 axis);
+    void spin(float deg);
     void translate(float x, float y, float z);
     void translate(glm::vec3 vec);
     void scale(float ratio);

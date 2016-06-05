@@ -11,6 +11,7 @@ class Asteroid : public OBJObject
 {
 public:
     glm::vec3 velocity;
+    float rotationVelocity;
     
     Asteroid(const char* filepath):
     OBJObject(filepath)
@@ -54,6 +55,9 @@ private:
     
     // Done in every update() to check if asteroids out of bound, if true the reset them.
     void checkBounds();
+    
+    // Called in update() to speed up asteroids over time based on the total num of asteroids passed
+    void levelUp();
     
 public:
     int numOfAsteroidsPassed;

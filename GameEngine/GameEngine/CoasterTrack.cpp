@@ -134,5 +134,5 @@ void CoasterTrack::updateMaxPositionAndTimeStep()
             current_bezier_curve_in_use = i;
         }
     }
-    std::cout << "highest y: " << maxHeightPos.y << "   " << current_bezier_curve_in_use << std::endl;
+//    std::cout << "highest y: " << maxHeightPos.y << "   " << current_bezier_curve_in_use << std::endl;
 }

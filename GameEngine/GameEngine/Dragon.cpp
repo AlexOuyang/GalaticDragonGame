@@ -25,7 +25,6 @@ type(type)
 void DragonWing::translationWing(float x, float y, float z)
 {
     this->transform.position += glm::vec3(x, y, z);
-    std::cout << glm::to_string(this->transform.position) << std::endl;
     this->translate(x,y,z);
 }
 
