@@ -320,7 +320,7 @@ void Window::idle_callback()
 {
     asteroidGroup->moveAsteroids();
     asteroidGroup->checkBounds();
-    std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
+//    std::cout << "num Asteroids passed: " << asteroidGroup->num_of_asteroids_passed << std::endl;
     
     leftWing->update();
     rightWing->update();
@@ -552,26 +552,26 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         {
 //            std::cerr << "left pressed " << std::endl;
             hero->translate(-hero_movement_scale,0.0f,0.0f);
-            leftWing->translate(-hero_movement_scale,0.0f,0.0f);
-            rightWing->translate(-hero_movement_scale,0.0f,0.0f);
+            leftWing->translationWing(-hero_movement_scale,0.0f,0.0f);
+            rightWing->translationWing(-hero_movement_scale,0.0f,0.0f);
         }
         if (key == GLFW_KEY_RIGHT)
         {
             hero->translate(hero_movement_scale,0.0f,0.0f);
-            leftWing->translate(hero_movement_scale,0.0f,0.0f);
-            rightWing->translate(hero_movement_scale,0.0f,0.0f);
+            leftWing->translationWing(hero_movement_scale,0.0f,0.0f);
+            rightWing->translationWing(hero_movement_scale,0.0f,0.0f);
         }
         if (key == GLFW_KEY_UP)
         {
             hero->translate(0.0f,0.0f,hero_movement_scale);
-            leftWing->translate(0.0f,0.0f,hero_movement_scale);
-            rightWing->translate(0.0f,0.0f,hero_movement_scale);
+            leftWing->translationWing(0.0f,0.0f,hero_movement_scale);
+            rightWing->translationWing(0.0f,0.0f,hero_movement_scale);
         }
         if (key == GLFW_KEY_DOWN)
         {
             hero->translate(0.0f,0.0f,-hero_movement_scale);
-            leftWing->translate(0.0f,0.0f,-hero_movement_scale);
-            rightWing->translate(0.0f,0.0f,-hero_movement_scale);
+            leftWing->translationWing(0.0f,0.0f,-hero_movement_scale);
+            rightWing->translationWing(0.0f,0.0f,-hero_movement_scale);
         }
     }
     

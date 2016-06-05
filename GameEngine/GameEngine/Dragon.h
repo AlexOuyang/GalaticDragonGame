@@ -23,6 +23,7 @@ public:
     DragonWing(const char* filepath, int type);
     
     void update();
+    void translationWing(float x, float y, float z);
 };
 
 
