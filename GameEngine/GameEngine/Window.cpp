@@ -369,7 +369,7 @@ void Window::cursor_position_callback(GLFWwindow* window, double xpos, double yp
             {
                 // Map the mouse position to a logical sphere location.
                 // Keep it in the class variable lastPoint.
-                lastPoint = trackBallMapping(-xpos, -ypos);
+                lastPoint = trackBallMapping(xpos, ypos);
                 
                 last_cursor_position = glm::vec2(xpos, -ypos);
                 
@@ -382,7 +382,7 @@ void Window::cursor_position_callback(GLFWwindow* window, double xpos, double yp
                 // Drag control points
                 if (controlManager->hasControlPointSelected())
                 {
-                    curr_cursor_position = glm::vec2(xpos, ypos);
+                    curr_cursor_position = glm::vec2(xpos, -ypos);
                     glm::vec2 cursor_displacement = curr_cursor_position - last_cursor_position;
                     
                     
