@@ -85,9 +85,10 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
     leftWing = new DragonWing(dragon_left_wing_path, 0);
     rightWing = new DragonWing(dragon_right_wing_path, 1);
 
-    // Create bonding box for body
+    // Create bonding box for dragon body
     body->createBoundingBox();
-    body->getBoundingBox()->scale(glm::vec3(1.2f, 0.3f, 0.3f));
+    body->getBoundingBox()->scale(glm::vec3(1.2f, 0.3f, 0.25f));
+    body->getBoundingBox()->translate(glm::vec3(0, 0, 0.1f));
     body->tag = "dragon";
     
     

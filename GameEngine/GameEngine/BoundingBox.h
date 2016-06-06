@@ -22,6 +22,9 @@ class BoundingBox
 private:
     float angle;
     GLuint VBO, VAO, EBO;
+    
+    // Offseet are used to position the bounding box away form the center
+    glm::vec3 pos_offset;
 
 public:
     static std::vector<BoundingBox*> boundingBoxes;
@@ -43,6 +46,8 @@ public:
     // Scale the radius, or halfwidth extents
     void scale(float ratio);
     void scale(glm::vec3 ratio);
+    void translate(glm::vec3 vec);
+
     
 };
 

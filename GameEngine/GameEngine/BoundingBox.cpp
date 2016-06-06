@@ -57,6 +57,7 @@ BoundingBox::BoundingBox(OBJObject * obj)
 {
     boundingBoxes.push_back(this);
     
+    this->pos_offset = glm::vec3(0);
     this->collided = false;
     this->parentObj = obj;
     this->toWorld = glm::mat4(1.0f);
@@ -106,7 +107,7 @@ BoundingBox::~BoundingBox()
 void BoundingBox::setCenter(glm::vec3 pos)
 {
     this->center = pos;
-    this->toWorld[3] = glm::vec4(this->center, 1);
+    this->toWorld[3] = glm::vec4(this->center + this->pos_offset, 1);
 }
 
 void BoundingBox::scale(float ratio)
@@ -123,12 +124,11 @@ void BoundingBox::scale(glm::vec3 ratio)
     this->toWorld = this->toWorld * scaleMat;
 }
 
-//void BoundingBox::setRadius(glm::vec3 scale)
-//{
-//    auto scaleMat = glm::scale(glm::mat4(1.0f), 1.0f / this->r * r);
-//    this->toWorld = this->toWorld * scaleMat;
-//    this->r = r;
-//}
+
+void BoundingBox::translate(glm::vec3 vec)
+{
+    this->pos_offset = vec;
+}
 
 void BoundingBox::draw(GLuint shaderProgram)
 {
