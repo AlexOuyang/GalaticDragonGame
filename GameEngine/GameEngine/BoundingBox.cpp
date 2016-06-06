@@ -44,6 +44,7 @@ BoundingBox::BoundingBox(OBJObject * obj)
 {
     boundingBoxes.push_back(this);
     
+    this->collided = false;
     this->parentObj = obj;
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
@@ -113,6 +114,8 @@ void BoundingBox::setRadius(glm::vec3 r)
 void BoundingBox::draw(GLuint shaderProgram)
 {
     glUseProgram(shaderProgram);
+    
+    glUniform1i(glGetUniformLocation(shaderProgram, "collided"), this->collided);
     
     GLuint P_mat = glGetUniformLocation(shaderProgram, "perspective");
     glUniformMatrix4fv(P_mat, 1, GL_FALSE, &Window::P[0][0]);

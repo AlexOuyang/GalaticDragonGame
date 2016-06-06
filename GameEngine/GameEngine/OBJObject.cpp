@@ -371,7 +371,10 @@ void OBJObject::setPosition(glm::vec3 pos)
     this->toWorld[3] = glm::vec4(pos, 1);
 }
 
-
+void OBJObject::update()
+{
+    updateBoundingBox();
+}
 
 
 /*=========== SSAO ============*/
@@ -405,25 +408,26 @@ BoundingBox * OBJObject::getBoundingBox()
 
 void OBJObject::updateBoundingBox()
 {
-    if (boundingBox != nullptr)
-        boundingBox->update(glm::vec3(toWorld[3]), glm::vec3(toWorld[0][0], toWorld[1][1], toWorld[2][2]));
+    if (!boundingBox) return;
+    boundingBox->update(glm::vec3(toWorld[3]), glm::vec3(toWorld[0][0], toWorld[1][1], toWorld[2][2]));
 }
 
-bool OBJObject::onCollision()
+bool OBJObject::onCollision(BoundingBox * b)
 {
-    BoundingBox * a = boundingBox;
-    for (int i = 0; i < BoundingBox::boundingBoxes.size(); i++)
-    {
-        BoundingBox * b = BoundingBox::boundingBoxes[i];
-        if (b != a)
-        {
-            std::cout << i << "    " << b->parentObj->tag << "    " << glm::to_string(b->r) << std::endl;
-            int r;
-            r = a->r[0] + b->r[0]; if ((unsigned int)(a->center[0] - b->center[0] + r) > r + r) return false;
-            r = a->r[1] + b->r[1]; if ((unsigned int)(a->center[1] - b->center[1] + r) > r + r) return false;
-            r = a->r[2] + b->r[2]; if ((unsigned int)(a->center[2] - b->center[2] + r) > r + r) return false;
-        }
-    }
+    BoundingBox * a = this->boundingBox;
+    if (b == a) return false;
+    
+    a->collided = false;
+    b->collided = false;
+    
+    std::cout << b->parentObj->tag << "    boundingBox pos:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
+    int r;
+    r = a->r[0] + b->r[0]; if ((unsigned int)(a->center[0] - b->center[0] + r) > r + r) return false;
+    r = a->r[1] + b->r[1]; if ((unsigned int)(a->center[1] - b->center[1] + r) > r + r) return false;
+    r = a->r[2] + b->r[2]; if ((unsigned int)(a->center[2] - b->center[2] + r) > r + r) return false;
+    
+    a->collided = true;
+    b->collided = true;
     // Overlapping on all axes means AABBs are intersecting
     return true;
 }
@@ -431,8 +435,9 @@ bool OBJObject::onCollision()
 
 void OBJObject::drawBoundingBox(GLint shaderProgram)
 {
+    if (!boundingBox) return;
+    
     glUseProgram(shaderProgram);
-    updateBoundingBox();
     boundingBox->draw(shaderProgram);
 }
 

@@ -101,11 +101,12 @@ enum CameraView
 CameraView camera_view = ORIGINAL_VIEW;
 
 // Shader programs
-GLint shaderProgram;
+GLint phongShaderProgram;
 GLint skyboxShaderProgram;
 GLint bezierCurveShaderProgram;
 GLint selectionBufferShaderProgram;
 GLint envirMappingShaderProgram;
+GLint boundingBoxShaderProgram;
 
 
 // Default camera parameters
@@ -127,7 +128,7 @@ void Window::initialize_objects()
     AudioManager::play_background_music();
     
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
-    shaderProgram = LoadShaders("./shaders/phong_shader.vert",
+    phongShaderProgram = LoadShaders("./shaders/phong_shader.vert",
                                 "./shaders/phong_shader.frag");
     skyboxShaderProgram = LoadShaders("./shaders/shader_skybox.vert",
                                       "./shaders/shader_skybox.frag");
@@ -137,6 +138,8 @@ void Window::initialize_objects()
                                                "./shaders/shader_selection_buffer.frag");
     envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
                                             "./shaders/shader_environmental_mapping.frag");
+    boundingBoxShaderProgram = LoadShaders("./shaders/shader_bounding_box.vert",
+                                           "./shaders/shader_bounding_box.frag");
     // Create shaders for SSAO
     SSAO::init(Window::width, Window::height, lightPos, lightColor);
     
@@ -195,11 +198,12 @@ void Window::clean_up()
     delete castle;
     delete asteroidGroup;
     delete controlManager;
-    glDeleteProgram(shaderProgram);
+    glDeleteProgram(phongShaderProgram);
     glDeleteProgram(skyboxShaderProgram);
     glDeleteProgram(bezierCurveShaderProgram);
     glDeleteProgram(envirMappingShaderProgram);
     glDeleteProgram(selectionBufferShaderProgram);
+    glDeleteProgram(boundingBoxShaderProgram);
     SSAO::delete_shaders();
 }
 
@@ -278,40 +282,42 @@ void Window::display_callback(GLFWwindow* window)
         
         
         /*====== Draw Light ======*/
-        glUseProgram(shaderProgram);
+        glUseProgram(phongShaderProgram);
         // Bind cameraPosition, or 'eye' to the shaderProgram
-        GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
-        glUniform3fv(v3_eye, 1, &cam_pos[0]);
+        glUniform3fv(glGetUniformLocation(phongShaderProgram, "eye"), 1, &cam_pos[0]);
         // Bind light to the shaderProgram
-        Light::bindDirectionalLightToShader(shaderProgram);
-        Light::bindPointLightToShader(shaderProgram);
-        Light::bindSpotLightToShader(shaderProgram);
+        Light::bindDirectionalLightToShader(phongShaderProgram);
+//        Light::bindPointLightToShader(phongShaderProgram);
+//        Light::bindSpotLightToShader(phongShaderProgram);
         
         /*====== Draw Game Objects ======*/
-        dragon->body->draw(shaderProgram);
-        dragon->leftWing->draw(shaderProgram);
-        dragon->rightWing->draw(shaderProgram);
+        dragon->body->draw(phongShaderProgram);
+        dragon->leftWing->draw(phongShaderProgram);
+        dragon->rightWing->draw(phongShaderProgram);
         
         for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
-            asteroidGroup->asteroids[i]->draw(shaderProgram);
+            asteroidGroup->asteroids[i]->draw(phongShaderProgram);
         
         /*===== Draw Bounding Boxes Via Wireframe ======*/
+        
+
+
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         
-        dragon->body->drawBoundingBox(shaderProgram);
+        glUseProgram(boundingBoxShaderProgram);
+        // Bind cameraPosition, or 'eye' to the shaderProgram
+        glUniform3fv(glGetUniformLocation(boundingBoxShaderProgram, "eye"), 1, &cam_pos[0]);
+        // Bind light to the shaderProgram
+        Light::bindDirectionalLightToShader(boundingBoxShaderProgram);
+//        Light::bindPointLightToShader(boundingBoxShaderProgram);
+//        Light::bindSpotLightToShader(boundingBoxShaderProgram);
+        dragon->body->drawBoundingBox(boundingBoxShaderProgram);
         for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
-            asteroidGroup->asteroids[i]->drawBoundingBox(shaderProgram);
+            asteroidGroup->asteroids[i]->drawBoundingBox(boundingBoxShaderProgram);
         
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        //        /        glEnable(GL_COLOR_MATERIAL);
-        //        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        //        //        glColor3ub(255,0,0); // bright red
-        //
-        //        bound->draw(shaderProgram);
-        //        //        glColor3ub(255,255,255); // back to default white
-        //        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         
     }
     
@@ -333,7 +339,15 @@ void Window::idle_callback()
         
         dragon->update(moveLeft, moveRight, moveUp, moveDown);
         
-        collided = dragon->body->onCollision();
+        // Check for collision
+        BoundingBox * other;
+        for (int i = 0; i < BoundingBox::boundingBoxes.size(); i++)
+        {
+            other = BoundingBox::boundingBoxes[i];
+            collided = dragon->body->onCollision(other);
+            std::cout << "Collided: " << collided << std::endl;
+            if (collided) return;
+        }
     }
 }
 

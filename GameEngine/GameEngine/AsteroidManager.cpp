@@ -66,6 +66,7 @@ void AsteroidGroup::moveAsteroids()
     for(int i = 0; i < asteroids.size(); i ++){
         asteroids[i]->translate(asteroids[i]->velocity);
         asteroids[i]->spin(asteroids[i]->rotationVelocity);
+        asteroids[i]->update();
     }
 }
 

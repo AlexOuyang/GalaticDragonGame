@@ -92,6 +92,8 @@ public:
     void rotate(float rotAngle, glm::vec3 rotAxis);
     void setPosition(glm::vec3 pos);
     
+    virtual void update();
+    
     // This draws the model using Phong shading
     void draw(GLuint shaderProgram);
     
@@ -108,7 +110,7 @@ public:
     BoundingBox * getBoundingBox();
     void updateBoundingBox();
     // Collision detection from this object to other game object
-    bool onCollision();
+    bool onCollision(BoundingBox * bound);
     void drawBoundingBox(GLint shaderProgram);
     
 };

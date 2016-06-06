@@ -133,6 +133,7 @@ Dragon::~Dragon()
 void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
 {
     flap();
+    body->update();
     
     if(moveLeft)
         this->translate(-speed,0.0f,0.0f);

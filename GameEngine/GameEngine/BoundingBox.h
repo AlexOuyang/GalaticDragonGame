@@ -23,7 +23,7 @@ private:
 
 public:
     static std::vector<BoundingBox*> boundingBoxes;
-    
+    bool collided;
     OBJObject * parentObj;
     glm::vec3 center; // center point of AABB
     glm::vec3 r; // radius or halfwidth extents (rx, ry, rz)
