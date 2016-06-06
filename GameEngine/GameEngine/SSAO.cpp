@@ -92,7 +92,7 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, heigth, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gAlbedo, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gAlbedo, 0);
     // - Tell OpenGL which color attachments we'll use (of this framebuffer) for rendering
     GLuint attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
     glDrawBuffers(3, attachments);
@@ -163,7 +163,7 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
 }
 

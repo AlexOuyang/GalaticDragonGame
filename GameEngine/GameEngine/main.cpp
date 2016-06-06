@@ -52,7 +52,7 @@ void setup_opengl_settings()
 	glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 	// Set clear color
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void print_versions()

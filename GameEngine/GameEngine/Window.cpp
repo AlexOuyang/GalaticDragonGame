@@ -268,8 +268,11 @@ void Window::display_callback(GLFWwindow* window)
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    /*====== Draw SSAO ======*/
     
+    /*====== Draw Sybox ======*/
+//    skybox->draw(skyboxShaderProgram);
+    
+    /*====== Draw SSAO ======*/
     if(drawSSAO)
     {
         SSAO::draw();
@@ -277,10 +280,6 @@ void Window::display_callback(GLFWwindow* window)
     /*====== Draw Phong Shader =======*/
     else
     {
-        /*====== Draw Sybox ======*/
-        //    skybox->draw(skyboxShaderProgram);
-        
-        
         /*====== Draw Light ======*/
         glUseProgram(phongShaderProgram);
         // Bind cameraPosition, or 'eye' to the shaderProgram
@@ -752,11 +751,6 @@ void Window::selection_buffer_click(double xpos, double ypos)
     //    std::cout << "window height: " << height<< std::endl;
     //    std::cout << "window width: " << width<< std::endl;
     //    std::cout << "x: " << xpos << "   y: " << height-ypos << "   id: " << recovered_ID << std::endl;
-    
-    
-    // restore clear color if needed
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    
 }
 
 // Move control points by displacement

@@ -130,6 +130,7 @@
 		56A8EABB1CFF0D450050CF1A /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				56A8EADC1CFF0DE40050CF1A /* shaders */,
 				56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */,
 				56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */,
 				56A8EAF21CFF81620050CF1A /* AudioManager.cpp */,
@@ -166,7 +167,6 @@
 				56A8EAE01CFF0DE40050CF1A /* SSAO.h */,
 				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
 				56A8EAE41CFF0DE40050CF1A /* Window.h */,
-				56A8EADC1CFF0DE40050CF1A /* shaders */,
 			);
 			path = GameEngine;
 			sourceTree = SOURCE_ROOT;
