@@ -49,7 +49,7 @@ void DragonWing::update()
         
         this->translate(this->transform.position);
         
-//        std::cout << angle << std::endl;
+        //        std::cout << angle << std::endl;
     }
     else if (this->type == 1) // right wing
     {
@@ -62,14 +62,14 @@ void DragonWing::update()
         auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), glm::vec3(0,1,0));
         
         this->translate(-this->transform.position);
-
+        
         this->translate(-0.05f, 0, 0);
         this->toWorld = rotationMat * this->toWorld;
         this->translate(0.05f, 0, 0);
         
         this->translate(this->transform.position);
-
-//        std::cout << angle << std::endl;
+        
+        //        std::cout << angle << std::endl;
     }
 }
 
@@ -84,6 +84,7 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
     body = new OBJObject(dragon_body_path);
     leftWing = new DragonWing(dragon_left_wing_path, 0);
     rightWing = new DragonWing(dragon_right_wing_path, 1);
+
     
     // Set up the dragon model
     body->scale(1.1f);
@@ -97,10 +98,10 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
     // Rotate the dragon body parts since blender exported orientation is off
     body->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
     body->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
-
+    
     leftWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
     leftWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
-
+    
     rightWing->rotate(90.0f,glm::vec3(-1.0f,0.0f,0.0f));
     rightWing->rotate(180.0f,glm::vec3(0.0f,1.0f,0.0f));
 }

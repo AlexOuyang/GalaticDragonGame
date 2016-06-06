@@ -219,6 +219,7 @@ dependencies: \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Window.h \
   ../lib/glew-1.13.0/include/GL/glew.h \
   ../lib/glfw-3.1.2/include/GLFW/glfw3.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Light.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/SSAO.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/OBJObject.h \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/predicate.hpp \

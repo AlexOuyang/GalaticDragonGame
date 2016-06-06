@@ -28,6 +28,7 @@
 		56A8EAFA1CFF81FE0050CF1A /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */; };
 		56A8EAFC1CFF81FE0050CF1A /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF81CFF81FE0050CF1A /* SDL2.framework */; };
 		56A8EB021CFFB0D60050CF1A /* AsteroidManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */; };
+		56D54EAC1D04E023000CBE9F /* BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56D54EAA1D04E023000CBE9F /* BoundingBox.cpp */; };
 		67D670ED1D00BCFF00C9F5F7 /* ParticleGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,8 @@
 		56A8EAF81CFF81FE0050CF1A /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AsteroidManager.cpp; path = GameEngine/AsteroidManager.cpp; sourceTree = SOURCE_ROOT; };
 		56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsteroidManager.h; path = GameEngine/AsteroidManager.h; sourceTree = SOURCE_ROOT; };
+		56D54EAA1D04E023000CBE9F /* BoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingBox.cpp; sourceTree = "<group>"; };
+		56D54EAB1D04E023000CBE9F /* BoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBox.h; sourceTree = "<group>"; };
 		67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleGenerator.cpp; sourceTree = "<group>"; };
 		67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,7 +130,8 @@
 		56A8EABB1CFF0D450050CF1A /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
-				56A8EADC1CFF0DE40050CF1A /* shaders */,
+				56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */,
+				56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */,
 				56A8EAF21CFF81620050CF1A /* AudioManager.cpp */,
 				56A8EAF31CFF81620050CF1A /* AudioManager.h */,
 				56A8EAC91CFF0DE40050CF1A /* BezierCurve.cpp */,
@@ -138,6 +142,8 @@
 				56A8EACE1CFF0DE40050CF1A /* Control.h */,
 				56A8EACF1CFF0DE40050CF1A /* Cube.cpp */,
 				56A8EAD01CFF0DE40050CF1A /* Cube.h */,
+				56A7A8911D02E81A001DBB16 /* Dragon.cpp */,
+				56A7A8921D02E81A001DBB16 /* Dragon.h */,
 				56A8EAD11CFF0DE40050CF1A /* Light.cpp */,
 				56A8EAD21CFF0DE40050CF1A /* Light.h */,
 				56A8EAD31CFF0DE40050CF1A /* loadPPM.cpp */,
@@ -148,20 +154,19 @@
 				56A8EAD71CFF0DE40050CF1A /* Node.h */,
 				56A8EAD81CFF0DE40050CF1A /* OBJObject.cpp */,
 				56A8EAD91CFF0DE40050CF1A /* OBJObject.h */,
+				56D54EAA1D04E023000CBE9F /* BoundingBox.cpp */,
+				56D54EAB1D04E023000CBE9F /* BoundingBox.h */,
+				67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */,
+				67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */,
 				56A8EADA1CFF0DE40050CF1A /* shader.cpp */,
 				56A8EADB1CFF0DE40050CF1A /* shader.h */,
 				56A8EADD1CFF0DE40050CF1A /* skybox.cpp */,
 				56A8EADE1CFF0DE40050CF1A /* skybox.h */,
 				56A8EADF1CFF0DE40050CF1A /* SSAO.cpp */,
 				56A8EAE01CFF0DE40050CF1A /* SSAO.h */,
-				56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */,
-				56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */,
 				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
 				56A8EAE41CFF0DE40050CF1A /* Window.h */,
-				67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */,
-				67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */,
-				56A7A8911D02E81A001DBB16 /* Dragon.cpp */,
-				56A7A8921D02E81A001DBB16 /* Dragon.h */,
+				56A8EADC1CFF0DE40050CF1A /* shaders */,
 			);
 			path = GameEngine;
 			sourceTree = SOURCE_ROOT;
@@ -225,6 +230,7 @@
 				56A8EAED1CFF0DE40050CF1A /* shader.cpp in Sources */,
 				67D670ED1D00BCFF00C9F5F7 /* ParticleGenerator.cpp in Sources */,
 				56A8EAE91CFF0DE40050CF1A /* Light.cpp in Sources */,
+				56D54EAC1D04E023000CBE9F /* BoundingBox.cpp in Sources */,
 				56A8EB021CFFB0D60050CF1A /* AsteroidManager.cpp in Sources */,
 				56A8EAE51CFF0DE40050CF1A /* BezierCurve.cpp in Sources */,
 				56A8EAEF1CFF0DE40050CF1A /* SSAO.cpp in Sources */,

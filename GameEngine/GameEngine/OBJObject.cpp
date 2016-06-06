@@ -1,6 +1,7 @@
 
 #include "glm/ext.hpp" // print out glm matrices
 #include "Window.h"
+#include "Light.h"
 #include "SSAO.h"
 
 #include "OBJObject.h"
@@ -14,14 +15,18 @@ OBJObject::OBJObject(const char *filepath)
     this->transform.scale = glm::vec3(1.0f);
     
     // Default materials are zero vectors
-    this->material.k_a = glm::vec3(1.0f);
-    this->material.k_s = glm::vec3(1.0f);
-    this->material.k_d = glm::vec3(1.0f);
-    this->material.shininess = 1.0f;
+        this->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+    this->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+    this->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+    this->material.shininess = 0.4f * Light::LIGHT_SHINENESS_COEFFICIENT;
+//    this->material.k_a = glm::vec3(1.0f);
+//    this->material.k_s = glm::vec3(1.0f);
+//    this->material.k_d = glm::vec3(1.0f);
+//    this->material.shininess = 1.0f;
     
     // By Default, the bounding box has size rx = 0.5, ry = 0.5, rz = 0.5
-    this->bound.center = transform.position;
-    this->bound.r = glm::vec3(0.5f);
+//    this->bound.center = transform.position;
+//    this->bound.r = glm::vec3(0.5f);
     
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
@@ -383,12 +388,12 @@ void OBJObject::drawSSAO(GLuint shaderProgram)
 
 bool OBJObject::onCollision(OBJObject * gameObject)
 {
-    BoundingBox a = this->bound;
-    BoundingBox b = gameObject->bound;
-    int r;
-    r = a.r[0] + b.r[0]; if ((unsigned int)(a.center[0] - b.center[0] + r) > r + r) return false;
-    r = a.r[1] + b.r[1]; if ((unsigned int)(a.center[1] - b.center[1] + r) > r + r) return false;
-    r = a.r[2] + b.r[2]; if ((unsigned int)(a.center[2] - b.center[2] + r) > r + r) return false;
+//    BoundingBox a = this->bound;
+//    BoundingBox b = gameObject->bound;
+//    int r;
+//    r = a.r[0] + b.r[0]; if ((unsigned int)(a.center[0] - b.center[0] + r) > r + r) return false;
+//    r = a.r[1] + b.r[1]; if ((unsigned int)(a.center[1] - b.center[1] + r) > r + r) return false;
+//    r = a.r[2] + b.r[2]; if ((unsigned int)(a.center[2] - b.center[2] + r) > r + r) return false;
     return true;
 }
 

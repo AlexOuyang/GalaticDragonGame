@@ -24,6 +24,7 @@
 class Light
 {
 public:
+    constexpr static const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
     enum LightToUse
     {
         NONE,

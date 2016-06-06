@@ -16,15 +16,6 @@
 #include <boost/algorithm/string/split.hpp> // Split strings
 
 
-/**
- * AABB Bounding box
- * region R = (x, y, z) | |c.x-x|<=rx, |c.y-y|<=ry, |c.z-z|<=rz
- */
-struct BoundingBox
-{
-    glm::vec3 center; // center point of AABB
-    glm::vec3 r; // radius or halfwidth extents (rx, ry, rz)
-};
 
 
 /**
@@ -79,7 +70,7 @@ private:
 public:
     Transform transform;
     Material material;
-    BoundingBox bound;
+//    BoundingBox bound;
     glm::mat4 toWorld;
     
     OBJObject(const char* filepath);

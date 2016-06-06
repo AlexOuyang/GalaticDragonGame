@@ -12,6 +12,7 @@
 #include "AudioManager.h"
 #include "AsteroidManager.h"
 #include "Dragon.h"
+#include "BoundingBox.h"
 
 //defined static member variables
 int Window::width;
@@ -47,6 +48,8 @@ Skybox * skybox = nullptr;
 Dragon * dragon = nullptr;
 OBJObject * castle = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
+
+bool drawSSAO = true;
 
 
 //SSAO Light Properties
@@ -113,8 +116,6 @@ glm::vec3 cam_pos(0,-3,1.5);    //game pos of cam (ZOOMED OUT)
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
 
-const float LIGHT_SHINENESS_COEFFICIENT = 120.0f;
-
 void Window::initialize_objects()
 {
     controlManager = new ControlManager();
@@ -149,9 +150,9 @@ void Window::initialize_objects()
                         "../../Textures/Skybox/mp_orbital/front.ppm");
     
     
-//    // Set up light
-//    Light::setup();
-//    Light::useLight(Light::DIRECTIONAL_LIGHT);
+    // Set up light for phong shader
+    Light::setup();
+    Light::useLight(Light::DIRECTIONAL_LIGHT);
     
     
     // Hero of the game
@@ -161,7 +162,6 @@ void Window::initialize_objects()
     SSAO::add_obj(dragon->body);
     SSAO::add_obj(dragon->leftWing);
     SSAO::add_obj(dragon->rightWing);
-    
     
     // Create asteroid group
     int num_of_asteroids = 40;
@@ -179,11 +179,11 @@ void Window::initialize_objects()
     
     
     // Create castle
-//    castle = new OBJObject("../../Models/castle.obj");
-//    castle->rotate(90.0f,glm::vec3(1.0f,0.0f,0.0f));
-//    castle->scale(10);
-//    castle->translate(0, -2, 0);
-//    SSAO::add_obj(castle);
+    //    castle = new OBJObject("../../Models/castle.obj");
+    //    castle->rotate(90.0f,glm::vec3(1.0f,0.0f,0.0f));
+    //    castle->scale(10);
+    //    castle->translate(0, -2, 0);
+    //    SSAO::add_obj(castle);
 }
 
 
@@ -263,34 +263,37 @@ void Window::display_callback(GLFWwindow* window)
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    
-    
-//
-    
     /*====== Draw SSAO ======*/
     
-    
-    SSAO::draw();
-    
-    
-    /*====== Draw Sybox ======*/
-//    skybox->draw(skyboxShaderProgram);
-    
-    
-//    /*====== Draw Light ======*/
-//    glUseProgram(shaderProgram);
-//    // Bind cameraPosition, or 'eye' to the shaderProgram
-//    GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
-//    glUniform3fv(v3_eye, 1, &cam_pos[0]);
-//    // Bind light to the shaderProgram
-//    Light::bindDirectionalLightToShader(shaderProgram);
-//    Light::bindPointLightToShader(shaderProgram);
-//    Light::bindSpotLightToShader(shaderProgram);
-//    
-//    /*====== Draw hero ======*/
-//    glUseProgram(shaderProgram);
-//    hero->draw(shaderProgram);
-    
+    if(drawSSAO)
+    {
+        SSAO::draw();
+    }
+    /*====== Draw Phong Shader =======*/
+    else
+    {
+        /*====== Draw Sybox ======*/
+        //    skybox->draw(skyboxShaderProgram);
+        
+        
+        //    /*====== Draw Light ======*/
+        glUseProgram(shaderProgram);
+        // Bind cameraPosition, or 'eye' to the shaderProgram
+        GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
+        glUniform3fv(v3_eye, 1, &cam_pos[0]);
+        // Bind light to the shaderProgram
+        Light::bindDirectionalLightToShader(shaderProgram);
+        Light::bindPointLightToShader(shaderProgram);
+        Light::bindSpotLightToShader(shaderProgram);
+        //
+        //    /*====== Draw hero ======*/
+        dragon->body->draw(shaderProgram);
+        dragon->leftWing->draw(shaderProgram);
+        dragon->rightWing->draw(shaderProgram);
+        
+        for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
+            asteroidGroup->asteroids[i]->draw(shaderProgram);
+    }
     
     // Swap buffers
     glfwSwapBuffers(window);
@@ -304,10 +307,10 @@ void Window::display_callback(GLFWwindow* window)
 void Window::idle_callback()
 {
     asteroidGroup->update();
-//    std::cout << "Num of Asteroids passed: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
+    //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
     
     dragon->update(moveLeft, moveRight, moveUp, moveDown);
-    
+    std::cout << glm::to_string(dragon->body->toWorld[3]) << std::endl;
 }
 
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -522,6 +525,11 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         if (key == GLFW_KEY_C)
         {
             change_cam();
+        }
+        
+        if (key == GLFW_KEY_T)
+        {
+            drawSSAO = !drawSSAO;
         }
         
     }
@@ -744,7 +752,7 @@ void Window::drag_control_point(glm::vec2 displacement)
     //        auto mirror_point = affected_control_points[0];
     //        mirror_point->pos = mirror_point->pos - glm::vec4(displacement.x * cam_x, 0.0f) - glm::vec4(displacement.y * cam_y, 0.0f);
     //    }
-    //    
+    //
     //    track->updateCurve();
     
 }
