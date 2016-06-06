@@ -37,10 +37,11 @@ GLuint boundingBoxIndices[] = {  // Note that we start from 0!
 
 BoundingBox::BoundingBox()
 {
-    
-	this->toWorld = glm::mat4(1.0f);
-
-	this->angle = 0.0f;
+    this->toWorld = glm::mat4(1.0f);
+    this->angle = 0.0f;
+//    this->center = center;
+//    this->r = r;
+//    this->scale(r * 2.0f);
 
 	// Create buffers/arrays
 	glGenVertexArrays(1, &VAO);
@@ -79,6 +80,20 @@ BoundingBox::~BoundingBox()
 	glDeleteBuffers(1, &EBO);
 }
 
+
+void BoundingBox::setCenter(glm::vec3 pos)
+{
+    this->center = pos;
+    this->toWorld[3] = glm::vec4(this->center, 1);
+}
+
+void BoundingBox::setRadius(glm::vec3 r)
+{
+    auto scaleMat = glm::scale(glm::mat4(1.0f), 1.0f / this->r * r);
+    this->toWorld = this->toWorld * scaleMat;
+    this->r = r;
+}
+
 void BoundingBox::draw(GLuint shaderProgram)
 {
     glUseProgram(shaderProgram);
@@ -97,8 +112,13 @@ void BoundingBox::draw(GLuint shaderProgram)
 	glBindVertexArray(0);
 }
 
-void BoundingBox::update()
+void BoundingBox::update(glm::vec3 objectPos, glm::vec3 objectScale)
 {
+    this->setCenter(objectPos);
+//    this->setRadius(objectScale);
 }
+
+
+
 
 

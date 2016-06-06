@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Light.h"
 #include "SSAO.h"
+#include "BoundingBox.h"
 
 #include "OBJObject.h"
 
@@ -15,7 +16,7 @@ OBJObject::OBJObject(const char *filepath)
     this->transform.scale = glm::vec3(1.0f);
     
     // Default materials are zero vectors
-        this->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+    this->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
     this->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
     this->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
     this->material.shininess = 0.4f * Light::LIGHT_SHINENESS_COEFFICIENT;
@@ -24,9 +25,6 @@ OBJObject::OBJObject(const char *filepath)
 //    this->material.k_d = glm::vec3(1.0f);
 //    this->material.shininess = 1.0f;
     
-    // By Default, the bounding box has size rx = 0.5, ry = 0.5, rz = 0.5
-//    this->bound.center = transform.position;
-//    this->bound.r = glm::vec3(0.5f);
     
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
@@ -99,6 +97,7 @@ void OBJObject::setUpVertexArrayBuffer()
 
 
 OBJObject::~OBJObject() {
+    if (boundingBox != nullptr) delete boundingBox;
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &NBO);
@@ -386,6 +385,24 @@ void OBJObject::drawSSAO(GLuint shaderProgram)
 
 /*========= Collision Detection ===========*/
 
+
+void OBJObject::createBoundingBox()
+{
+    // By Default, the bounding box has size rx = 0.5, ry = 0.5, rz = 0.5
+    this->boundingBox = new BoundingBox();
+}
+
+BoundingBox * OBJObject::getBoundingBox()
+{
+    return (boundingBox != nullptr) ? boundingBox : nullptr;
+}
+
+void OBJObject::updateBoundingBox()
+{
+    if (boundingBox != nullptr)
+        boundingBox->update(glm::vec3(toWorld[3]), glm::vec3(toWorld[0][0], toWorld[1][1], toWorld[2][2]));
+}
+
 bool OBJObject::onCollision(OBJObject * gameObject)
 {
 //    BoundingBox a = this->bound;
@@ -398,5 +415,11 @@ bool OBJObject::onCollision(OBJObject * gameObject)
 }
 
 
+void OBJObject::drawBoundingBox(GLint shaderProgram)
+{
+    glUseProgram(shaderProgram);
+    updateBoundingBox();
+    boundingBox->draw(shaderProgram);
+}
 
 

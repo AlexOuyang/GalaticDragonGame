@@ -599,4 +599,5 @@ dependencies: \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/config_end.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils_core.hpp \
-  /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp
+  /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/BoundingBox.h

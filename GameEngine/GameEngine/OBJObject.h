@@ -14,6 +14,7 @@
 #include <boost/algorithm/string/predicate.hpp> // Check for string prefixes
 #include <boost/algorithm/string/classification.hpp> // Delimiters for splitting strings
 #include <boost/algorithm/string/split.hpp> // Split strings
+#include "BoundingBox.h"
 
 
 
@@ -47,6 +48,8 @@ struct Transform
 class OBJObject
 {
 private:
+    BoundingBox * boundingBox;
+    
     /*==== For Rendering Obj ===*/
     GLuint VAO; // Vertex Array Object
     GLuint VBO; // Vertex Buffer Object
@@ -70,7 +73,6 @@ private:
 public:
     Transform transform;
     Material material;
-//    BoundingBox bound;
     glm::mat4 toWorld;
     
     OBJObject(const char* filepath);
@@ -101,9 +103,16 @@ public:
     //This draws the model using SSAO
     void drawSSAO(GLuint shaderProgram);
     
+
+
+    /*==== Collision ====*/
+    void createBoundingBox();
+    BoundingBox * getBoundingBox();
+    void updateBoundingBox();
     // Collision detection from this object to other game object
     bool onCollision(OBJObject * gameObject);
-
+    void drawBoundingBox(GLint shaderProgram);
+    
 };
 
 #endif

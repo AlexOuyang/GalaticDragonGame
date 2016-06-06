@@ -597,6 +597,7 @@ dependencies: \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils_core.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/BoundingBox.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Node.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/skybox.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/BezierCurve.h \
@@ -650,5 +651,4 @@ dependencies: \
   /Library/Frameworks/SDL2.framework/Headers/SDL_version.h \
   /Library/Frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AsteroidManager.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Dragon.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/BoundingBox.h
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Dragon.h

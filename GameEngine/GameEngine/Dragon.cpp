@@ -85,6 +85,9 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
     leftWing = new DragonWing(dragon_left_wing_path, 0);
     rightWing = new DragonWing(dragon_right_wing_path, 1);
 
+    // Create bonding box for body
+    body->createBoundingBox();
+    
     
     // Set up the dragon model
     body->scale(1.1f);

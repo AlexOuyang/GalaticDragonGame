@@ -48,8 +48,8 @@ Skybox * skybox = nullptr;
 Dragon * dragon = nullptr;
 OBJObject * castle = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
+BoundingBox * bound = nullptr;
 
-bool drawSSAO = true;
 
 
 //SSAO Light Properties
@@ -62,6 +62,7 @@ glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
+bool drawSSAO = true;
 
 bool moveLeft = false;
 bool moveRight = false;
@@ -136,8 +137,8 @@ void Window::initialize_objects()
                                                "./shaders/shader_selection_buffer.frag");
     envirMappingShaderProgram = LoadShaders("./shaders/shader_environmental_mapping.vert",
                                             "./shaders/shader_environmental_mapping.frag");
-    
-    SSAO::init(Window::width, Window::height, lightPos, lightColor); // Create shaders for SSAO
+    // Create shaders for SSAO
+    SSAO::init(Window::width, Window::height, lightPos, lightColor);
     
     
     // Set up skybox after creating shaders
@@ -173,10 +174,11 @@ void Window::initialize_objects()
     float bound_z_neg = -5;
     asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down,
                                       bound_left, bound_right, bound_z_pos, bound_z_neg);
-    
     for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
         SSAO::add_obj(asteroidGroup->asteroids[i]);
     
+    
+    bound = new BoundingBox();
     
     // Create castle
     //    castle = new OBJObject("../../Models/castle.obj");
@@ -276,7 +278,7 @@ void Window::display_callback(GLFWwindow* window)
         //    skybox->draw(skyboxShaderProgram);
         
         
-        //    /*====== Draw Light ======*/
+        /*====== Draw Light ======*/
         glUseProgram(shaderProgram);
         // Bind cameraPosition, or 'eye' to the shaderProgram
         GLuint v3_eye = glGetUniformLocation(shaderProgram, "eye");
@@ -285,14 +287,31 @@ void Window::display_callback(GLFWwindow* window)
         Light::bindDirectionalLightToShader(shaderProgram);
         Light::bindPointLightToShader(shaderProgram);
         Light::bindSpotLightToShader(shaderProgram);
-        //
-        //    /*====== Draw hero ======*/
+        
+        /*====== Draw Game Objects ======*/
         dragon->body->draw(shaderProgram);
         dragon->leftWing->draw(shaderProgram);
         dragon->rightWing->draw(shaderProgram);
         
         for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
             asteroidGroup->asteroids[i]->draw(shaderProgram);
+        
+        /*===== Draw Bounding Boxes Via Wireframe ======*/
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+        dragon->body->drawBoundingBox(shaderProgram);
+        for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
+            asteroidGroup->asteroids[i]->drawBoundingBox(shaderProgram);
+        
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//        /        glEnable(GL_COLOR_MATERIAL);
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//        //        glColor3ub(255,0,0); // bright red
+//        
+//        bound->draw(shaderProgram);
+//        //        glColor3ub(255,255,255); // back to default white
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
     }
     
     // Swap buffers

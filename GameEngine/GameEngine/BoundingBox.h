@@ -22,11 +22,14 @@ public:
     glm::vec3 r; // radius or halfwidth extents (rx, ry, rz)
     glm::mat4 toWorld;
     
-	BoundingBox();
+    BoundingBox();
 	~BoundingBox();
 
 	void draw(GLuint);
-	void update();
+	void update(glm::vec3 objectPos, glm::vec3 objectScale);
+
+    void setRadius(glm::vec3 r);
+    void setCenter(glm::vec3 pos);
 };
 
 #endif
