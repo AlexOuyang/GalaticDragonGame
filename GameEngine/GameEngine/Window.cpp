@@ -298,9 +298,6 @@ void Window::display_callback(GLFWwindow* window)
             asteroidGroup->asteroids[i]->draw(phongShaderProgram);
         
         /*===== Draw Bounding Boxes Via Wireframe ======*/
-        
-
-
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

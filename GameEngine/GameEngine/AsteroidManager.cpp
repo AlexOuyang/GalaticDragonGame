@@ -117,33 +117,15 @@ void AsteroidGroup::reset(Asteroid* asteroid)
 // Called in update() to speed up asteroids over time based on the total num of asteroids passed
 void AsteroidGroup::levelUp()
 {
-    if (numOfAsteroidsPassed / 50 == 1)
-    {
-        speed_multiplier = 0.6f;
-        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
-    }
-    else if (numOfAsteroidsPassed / 100 == 1)
-    {
-        speed_multiplier = 0.7f;
-        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
-    }
-    else if (numOfAsteroidsPassed / 150 == 1)
-    {
-        speed_multiplier = 0.8f;
-        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
-    }
-    else if (numOfAsteroidsPassed / 150 == 1)
-    {
-        speed_multiplier = 0.9f;
-        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
-    }
-    else if (numOfAsteroidsPassed / 200 == 1)
-    {
-        speed_multiplier = 1.0f;
-        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
-    }
-
-//    std::cout << "Time since start up: " << glfwGetTime() << std::endl;
+    if (numOfAsteroidsPassed / 50 == 1) speed_multiplier = 0.6f;
+    else if (numOfAsteroidsPassed / 100 == 1) speed_multiplier = 0.7f;
+    else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 0.8f;
+    else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 0.9f;
+    else if (numOfAsteroidsPassed / 200 == 1) speed_multiplier = 1.0f;
+    
+    //        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
+    
+    //    std::cout << "Time since start up: " << glfwGetTime() << std::endl;
 }
 
 void AsteroidGroup::update()
