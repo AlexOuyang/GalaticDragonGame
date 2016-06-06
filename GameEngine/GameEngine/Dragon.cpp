@@ -87,6 +87,7 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
 
     // Create bonding box for body
     body->createBoundingBox();
+    body->tag = "dragon";
     
     
     // Set up the dragon model

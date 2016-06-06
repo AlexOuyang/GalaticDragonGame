@@ -11,6 +11,8 @@
 
 OBJObject::OBJObject(const char *filepath)
 {
+    this->tag = "default";
+    
     // Default transform
     this->transform.position = glm::vec3(0);
     this->transform.scale = glm::vec3(1.0f);
@@ -20,10 +22,10 @@ OBJObject::OBJObject(const char *filepath)
     this->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
     this->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
     this->material.shininess = 0.4f * Light::LIGHT_SHINENESS_COEFFICIENT;
-//    this->material.k_a = glm::vec3(1.0f);
-//    this->material.k_s = glm::vec3(1.0f);
-//    this->material.k_d = glm::vec3(1.0f);
-//    this->material.shininess = 1.0f;
+    //    this->material.k_a = glm::vec3(1.0f);
+    //    this->material.k_s = glm::vec3(1.0f);
+    //    this->material.k_d = glm::vec3(1.0f);
+    //    this->material.shininess = 1.0f;
     
     
     this->toWorld = glm::mat4(1.0f);
@@ -72,18 +74,18 @@ void OBJObject::setUpVertexArrayBuffer()
     glBindBuffer(GL_ARRAY_BUFFER, NBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * normals.size(), &normals[0], GL_STATIC_DRAW);
     
-//    // This gives vertex position and offset information to the shader
-//    glVertexAttribPointer(0,// This first parameter x should be the same as the number passed into the line "layout (location = x)" in the vertex shader. In this case, it's 0. Valid values are 0 to GL_MAX_UNIFORM_LOCATIONS.
-//                          3, // This second line tells us how any components there are per vertex. In this case, it's 3 (we have an x, y, and z component)
-//                          GL_FLOAT, // What type these components are
-//                          GL_FALSE, // GL_TRUE means the values should be normalized. GL_FALSE means they shouldn't
-//                          3 * sizeof(GLfloat), // Offset between consecutive vertex attributes. Since each of our vertices have 3 floats, they should have the size of 3 floats in between
-//                          (GLvoid*)0); // Offset of the first vertex's component. In our case it's 0 since we don't pad the vertices array with anything.
-//    glEnableVertexAttribArray(0);
-//    
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
-//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * normalIndices.size(), &normalIndices[0], GL_STATIC_DRAW);
-//    
+    //    // This gives vertex position and offset information to the shader
+    //    glVertexAttribPointer(0,// This first parameter x should be the same as the number passed into the line "layout (location = x)" in the vertex shader. In this case, it's 0. Valid values are 0 to GL_MAX_UNIFORM_LOCATIONS.
+    //                          3, // This second line tells us how any components there are per vertex. In this case, it's 3 (we have an x, y, and z component)
+    //                          GL_FLOAT, // What type these components are
+    //                          GL_FALSE, // GL_TRUE means the values should be normalized. GL_FALSE means they shouldn't
+    //                          3 * sizeof(GLfloat), // Offset between consecutive vertex attributes. Since each of our vertices have 3 floats, they should have the size of 3 floats in between
+    //                          (GLvoid*)0); // Offset of the first vertex's component. In our case it's 0 since we don't pad the vertices array with anything.
+    //    glEnableVertexAttribArray(0);
+    //
+    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
+    //    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * normalIndices.size(), &normalIndices[0], GL_STATIC_DRAW);
+    //
     
     /*====== Sent vertex array information to the shader =======*/
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
@@ -104,6 +106,7 @@ OBJObject::~OBJObject() {
     glDeleteBuffers(1, &EBO);
     glDeleteBuffers(1, &EBO2);
 }
+
 
 
 void OBJObject::parse(const char *filepath)
@@ -178,7 +181,7 @@ void OBJObject::parse(const char *filepath)
                 
                 // std::cout << strs.size() << std::endl;
                 
-
+                
                 // If the object's doesn't have texture mapping
                 // ex: 1//1, then there are only 7 elements
                 if (strs.size() == 7)
@@ -368,6 +371,9 @@ void OBJObject::setPosition(glm::vec3 pos)
     this->toWorld[3] = glm::vec4(pos, 1);
 }
 
+
+
+
 /*=========== SSAO ============*/
 
 void OBJObject::drawSSAO(GLuint shaderProgram)
@@ -389,7 +395,7 @@ void OBJObject::drawSSAO(GLuint shaderProgram)
 void OBJObject::createBoundingBox()
 {
     // By Default, the bounding box has size rx = 0.5, ry = 0.5, rz = 0.5
-    this->boundingBox = new BoundingBox();
+    this->boundingBox = new BoundingBox(this);
 }
 
 BoundingBox * OBJObject::getBoundingBox()
@@ -403,14 +409,22 @@ void OBJObject::updateBoundingBox()
         boundingBox->update(glm::vec3(toWorld[3]), glm::vec3(toWorld[0][0], toWorld[1][1], toWorld[2][2]));
 }
 
-bool OBJObject::onCollision(OBJObject * gameObject)
+bool OBJObject::onCollision()
 {
-//    BoundingBox a = this->bound;
-//    BoundingBox b = gameObject->bound;
-//    int r;
-//    r = a.r[0] + b.r[0]; if ((unsigned int)(a.center[0] - b.center[0] + r) > r + r) return false;
-//    r = a.r[1] + b.r[1]; if ((unsigned int)(a.center[1] - b.center[1] + r) > r + r) return false;
-//    r = a.r[2] + b.r[2]; if ((unsigned int)(a.center[2] - b.center[2] + r) > r + r) return false;
+    BoundingBox * a = boundingBox;
+    for (int i = 0; i < BoundingBox::boundingBoxes.size(); i++)
+    {
+        BoundingBox * b = BoundingBox::boundingBoxes[i];
+        if (b != a)
+        {
+            std::cout << i << "    " << b->parentObj->tag << "    " << glm::to_string(b->r) << std::endl;
+            int r;
+            r = a->r[0] + b->r[0]; if ((unsigned int)(a->center[0] - b->center[0] + r) > r + r) return false;
+            r = a->r[1] + b->r[1]; if ((unsigned int)(a->center[1] - b->center[1] + r) > r + r) return false;
+            r = a->r[2] + b->r[2]; if ((unsigned int)(a->center[2] - b->center[2] + r) > r + r) return false;
+        }
+    }
+    // Overlapping on all axes means AABBs are intersecting
     return true;
 }
 

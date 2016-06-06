@@ -48,8 +48,6 @@ Skybox * skybox = nullptr;
 Dragon * dragon = nullptr;
 OBJObject * castle = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
-BoundingBox * bound = nullptr;
-
 
 
 //SSAO Light Properties
@@ -61,6 +59,8 @@ glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(1,1,1);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
+
+bool collided = false;
 
 bool drawSSAO = true;
 
@@ -178,7 +178,6 @@ void Window::initialize_objects()
         SSAO::add_obj(asteroidGroup->asteroids[i]);
     
     
-    bound = new BoundingBox();
     
     // Create castle
     //    castle = new OBJObject("../../Models/castle.obj");
@@ -297,21 +296,23 @@ void Window::display_callback(GLFWwindow* window)
             asteroidGroup->asteroids[i]->draw(shaderProgram);
         
         /*===== Draw Bounding Boxes Via Wireframe ======*/
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        
         dragon->body->drawBoundingBox(shaderProgram);
         for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
             asteroidGroup->asteroids[i]->drawBoundingBox(shaderProgram);
         
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-//        /        glEnable(GL_COLOR_MATERIAL);
-//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//        //        glColor3ub(255,0,0); // bright red
-//        
-//        bound->draw(shaderProgram);
-//        //        glColor3ub(255,255,255); // back to default white
-//        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+        //        /        glEnable(GL_COLOR_MATERIAL);
+        //        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //        //        glColor3ub(255,0,0); // bright red
+        //
+        //        bound->draw(shaderProgram);
+        //        //        glColor3ub(255,255,255); // back to default white
+        //        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        
     }
     
     // Swap buffers
@@ -325,11 +326,15 @@ void Window::display_callback(GLFWwindow* window)
 
 void Window::idle_callback()
 {
-    asteroidGroup->update();
-    //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
-    
-    dragon->update(moveLeft, moveRight, moveUp, moveDown);
-    std::cout << glm::to_string(dragon->body->toWorld[3]) << std::endl;
+    if (!collided)
+    {
+        asteroidGroup->update();
+        //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
+        
+        dragon->update(moveLeft, moveRight, moveUp, moveDown);
+        
+        collided = dragon->body->onCollision();
+    }
 }
 
 void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -483,7 +488,7 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         
         if (key == GLFW_KEY_P)
         {
-            AudioManager::play_audio_1();
+            //            AudioManager::play_audio_1();
         }
         
         if (key == GLFW_KEY_R)

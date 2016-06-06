@@ -47,6 +47,7 @@ void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
             asteroid = new Asteroid("../../Models/Asteroid/asteroid_complex_2.obj");
     }
     asteroid->createBoundingBox();
+    asteroid->tag = "asteroid";
     asteroid->material.k_a = glm::vec3(1);
     asteroid->material.k_d = glm::vec3(1);
     asteroid->material.k_s = glm::vec3(1);

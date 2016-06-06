@@ -1,5 +1,10 @@
 #include "Window.h"
+
 #include "BoundingBox.h"
+
+
+std::vector<BoundingBox*> BoundingBox::boundingBoxes;
+
 
 GLfloat boundingBoxVertices[] = {
 	// Front vertices
@@ -35,13 +40,15 @@ GLuint boundingBoxIndices[] = {  // Note that we start from 0!
 	6, 7, 3
 };
 
-BoundingBox::BoundingBox()
+BoundingBox::BoundingBox(OBJObject * obj)
 {
+    boundingBoxes.push_back(this);
+    
+    this->parentObj = obj;
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
-//    this->center = center;
-//    this->r = r;
-//    this->scale(r * 2.0f);
+    this->center = glm::vec3(0);
+    this->r = glm::vec3(0.5f);
 
 	// Create buffers/arrays
 	glGenVertexArrays(1, &VAO);
@@ -89,10 +96,19 @@ void BoundingBox::setCenter(glm::vec3 pos)
 
 void BoundingBox::setRadius(glm::vec3 r)
 {
-    auto scaleMat = glm::scale(glm::mat4(1.0f), 1.0f / this->r * r);
-    this->toWorld = this->toWorld * scaleMat;
     this->r = r;
+//    this->toWorld[0][0] = r[0];
+//    this->toWorld[1][1] = r[1];
+//    this->toWorld[2][2] = r[2];
 }
+
+
+//void BoundingBox::setRadius(glm::vec3 r)
+//{
+//    auto scaleMat = glm::scale(glm::mat4(1.0f), 1.0f / this->r * r);
+//    this->toWorld = this->toWorld * scaleMat;
+//    this->r = r;
+//}
 
 void BoundingBox::draw(GLuint shaderProgram)
 {

@@ -16,8 +16,7 @@
 #include <boost/algorithm/string/split.hpp> // Split strings
 #include "BoundingBox.h"
 
-
-
+class BoundingBox;
 
 /**
  * Object material property
@@ -71,6 +70,7 @@ private:
     void setUpVertexArrayBuffer();
     
 public:
+    std::string tag;
     Transform transform;
     Material material;
     glm::mat4 toWorld;
@@ -91,8 +91,6 @@ public:
     void reset();
     void rotate(float rotAngle, glm::vec3 rotAxis);
     void setPosition(glm::vec3 pos);
-
-    
     
     // This draws the model using Phong shading
     void draw(GLuint shaderProgram);
@@ -110,7 +108,7 @@ public:
     BoundingBox * getBoundingBox();
     void updateBoundingBox();
     // Collision detection from this object to other game object
-    bool onCollision(OBJObject * gameObject);
+    bool onCollision();
     void drawBoundingBox(GLint shaderProgram);
     
 };
