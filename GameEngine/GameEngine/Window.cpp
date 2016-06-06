@@ -275,7 +275,7 @@ void Window::display_callback(GLFWwindow* window)
     else
     {
         /*====== Draw Sybox ======*/
-        //    skybox->draw(skyboxShaderProgram);
+//            skybox->draw(skyboxShaderProgram);
         
         
         /*====== Draw Light ======*/
