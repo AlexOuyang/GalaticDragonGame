@@ -461,7 +461,6 @@ dependencies: \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/move/detail/meta_utils_core.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/detail/util.hpp \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/BoundingBox.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Node.h \
   ../lib/glm-master/glm/ext.hpp ../lib/glm-master/glm/./gtc/bitfield.hpp \
   ../lib/glm-master/glm/gtc/bitfield.inl \
   ../lib/glm-master/glm/./gtc/epsilon.hpp \
@@ -595,4 +594,5 @@ dependencies: \
   ../lib/glm-master/glm/./gtx/simd_mat4.hpp \
   ../lib/glm-master/glm/gtx/../detail/intrinsic_matrix.hpp \
   ../lib/glm-master/glm/detail/intrinsic_matrix.inl \
-  ../lib/glm-master/glm/gtx/simd_mat4.inl
+  ../lib/glm-master/glm/gtx/simd_mat4.inl \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Node.h

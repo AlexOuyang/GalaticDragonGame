@@ -53,7 +53,8 @@ void AsteroidGroup::addAsteroid(glm::vec4 position, float scale)
     asteroid->material.k_s = glm::vec3(1);
     asteroid->material.shininess = 0;
     asteroid->setPosition(position);
-//    asteroid->scale(scale);
+    asteroid->scale(scale);
+    asteroid->getBoundingBox()->scale(scale * 0.65f); // Make the bounding box even smaller
     asteroid->rotationVelocity = randFloat(0, 5);
     asteroid->transform.rotation = glm::vec3(randFloat(0, 1),randFloat(0, 1),randFloat(0, 1));
     asteroid->velocity = randomVelocity();

@@ -409,7 +409,7 @@ BoundingBox * OBJObject::getBoundingBox()
 void OBJObject::updateBoundingBox()
 {
     if (!boundingBox) return;
-    boundingBox->update(glm::vec3(toWorld[3]), glm::vec3(toWorld[0][0], toWorld[1][1], toWorld[2][2]));
+    boundingBox->update(glm::vec3(toWorld[3]));
 }
 
 bool OBJObject::onCollision(BoundingBox * b)
@@ -422,8 +422,11 @@ bool OBJObject::onCollision(BoundingBox * b)
     
 //    std::cout << a->parentObj->tag << "    boundingBox pos:" << glm::to_string(a->center) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
 //    std::cout << b->parentObj->tag << "    boundingBox pos:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
-//    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(a->r) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
-//    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(b->r) << "    obj scale:" << glm::to_string(b->parentObj->transform.scale) << std::endl;
+    
+//    auto temp_s_1 = glm::vec3(a->toWorld[0][0],a->toWorld[1][1], a->toWorld[2][2]);
+//    auto temp_s_2 = glm::vec3(b->toWorld[0][0],b->toWorld[1][1], b->toWorld[2][2]);
+//    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    boundingbox radius:" << glm::to_string(a->r) << std::endl;
+//    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    boundingbox radius:" << glm::to_string(b->r) << std::endl;
 //    std::cout << std::endl;
     
     int r;

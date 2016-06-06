@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdlib.h>  //rand
 #include <time.h>    //for setting seed of rand()
+#include "glm/ext.hpp" // print out glm matrices
 
 class Asteroid : public OBJObject
 {
