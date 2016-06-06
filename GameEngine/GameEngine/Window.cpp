@@ -275,11 +275,15 @@ void Window::display_callback(GLFWwindow* window)
     /*====== Draw SSAO ======*/
     if(drawSSAO)
     {
+        glClearColor(0, 0, 0, 0);
+        
         SSAO::draw();
     }
     /*====== Draw Phong Shader =======*/
     else
     {
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
         /*====== Draw Light ======*/
         glUseProgram(phongShaderProgram);
         // Bind cameraPosition, or 'eye' to the shaderProgram
@@ -298,7 +302,6 @@ void Window::display_callback(GLFWwindow* window)
             asteroidGroup->asteroids[i]->draw(phongShaderProgram);
         
         /*===== Draw Bounding Boxes Via Wireframe ======*/
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         

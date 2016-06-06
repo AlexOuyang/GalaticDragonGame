@@ -163,7 +163,7 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     
-//    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
 }
 

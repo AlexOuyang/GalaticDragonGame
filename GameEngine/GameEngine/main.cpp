@@ -52,7 +52,7 @@ void setup_opengl_settings()
 	glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 	// Set clear color
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void print_versions()
@@ -71,7 +71,7 @@ int main(void)
 {
 	// Create the GLFW window
 //	window = Window::create_window(680, 860);
-    window = Window::create_window(680, 460);
+    window = Window::create_window(1280, 860);
 	// Print OpenGL and GLSL versions
 	print_versions();
 	// Setup callbacks
