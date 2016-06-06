@@ -19,6 +19,19 @@ GLfloat boundingBoxVertices[] = {
 	-0.5,  0.5, -0.5
 };
 
+//GLfloat boundingBoxVertices[] = {
+//    // Front vertices
+//    -1, -1,  1,
+//    1, -1,  1,
+//    1,  1,  1,
+//    -1,  1,  1,
+//    // Back vertices
+//    -1, -1, -1,
+//    1, -1, -1,
+//    1,  1, -1,
+//    -1,  1, -1
+//};
+
 GLuint boundingBoxIndices[] = {  // Note that we start from 0!
 	// Front face
 	0, 1, 2,
@@ -49,7 +62,7 @@ BoundingBox::BoundingBox(OBJObject * obj)
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
     this->center = glm::vec3(0);
-    this->r = glm::vec3(0.5f);
+    this->r = glm::vec3(0.4f); // Weird, but the radius is 0.4 instaed of 0.5.
 
 	// Create buffers/arrays
 	glGenVertexArrays(1, &VAO);
@@ -95,21 +108,21 @@ void BoundingBox::setCenter(glm::vec3 pos)
     this->toWorld[3] = glm::vec4(this->center, 1);
 }
 
-void BoundingBox::setRadius(glm::vec3 r)
-{
-    this->r = r;
+//void BoundingBox::setRadius(glm::vec3 r)
+//{
+//    this->r = r;
 //    this->toWorld[0][0] = r[0];
 //    this->toWorld[1][1] = r[1];
 //    this->toWorld[2][2] = r[2];
-}
-
-
-//void BoundingBox::setRadius(glm::vec3 r)
-//{
-//    auto scaleMat = glm::scale(glm::mat4(1.0f), 1.0f / this->r * r);
-//    this->toWorld = this->toWorld * scaleMat;
-//    this->r = r;
 //}
+
+
+void BoundingBox::setRadius(glm::vec3 scale)
+{
+    auto scaleMat = glm::scale(glm::mat4(1.0f), 1.0f / this->r * r);
+    this->toWorld = this->toWorld * scaleMat;
+    this->r = r;
+}
 
 void BoundingBox::draw(GLuint shaderProgram)
 {

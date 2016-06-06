@@ -226,8 +226,8 @@ void OBJObject::parse(const char *filepath)
         //        std::cout << "indice size" << vertexIndices.size() << std::endl;
         
         // Center the model by subtractng the model from the average
-        // Also, normalize the scale of the model into a standard cube(a 2x2x2 cube,
-        // with all vertices in the range [-1,1])
+        // Also, normalize the scale of the model into a standard cube(a 1x1x1 cube,
+        // with all vertices in the range [-0.5,0.5])
         float num_of_vertices =vertices.size();
         float avgX = (maxX + minX) / 2;
         float avgY = (maxY + minY) / 2;
@@ -420,7 +420,12 @@ bool OBJObject::onCollision(BoundingBox * b)
     a->collided = false;
     b->collided = false;
     
-    std::cout << b->parentObj->tag << "    boundingBox pos:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
+//    std::cout << a->parentObj->tag << "    boundingBox pos:" << glm::to_string(a->center) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
+//    std::cout << b->parentObj->tag << "    boundingBox pos:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
+//    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(a->r) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
+//    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(b->r) << "    obj scale:" << glm::to_string(b->parentObj->transform.scale) << std::endl;
+//    std::cout << std::endl;
+    
     int r;
     r = a->r[0] + b->r[0]; if ((unsigned int)(a->center[0] - b->center[0] + r) > r + r) return false;
     r = a->r[1] + b->r[1]; if ((unsigned int)(a->center[1] - b->center[1] + r) > r + r) return false;
@@ -428,6 +433,7 @@ bool OBJObject::onCollision(BoundingBox * b)
     
     a->collided = true;
     b->collided = true;
+    
     // Overlapping on all axes means AABBs are intersecting
     return true;
 }

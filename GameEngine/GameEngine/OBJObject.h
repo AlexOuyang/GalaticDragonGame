@@ -41,8 +41,8 @@ struct Transform
 
 
 /**
- * Object is initialized to be a standard cube(a 2x2x2 cube, 
- * with all vertices in the range [-1,1])
+ * Object is initialized to be a standard cube(a 1x1x1 cube,
+ * with all vertices in the range [-0.5,0.5])
  */
 class OBJObject
 {

@@ -503,6 +503,7 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         if (key == GLFW_KEY_P)
         {
             //            AudioManager::play_audio_1();
+            collided = false;
         }
         
         if (key == GLFW_KEY_R)
