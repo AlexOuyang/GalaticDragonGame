@@ -33,8 +33,8 @@ void DragonWing::update()
 {
     if (this->type == 0) // left wing
     {
-        if (this->angle > 20) direction = -1;
-        if (this->angle < -50) direction = 1;
+        if (this->angle > 10) direction = -1;
+        if (this->angle < -60) direction = 1;
         
         float deg = direction * speed;
         this->angle += deg;
@@ -53,8 +53,8 @@ void DragonWing::update()
     }
     else if (this->type == 1) // right wing
     {
-        if (this->angle > 50) direction = -1;
-        if (this->angle < -20) direction = 1;
+        if (this->angle > 60) direction = -1;
+        if (this->angle < -10) direction = 1;
         
         float deg = direction * speed;
         this->angle += deg;
@@ -87,13 +87,13 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
 
     // Create bonding box for body
     body->createBoundingBox();
-    body->getBoundingBox()->scale(glm::vec3(1.2f, 0.5f, 0.3f));
+    body->getBoundingBox()->scale(glm::vec3(1.2f, 0.3f, 0.3f));
     body->tag = "dragon";
     
     
     // Set up the dragon model
-    body->scale(1.1f);
-    body->translate(0, -0.02f, 0);
+    body->scale(1.2f);
+    body->translate(0, -0.04f, 0);
     leftWing->scale(0.8f);
     rightWing->scale(0.8f);
     //    hero->translate(-0.015f, 0, 0);
