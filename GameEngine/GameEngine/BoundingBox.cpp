@@ -62,7 +62,7 @@ BoundingBox::BoundingBox(OBJObject * obj)
     this->toWorld = glm::mat4(1.0f);
     this->angle = 0.0f;
     this->center = glm::vec3(0);
-    this->r = glm::vec3(0.2f); // Weird, but the radius is 0.2 instaed of 0.5.
+    this->r = glm::vec3(0.5f);
 
 	// Create buffers/arrays
 	glGenVertexArrays(1, &VAO);
@@ -110,6 +110,13 @@ void BoundingBox::setCenter(glm::vec3 pos)
 }
 
 void BoundingBox::scale(float ratio)
+{
+    this->r = this->r * ratio;
+    auto scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(ratio));
+    this->toWorld = this->toWorld * scaleMat;
+}
+
+void BoundingBox::scale(glm::vec3 ratio)
 {
     this->r = this->r * ratio;
     auto scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(ratio));

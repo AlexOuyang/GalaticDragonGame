@@ -87,6 +87,7 @@ Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, 
 
     // Create bonding box for body
     body->createBoundingBox();
+    body->getBoundingBox()->scale(glm::vec3(1.2f, 0.5f, 0.3f));
     body->tag = "dragon";
     
     
@@ -133,6 +134,7 @@ Dragon::~Dragon()
 void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
 {
     flap();
+    
     body->update();
     
     if(moveLeft)

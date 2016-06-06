@@ -420,19 +420,20 @@ bool OBJObject::onCollision(BoundingBox * b)
     a->collided = false;
     b->collided = false;
     
-//    std::cout << a->parentObj->tag << "    boundingBox pos:" << glm::to_string(a->center) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
-//    std::cout << b->parentObj->tag << "    boundingBox pos:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
-    
+//    std::cout << a->parentObj->tag << "    center:" << glm::to_string(a->center) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
+//    std::cout << b->parentObj->tag << "    center:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
+//    
 //    auto temp_s_1 = glm::vec3(a->toWorld[0][0],a->toWorld[1][1], a->toWorld[2][2]);
 //    auto temp_s_2 = glm::vec3(b->toWorld[0][0],b->toWorld[1][1], b->toWorld[2][2]);
-//    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    boundingbox radius:" << glm::to_string(a->r) << std::endl;
-//    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    boundingbox radius:" << glm::to_string(b->r) << std::endl;
+//    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    r:" << glm::to_string(a->r) << std::endl;
+//    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    r:" << glm::to_string(b->r) << std::endl;
 //    std::cout << std::endl;
-    
-    int r;
-    r = a->r[0] + b->r[0]; if ((unsigned int)(a->center[0] - b->center[0] + r) > r + r) return false;
-    r = a->r[1] + b->r[1]; if ((unsigned int)(a->center[1] - b->center[1] + r) > r + r) return false;
-    r = a->r[2] + b->r[2]; if ((unsigned int)(a->center[2] - b->center[2] + r) > r + r) return false;
+
+    // Overlap between two ranges [A, B] and [C, D] can be determined by the expression
+    // overlap = (unsigned int)(B - C) <= (B - A) + (D - C);
+    if (std::abs(a->center[0] - b->center[0]) > (a->r[0] + b->r[0])) return false;
+    if (std::abs(a->center[1] - b->center[1]) > (a->r[1] + b->r[1])) return false;
+    if (std::abs(a->center[2] - b->center[2]) > (a->r[2] + b->r[2])) return false;
     
     a->collided = true;
     b->collided = true;

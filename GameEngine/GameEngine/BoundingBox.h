@@ -40,7 +40,10 @@ public:
 //    void setRadius(glm::vec3 r);
     void setCenter(glm::vec3 pos);
     
+    // Scale the radius, or halfwidth extents
     void scale(float ratio);
+    void scale(glm::vec3 ratio);
+    
 };
 
 #endif
