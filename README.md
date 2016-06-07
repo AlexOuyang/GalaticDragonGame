@@ -1,6 +1,11 @@
 # GameEngine
 CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
 
+## Project Blog and Video
+* Blog: https://medium.com/@snyoonoh/created-by-alex-ouyang-seung-yoon-oh-dede5c7ac70a#.xm0hzkomt
+* Video: https://www.youtube.com/watch?v=1vc1sbcdWMo
+
+
 ## Dependencies Included: 
 Dependencies included under /lib
 * glew-1.13.0
