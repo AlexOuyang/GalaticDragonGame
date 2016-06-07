@@ -75,6 +75,8 @@ bool moveDown = false;
 bool cinematicStart = true;
 bool dragonDead = false;
 
+bool debugMode = false;
+
 enum MouseActions
 {
     NONE,
@@ -293,15 +295,13 @@ void Window::display_callback(GLFWwindow* window)
     }
     /*====== Draw Phong Shader =======*/
     else
-    {        
+    {
         /*====== Draw Light ======*/
         glUseProgram(phongShaderProgram);
         // Bind cameraPosition, or 'eye' to the shaderProgram
         glUniform3fv(glGetUniformLocation(phongShaderProgram, "eye"), 1, &cam_pos[0]);
         // Bind light to the shaderProgram
         Light::bindDirectionalLightToShader(phongShaderProgram);
-        //        Light::bindPointLightToShader(phongShaderProgram);
-        //        Light::bindSpotLightToShader(phongShaderProgram);
         
         /*====== Draw Game Objects ======*/
         dragon->body->draw(phongShaderProgram);
@@ -313,20 +313,21 @@ void Window::display_callback(GLFWwindow* window)
         
         /*===== Draw Bounding Boxes Via Wireframe ======*/
         
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        
-        glUseProgram(boundingBoxShaderProgram);
-        // Bind cameraPosition, or 'eye' to the shaderProgram
-        glUniform3fv(glGetUniformLocation(boundingBoxShaderProgram, "eye"), 1, &cam_pos[0]);
-        // Bind light to the shaderProgram
-        Light::bindDirectionalLightToShader(boundingBoxShaderProgram);
-        //        Light::bindPointLightToShader(boundingBoxShaderProgram);
-        //        Light::bindSpotLightToShader(boundingBoxShaderProgram);
-        dragon->body->drawBoundingBox(boundingBoxShaderProgram);
-        for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
-            asteroidGroup->asteroids[i]->drawBoundingBox(boundingBoxShaderProgram);
-        
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        if (debugMode)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            
+            glUseProgram(boundingBoxShaderProgram);
+            // Bind cameraPosition, or 'eye' to the shaderProgram
+            glUniform3fv(glGetUniformLocation(boundingBoxShaderProgram, "eye"), 1, &cam_pos[0]);
+            // Bind light to the shaderProgram
+            Light::bindDirectionalLightToShader(boundingBoxShaderProgram);
+            dragon->body->drawBoundingBox(boundingBoxShaderProgram);
+            for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
+                asteroidGroup->asteroids[i]->drawBoundingBox(boundingBoxShaderProgram);
+            
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
         
     }
     
@@ -351,7 +352,7 @@ void Window::idle_callback()
 {
     asteroidGroup->update();
     //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
-
+    
     if(cinematicStart)
     {
         if(cam_pos.z <= 0.1f)
@@ -542,14 +543,12 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
             glfwSetWindowShouldClose(window, GL_TRUE);
         }
         
-        if (key == GLFW_KEY_F1){}
-        if (key == GLFW_KEY_F2){}
-        if (key == GLFW_KEY_F3){}
         
         int shift = GLFW_MOD_SHIFT;
         
-        if (key == GLFW_KEY_S && (mods & shift) == shift){}
-        else if (key == GLFW_KEY_S && (mods & shift) != shift){}
+        if (key == GLFW_KEY_S){
+            
+        }
         
         if (key == GLFW_KEY_P)
         {
@@ -562,57 +561,10 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         }
         
         if (key == GLFW_KEY_R)
-        {}
-        
-        /*====== Light Controls =======*/
-        
-        if (key == GLFW_KEY_0)
         {
-            currentControlMode = CAMERA_CONTROL;
-        }
-        else if (key == GLFW_KEY_1)
-        {
-            Light::useLight(Light::DIRECTIONAL_LIGHT);
-            currentControlMode = DIRECTIONAL_LIGHT_CONTROL;
-        }
-        else if (key == GLFW_KEY_2)
-        {
-            Light::useLight(Light::POINT_LIGHT);
-            currentControlMode = POINT_LIGHT_CONTROL;
-        }
-        else if (key == GLFW_KEY_3)
-        {
-            Light::useLight(Light::SPOT_LIGHT);
-            currentControlMode = SPOT_LIGHT_CONTROL;
         }
         
-        // Change cutoff angle for spot light
-//        if (key == GLFW_KEY_A && (mods & shift) == shift)
-//        {
-//            Light::changeSpotLightCutoff(-5);
-//        }
-//        else if (key == GLFW_KEY_A && (mods & shift) != shift)
-//        {
-//            Light::changeSpotLightCutoff(5);
-//        }
         
-        // Change exponent coefficient for spot light
-        if (key == GLFW_KEY_E && (mods & shift) == shift)
-        {
-            Light::changeSpotLightExponent(-1);
-        }
-        else if (key == GLFW_KEY_E && (mods & shift) != shift)
-        {
-            Light::changeSpotLightExponent(1);
-        }
-        
-        // Press 'Shift' with mouse dragging to rotate the spot light
-        if ((mods & shift) == shift && action == GLFW_PRESS)
-        {
-            rotate_spot_light = true;
-        } else {
-            rotate_spot_light = false;
-        }
         
         /*====== Camera Controls =======*/
         
@@ -625,8 +577,8 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         if (key == GLFW_KEY_T && (mods & shift) == shift)
         {
             drawSSAO = !drawSSAO;
-//            if(drawSSAO)    glClearColor(0, 0, 0, 0); // If draw ssao, make background black
-//            else    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // If debug mode, make background white
+            //            if(drawSSAO)    glClearColor(0, 0, 0, 0); // If draw ssao, make background black
+            //            else    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // If debug mode, make background white
         }
         if (key == GLFW_KEY_T && (mods & shift) != shift)
         {
@@ -635,6 +587,15 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
             else if (SSAO::mode == SSAO::FOG_MODE)
                 SSAO::re_init(SSAO::GRAY_SCALE_MODE);
         }
+        
+        if (key == GLFW_KEY_D)
+        {
+            if (!drawSSAO){
+                debugMode = !debugMode;
+            }
+        }
+        
+        // Draw LSD mode
         if (key == GLFW_KEY_L)
         {
             if(SSAO::mode == SSAO::RAINBOW_MODE)
@@ -902,7 +863,7 @@ void Window::rotate_cam(float rotAngle, glm::vec3 rotAxis)
 //{
 //    cam_pos +
 //    glm::vec3(0.0f,-3.0f,1.5f);
-//    
+//
 //    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
 //}
 //void Window::change_cam_look_at(glm::vec3 vec)
