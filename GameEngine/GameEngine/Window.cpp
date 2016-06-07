@@ -116,7 +116,7 @@ GLint boundingBoxShaderProgram;
 //glm::vec3 cam_pos(0, 0, 10);		            // e  | Position of camera
 
 //glm::vec3 cam_pos(0,-1,0.5);    //game pos of cam (ZOOMED IN)
-glm::vec3 cam_pos(0,-3,1.5);    //game pos of cam (ZOOMED OUT)
+glm::vec3 cam_pos(0,-3,4.5);    //game pos of cam (ZOOMED OUT)
 //glm::vec3 cam_pos(0.0f,-6.5f,3.0f);
 
 
@@ -348,7 +348,7 @@ void Window::idle_callback()
         }
         else
         {
-            cam_pos.z -= 0.04f;
+            cam_pos.z -= 0.1f;
             cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
             Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
             
@@ -575,14 +575,14 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         }
         
         // Change cutoff angle for spot light
-        if (key == GLFW_KEY_A && (mods & shift) == shift)
-        {
-            Light::changeSpotLightCutoff(-5);
-        }
-        else if (key == GLFW_KEY_A && (mods & shift) != shift)
-        {
-            Light::changeSpotLightCutoff(5);
-        }
+//        if (key == GLFW_KEY_A && (mods & shift) == shift)
+//        {
+//            Light::changeSpotLightCutoff(-5);
+//        }
+//        else if (key == GLFW_KEY_A && (mods & shift) != shift)
+//        {
+//            Light::changeSpotLightCutoff(5);
+//        }
         
         // Change exponent coefficient for spot light
         if (key == GLFW_KEY_E && (mods & shift) == shift)
