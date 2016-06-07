@@ -826,4 +826,17 @@ void Window::change_cam()
     }
 }
 
+void Window::rotate_cam(float rotAngle, glm::vec3 rotAxis)
+{
+    auto rotationMat = glm::rotate(glm::mat4(1.0f), rotAngle / 180.0f * glm::pi<float>(), rotAxis);
+    cam_pos = glm::vec4(cam_pos, 0) * rotationMat;
+    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+}
+
+//void Window::change_cam_look_at(glm::vec3 vec)
+//{
+//    cam_look_at += vec;
+//    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+//}
+
 

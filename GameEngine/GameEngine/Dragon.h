@@ -15,7 +15,7 @@ class DragonWing : public OBJObject
 {
 private:
     int type; // 0 for left wing, 1 for right wing
-    float speed;
+    float speed; // Dragon wing's flapping speed
     float angle;
     int direction;
     
@@ -31,10 +31,12 @@ class Dragon
 {
 private:
     void translate(float x, float y, float z);
+    void rotate(float rotAngle, glm::vec3 rotAxis);
     void flap();
     
 public:
-    float speed;
+    float speed; // Dragon's flying speed
+    float rotationSpeed; // Dragon's rotating speed
     OBJObject * body;
     DragonWing * leftWing;
     DragonWing * rightWing;

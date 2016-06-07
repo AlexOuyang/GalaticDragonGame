@@ -7,6 +7,8 @@
 //
 #include "glm/ext.hpp" // print out glm matrices
 #include "OBJObject.h"
+#include "Window.h"
+
 #include "Dragon.h"
 
 /*================== Dragon Wing ==================*/
@@ -79,12 +81,13 @@ void DragonWing::update()
 
 Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path)
 {
-    speed = 0.05f;
+    speed = 0.1f;
+    rotationSpeed = 2.5f;
     
     body = new OBJObject(dragon_body_path);
     leftWing = new DragonWing(dragon_left_wing_path, 0);
     rightWing = new DragonWing(dragon_right_wing_path, 1);
-
+    
     // Create bonding box for dragon body
     body->createBoundingBox();
     body->getBoundingBox()->scale(glm::vec3(1.2f, 0.3f, 0.25f));
@@ -119,6 +122,14 @@ void Dragon::translate(float x, float y, float z)
     rightWing->translationWing(x, y, z);
 }
 
+void Dragon::rotate(float rotAngle, glm::vec3 rotAxis)
+{
+    auto rotationMat = glm::rotate(glm::mat4(1.0f), rotAngle / 180.0f * glm::pi<float>(), rotAxis);
+    //    this->body->rotate(rotAngle, rotAxis);
+    //    this->leftWing->rotate(rotAngle, rotAxis);
+    //    this->rightWing->rotate(rotAngle, rotAxis);
+}
+
 void Dragon::flap()
 {
     leftWing->update();
@@ -139,13 +150,25 @@ void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
     body->update();
     
     if(moveLeft)
+    {
         this->translate(-speed,0.0f,0.0f);
+        Window::rotate_cam(rotationSpeed, glm::vec3(0,1,0));
+    }
     if(moveRight)
+    {
         this->translate(speed, 0.0f,0.0f);
+        Window::rotate_cam(-rotationSpeed, glm::vec3(0,1,0));
+    }
     if(moveUp)
+    {
         this->translate(0.0f,0.0f,speed);
+//        Window::change_cam_look_at(glm::vec3(0, 0, -0.2f));
+    }
     if(moveDown)
+    {
         this->translate(0.0f,0.0f,-speed);
+//        Window::change_cam_look_at(glm::vec3(0, 0, 0.2f));
+    }
 }
 
 

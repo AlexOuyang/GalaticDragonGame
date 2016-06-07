@@ -41,6 +41,11 @@ public:
     static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
     static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
     static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+    
+    // Quick acess to camera elemnts
+    static void rotate_cam(float rotAngle, glm::vec3 rotAxis);
+//    static void change_cam_look_at(glm::vec3 vec);
+
 };
 
 #endif
