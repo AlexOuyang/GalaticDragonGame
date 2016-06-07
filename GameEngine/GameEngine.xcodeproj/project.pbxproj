@@ -29,6 +29,8 @@
 		56A8EAFC1CFF81FE0050CF1A /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8EAF81CFF81FE0050CF1A /* SDL2.framework */; };
 		56A8EB021CFFB0D60050CF1A /* AsteroidManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8EB001CFFB0D60050CF1A /* AsteroidManager.cpp */; };
 		56D54EAC1D04E023000CBE9F /* BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56D54EAA1D04E023000CBE9F /* BoundingBox.cpp */; };
+		56D54EB11D06EEBC000CBE9F /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56D54EAF1D06EEBC000CBE9F /* Text.cpp */; };
+		56D54EB31D06F23B000CBE9F /* libfreetype.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D54EB21D06F23B000CBE9F /* libfreetype.dylib */; };
 		67D670ED1D00BCFF00C9F5F7 /* ParticleGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +88,9 @@
 		56A8EB011CFFB0D60050CF1A /* AsteroidManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsteroidManager.h; path = GameEngine/AsteroidManager.h; sourceTree = SOURCE_ROOT; };
 		56D54EAA1D04E023000CBE9F /* BoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingBox.cpp; sourceTree = "<group>"; };
 		56D54EAB1D04E023000CBE9F /* BoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBox.h; sourceTree = "<group>"; };
+		56D54EAF1D06EEBC000CBE9F /* Text.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Text.cpp; sourceTree = "<group>"; };
+		56D54EB01D06EEBC000CBE9F /* Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
+		56D54EB21D06F23B000CBE9F /* libfreetype.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.dylib; path = ../../../../../../opt/X11/lib/libfreetype.dylib; sourceTree = "<group>"; };
 		67D670EB1D00BCFF00C9F5F7 /* ParticleGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleGenerator.cpp; sourceTree = "<group>"; };
 		67D670EC1D00BCFF00C9F5F7 /* ParticleGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56D54EB31D06F23B000CBE9F /* libfreetype.dylib in Frameworks */,
 				56A8EAC41CFF0DAB0050CF1A /* OpenGL.framework in Frameworks */,
 				56A8EAC61CFF0DB60050CF1A /* libGLEW.1.13.0.dylib in Frameworks */,
 				56A8EAFA1CFF81FE0050CF1A /* SDL2_mixer.framework in Frameworks */,
@@ -109,11 +115,12 @@
 		56A8EAB01CFF0D450050CF1A = {
 			isa = PBXGroup;
 			children = (
+				56D54EB21D06F23B000CBE9F /* libfreetype.dylib */,
+				56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */,
 				56A8EAF61CFF81FE0050CF1A /* SDL2_mixer.framework */,
 				56A8EAF81CFF81FE0050CF1A /* SDL2.framework */,
 				56A8EAC71CFF0DC00050CF1A /* libglfw.3.1.dylib */,
 				56A8EAC51CFF0DB60050CF1A /* libGLEW.1.13.0.dylib */,
-				56A8EAC31CFF0DAB0050CF1A /* OpenGL.framework */,
 				56A8EABB1CFF0D450050CF1A /* GameEngine */,
 				56A8EABA1CFF0D450050CF1A /* Products */,
 			);
@@ -167,6 +174,8 @@
 				56A8EAE01CFF0DE40050CF1A /* SSAO.h */,
 				56A8EAE31CFF0DE40050CF1A /* Window.cpp */,
 				56A8EAE41CFF0DE40050CF1A /* Window.h */,
+				56D54EAF1D06EEBC000CBE9F /* Text.cpp */,
+				56D54EB01D06EEBC000CBE9F /* Text.h */,
 			);
 			path = GameEngine;
 			sourceTree = SOURCE_ROOT;
@@ -238,6 +247,7 @@
 				56A8EAF41CFF81620050CF1A /* AudioManager.cpp in Sources */,
 				56A8EAEE1CFF0DE40050CF1A /* skybox.cpp in Sources */,
 				56A8EAF11CFF0DE40050CF1A /* Window.cpp in Sources */,
+				56D54EB11D06EEBC000CBE9F /* Text.cpp in Sources */,
 				56A8EAE71CFF0DE40050CF1A /* Control.cpp in Sources */,
 				56A8EAE61CFF0DE40050CF1A /* CoasterTrack.cpp in Sources */,
 				56A8EABD1CFF0D450050CF1A /* main.cpp in Sources */,
@@ -344,10 +354,12 @@
 					/usr/local/Cellar/boost/1.60.0_2/include/,
 					"../lib/glfw-3.1.2/include/",
 					"../lib/glm-master/",
+					"../lib/freetype-2.6.3/include/",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"../lib/glfw-3.1.2/src/",
 					"../lib/glew-1.13.0/lib",
+					/opt/X11/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -365,10 +377,12 @@
 					/usr/local/Cellar/boost/1.60.0_2/include/,
 					"../lib/glfw-3.1.2/include/",
 					"../lib/glm-master/",
+					"../lib/freetype-2.6.3/include/",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"../lib/glfw-3.1.2/src/",
 					"../lib/glew-1.13.0/lib",
+					/opt/X11/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

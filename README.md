@@ -3,9 +3,10 @@ CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcod
 
 ## Dependencies Included: 
 Dependencies included under /lib
-* GLEW
-* GLFW
-* GLM
+* glew-1.13.0
+* glfw-3.1.2
+* glm
+* freetype-2.6.3
 
 ## Dependencies To Install:
 
@@ -26,7 +27,7 @@ Dependencies included under /lib
         3. Drag the .framework and drop it into directory: /Library/Frameworks 
         4. cd into SDL2.framework
         5. Sign the framework via command: codesign -f -s - SDL2
-        6. Link SDL2.framework in GameEngine.xcodeproj
+        6. Link SDL2.framework in GameEngine.xcodeproj under Link binary with libraries
 
 * Install SDL2 Mixer:
 
@@ -35,7 +36,11 @@ Dependencies included under /lib
         3. Drag the .framework and drop it into directory: /Library/Frameworks 
         4. cd into SDL2_mixer.framework
         5. Sign the framework via command: codesign -f -s - SDL2_mixer
-        6. Link SDL2.framework in GameEngine.xcodeproj
+        6. Link SDL2_mixer.framework in GameEngine.xcodeproj under Link binary with libraries
+
+* Link Freetype2 in Xcode:
+
+        drag /opt/X11/lib/libfreetype.dylib in GameEngine.xcodeproj under Link binary with libraries 
 
 ## Compile and Run:
 
