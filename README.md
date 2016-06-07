@@ -2,9 +2,12 @@
 CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
 
 ## Dependencies Included: 
-- GLEW
-- GLFW
-- GLM
+
+* GLEW
+* GLFW
+* GLM
+
+## Dependencies To Install:
 
 * Install the latest Boost (currently 1.60.0_2), via command: 
 
@@ -23,6 +26,7 @@ CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcod
         3. Drag the .framework and drop it into directory: /Library/Frameworks 
         4. cd into SDL2.framework
         5. Sign the framework via command: codesign -f -s - SDL2
+        6. Link SDL2.framework in GameEngine.xcodeproj
 
 * Install SDL2 Mixer:
 
@@ -31,6 +35,8 @@ CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcod
         3. Drag the .framework and drop it into directory: /Library/Frameworks 
         4. cd into SDL2_mixer.framework
         5. Sign the framework via command: codesign -f -s - SDL2_mixer
+        6. Link SDL2.framework in GameEngine.xcodeproj
 
+## Compile and Run:
 
-* Configure and run on xcode: edit scheme -> Options -> check 'Use custome working directory' and point to the directory containing all the source code. Then the project should run without any problems.
+Configure and run on xcode: edit scheme -> Options -> check 'Use custome working directory' and point to the directory containing all the source code. Then the project should run without any problems.
