@@ -145,28 +145,32 @@ void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
 {
     flap();
     
-    body->update();
-    
     if(moveLeft)
     {
-        this->translate(-speed,0.0f,0.0f);
-        Window::rotate_cam(rotationSpeed, glm::vec3(0,1,0));
+        this->translate(-speed, 0, 0);
+        Window::rotate_cam(rotationSpeed, glm::vec3(0, 1, 0));
     }
     if(moveRight)
     {
-        this->translate(speed, 0.0f,0.0f);
-        Window::rotate_cam(-rotationSpeed, glm::vec3(0,1,0));
+        this->translate(speed, 0, 0);
+        Window::rotate_cam(-rotationSpeed, glm::vec3(0, 1, 0));
     }
     if(moveUp)
     {
-        this->translate(0.0f,0.0f,speed);
-//        Window::change_cam_look_at(glm::vec3(0, 0, -0.2f));
+        this->translate(0, 0, speed);
     }
     if(moveDown)
     {
-        this->translate(0.0f,0.0f,-speed);
-//        Window::change_cam_look_at(glm::vec3(0, 0, 0.2f));
+        this->translate(0, 0,-speed);
     }
+    
+    body->updateBoundingBox();
+}
+
+void Dragon::fallingDown()
+{
+    this->translate(0, 0,-speed);
+    body->updateBoundingBox();
 }
 
 

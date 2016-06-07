@@ -44,7 +44,10 @@ public:
     Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path);
     ~Dragon();
     
+    // Called to move the dragon
     void update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown);
+    // Called to make the dragon fall down after it gets hit
+    void fallingDown();
 };
 
 

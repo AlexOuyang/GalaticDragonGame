@@ -190,7 +190,7 @@ void Window::initialize_objects()
     //    SSAO::add_obj(castle);
     
     change_cam();
-//    change_cam();
+    AudioManager::play_roar();
 }
 
 
@@ -332,11 +332,11 @@ void Window::display_callback(GLFWwindow* window)
 
 void Window::idle_callback()
 {
+    asteroidGroup->update();
+    //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
+
     if (!collided)
     {
-        asteroidGroup->update();
-        //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
-        
         dragon->update(moveLeft, moveRight, moveUp, moveDown);
         
         // Check for collision
@@ -348,10 +348,13 @@ void Window::idle_callback()
             //            std::cout << "Collided: " << collided << std::endl;
             if (collided) {
                 AudioManager::play_death();
-//                AudioManager::play_death_roar();
                 return;
             }
         }
+    }
+    else
+    {
+        dragon->fallingDown();
     }
 }
 
