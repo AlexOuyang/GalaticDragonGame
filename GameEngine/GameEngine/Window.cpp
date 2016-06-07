@@ -386,7 +386,7 @@ void Window::idle_callback()
     }
     else
     {
-//        dragon->falling();
+        dragon->falling();
     }
 }
 

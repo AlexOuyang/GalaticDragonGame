@@ -73,13 +73,14 @@ void DragonWing::update()
     }
 }
 
+// When falling down, the dragon's wing spins faster and faster like a piece leaf losting in the ocean....
 void DragonWing::falling()
 {
+    this->speed += 0.02f;
+
     // When falling ,flappying speed is faster
     if (this->type == 0) // left wing
     {
-        this->speed = 10.0f;
-
 //        if (this->angle > 60) direction = 0;
 //        if (this->angle < -60) direction = 1;
         
@@ -98,7 +99,6 @@ void DragonWing::falling()
     }
     else if (this->type == 1) // right wing
     {
-        this->speed = 6.0f;
 
 //        if (this->angle > 60) direction = -1;
 //        if (this->angle < -60) direction = 0;
