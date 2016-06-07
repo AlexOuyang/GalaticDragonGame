@@ -209,7 +209,7 @@ void Dragon::falling()
 {
     leftWing->falling();
     leftWing->falling();
-    this->translate(0, 0,-speed * 1.5f);
+    this->translate(0, 0,-speed);
     body->updateBoundingBox();
 }
 
