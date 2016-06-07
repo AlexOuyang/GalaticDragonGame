@@ -107,7 +107,7 @@ bool AudioManager::play_death()
     
     play_death_roar();
     
-    SDL_Delay(2000);
+//    SDL_Delay(2000);
     
     play_dictator_speech();
     
