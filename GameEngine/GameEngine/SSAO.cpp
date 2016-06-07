@@ -14,9 +14,10 @@
 glm::vec3 SSAO::lightPos;
 glm::vec3 SSAO::lightColor;
 
-
 // Defined in init()
 bool use_material;
+
+SSAO::MODE SSAO::mode;
 
 GLint SSAO::SSAOShaderProgram;
 GLint SSAO::SSAOBlurShaderProgram;
@@ -92,7 +93,19 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, heigth, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gAlbedo, 0);
+    
+    
+    /*========== Switch between Mode ==========*/
+    
+    if (mode == GRAY_SCALE_MODE)
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gAlbedo, 0);
+    else if (mode == FOG_MODE)
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gAlbedo, 0);
+    
+    /*=========================================*/
+
+    
+    
     // - Tell OpenGL which color attachments we'll use (of this framebuffer) for rendering
     GLuint attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
     glDrawBuffers(3, attachments);
@@ -163,7 +176,9 @@ void SSAO::setupGBuffer(int width, int heigth, int kernelSize){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    /*=========== Switch between Mode  ==========*/
+    if (mode == FOG_MODE)   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    else if (mode == GRAY_SCALE_MODE)   glClearColor(0, 0, 0, 0);
     
 }
 
@@ -293,8 +308,10 @@ void SSAO::RenderQuad()
 /*=============  Public methods =============*/
 
 
-void SSAO::init(int width, int height, glm::vec3 light_pos, glm::vec3 light_color, bool use_material)
+void SSAO::init(glm::vec3 light_pos, glm::vec3 light_color, MODE ssao_mode, bool use_material)
 {
+    mode = ssao_mode;
+    
     use_material = false;
     
     SSAOShaderProgram = LoadShaders("./shaders/shader_SSAO.vert",
@@ -313,7 +330,7 @@ void SSAO::init(int width, int height, glm::vec3 light_pos, glm::vec3 light_colo
     
     //setup light properties
     SSAO::setupLight(light_pos, light_color);
-    SSAO::setupGBuffer(width, height);
+    SSAO::setupGBuffer(Window::width, Window::height);
 }
 
 // Clean up shaders
@@ -349,6 +366,14 @@ void SSAO::draw()
     drawSSAOLighting(SSAOLightingShaderProgram, 1);
 }
 
+
+// Reinitialize the ssao shader
+void SSAO::re_init(MODE mode)
+{
+    SSAO::delete_shaders();
+    // Create shaders for SSAO
+    SSAO::init(lightPos, lightColor, mode);
+}
 
 
 

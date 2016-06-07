@@ -18,14 +18,14 @@ OBJObject::OBJObject(const char *filepath)
     this->transform.scale = glm::vec3(1.0f);
     
     // Default materials are zero vectors
-    this->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
-    this->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
-    this->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
-    this->material.shininess = 0.4f * Light::LIGHT_SHINENESS_COEFFICIENT;
-    //    this->material.k_a = glm::vec3(1.0f);
-    //    this->material.k_s = glm::vec3(1.0f);
-    //    this->material.k_d = glm::vec3(1.0f);
-    //    this->material.shininess = 1.0f;
+    //    this->material.k_a = glm::vec3(0.19225f, 0.19225f, 0.19225f);
+    //    this->material.k_d = glm::vec3(0.50754f, 0.50754f, 0.50754f);
+    //    this->material.k_s = glm::vec3(0.508273f, 0.508273f, 0.508273f);
+    //    this->material.shininess = 0.4f * Light::LIGHT_SHINENESS_COEFFICIENT;
+    this->material.k_a = glm::vec3(1.0f);
+    this->material.k_s = glm::vec3(1.0f);
+    this->material.k_d = glm::vec3(1.0f);
+    this->material.shininess = 0;
     
     
     this->toWorld = glm::mat4(1.0f);
@@ -420,15 +420,15 @@ bool OBJObject::onCollision(BoundingBox * b)
     a->collided = false;
     b->collided = false;
     
-//    std::cout << a->parentObj->tag << "    center:" << glm::to_string(a->center) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
-//    std::cout << b->parentObj->tag << "    center:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
-//    
-//    auto temp_s_1 = glm::vec3(a->toWorld[0][0],a->toWorld[1][1], a->toWorld[2][2]);
-//    auto temp_s_2 = glm::vec3(b->toWorld[0][0],b->toWorld[1][1], b->toWorld[2][2]);
-//    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    r:" << glm::to_string(a->r) << std::endl;
-//    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    r:" << glm::to_string(b->r) << std::endl;
-//    std::cout << std::endl;
-
+    //    std::cout << a->parentObj->tag << "    center:" << glm::to_string(a->center) << "    obj position:" << glm::to_string(a->parentObj->toWorld[3]) << std::endl;
+    //    std::cout << b->parentObj->tag << "    center:" << glm::to_string(b->center) << "    obj position:" << glm::to_string(b->parentObj->toWorld[3]) << std::endl;
+    //
+    //    auto temp_s_1 = glm::vec3(a->toWorld[0][0],a->toWorld[1][1], a->toWorld[2][2]);
+    //    auto temp_s_2 = glm::vec3(b->toWorld[0][0],b->toWorld[1][1], b->toWorld[2][2]);
+    //    std::cout << a->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    r:" << glm::to_string(a->r) << std::endl;
+    //    std::cout << b->parentObj->tag << "    boundingBox scale:" << glm::to_string(temp_s_1) << "    r:" << glm::to_string(b->r) << std::endl;
+    //    std::cout << std::endl;
+    
     // Overlap between two ranges [A, B] and [C, D] can be determined by the expression
     // overlap = (unsigned int)(B - C) <= (B - A) + (D - C);
     if (std::abs(a->center[0] - b->center[0]) > (a->r[0] + b->r[0])) return false;

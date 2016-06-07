@@ -19,18 +19,6 @@ GLfloat boundingBoxVertices[] = {
 	-0.5,  0.5, -0.5
 };
 
-//GLfloat boundingBoxVertices[] = {
-//    // Front vertices
-//    -1, -1,  1,
-//    1, -1,  1,
-//    1,  1,  1,
-//    -1,  1,  1,
-//    // Back vertices
-//    -1, -1, -1,
-//    1, -1, -1,
-//    1,  1, -1,
-//    -1,  1, -1
-//};
 
 GLuint boundingBoxIndices[] = {  // Note that we start from 0!
 	// Front face

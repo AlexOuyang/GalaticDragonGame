@@ -48,12 +48,21 @@ private:
     static void drawSSAOLighting(GLuint shaderProgram, int draw_mode);
     
 public:
+    enum MODE
+    {
+        GRAY_SCALE_MODE,
+        FOG_MODE,
+    };
+    
+    // SSAO's default mode
+    static MODE mode;
+    
     //Light Properties
     static glm::vec3 lightPos;
     static glm::vec3 lightColor;
     
     // Create shaders and set up
-    static void init(int width, int height, glm::vec3 light_pos, glm::vec3 light_color, bool use_material = false);
+    static void init(glm::vec3 light_pos, glm::vec3 light_color, MODE mode, bool use_material = false);
     
     // Add object to be drawn using SSAO
     static void add_obj(OBJObject * obj);
@@ -63,6 +72,9 @@ public:
     
     // Delete the shaders
     static void delete_shaders();
+    
+    // Reinit the ssao shader
+    static void re_init(MODE mode);
 };
 
 

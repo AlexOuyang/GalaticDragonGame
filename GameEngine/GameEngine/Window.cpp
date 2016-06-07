@@ -129,7 +129,7 @@ void Window::initialize_objects()
     
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
     phongShaderProgram = LoadShaders("./shaders/phong_shader.vert",
-                                "./shaders/phong_shader.frag");
+                                     "./shaders/phong_shader.frag");
     skyboxShaderProgram = LoadShaders("./shaders/shader_skybox.vert",
                                       "./shaders/shader_skybox.frag");
     bezierCurveShaderProgram = LoadShaders("./shaders/shader_bezier_curve.vert",
@@ -141,7 +141,7 @@ void Window::initialize_objects()
     boundingBoxShaderProgram = LoadShaders("./shaders/shader_bounding_box.vert",
                                            "./shaders/shader_bounding_box.frag");
     // Create shaders for SSAO
-    SSAO::init(Window::width, Window::height, lightPos, lightColor);
+    SSAO::init(lightPos, lightColor, SSAO::FOG_MODE);
     
     
     // Set up skybox after creating shaders
@@ -261,6 +261,8 @@ void Window::resize_callback(GLFWwindow* window, int w, int h)
     Window::P = glm::perspective(45.0f, (float)w / (float)h, 0.1f, 1000.0f);
     Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
     
+    // Reinitiatialize ssao on resize
+    //    SSAO::re_init();
 }
 
 void Window::display_callback(GLFWwindow* window)
@@ -270,28 +272,24 @@ void Window::display_callback(GLFWwindow* window)
     
     
     /*====== Draw Sybox ======*/
-//    skybox->draw(skyboxShaderProgram);
+    //    skybox->draw(skyboxShaderProgram);
     
     /*====== Draw SSAO ======*/
     if(drawSSAO)
     {
-        glClearColor(0, 0, 0, 0);
-        
         SSAO::draw();
     }
     /*====== Draw Phong Shader =======*/
     else
-    {
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
+    {        
         /*====== Draw Light ======*/
         glUseProgram(phongShaderProgram);
         // Bind cameraPosition, or 'eye' to the shaderProgram
         glUniform3fv(glGetUniformLocation(phongShaderProgram, "eye"), 1, &cam_pos[0]);
         // Bind light to the shaderProgram
         Light::bindDirectionalLightToShader(phongShaderProgram);
-//        Light::bindPointLightToShader(phongShaderProgram);
-//        Light::bindSpotLightToShader(phongShaderProgram);
+        //        Light::bindPointLightToShader(phongShaderProgram);
+        //        Light::bindSpotLightToShader(phongShaderProgram);
         
         /*====== Draw Game Objects ======*/
         dragon->body->draw(phongShaderProgram);
@@ -302,7 +300,7 @@ void Window::display_callback(GLFWwindow* window)
             asteroidGroup->asteroids[i]->draw(phongShaderProgram);
         
         /*===== Draw Bounding Boxes Via Wireframe ======*/
-
+        
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         
         glUseProgram(boundingBoxShaderProgram);
@@ -310,8 +308,8 @@ void Window::display_callback(GLFWwindow* window)
         glUniform3fv(glGetUniformLocation(boundingBoxShaderProgram, "eye"), 1, &cam_pos[0]);
         // Bind light to the shaderProgram
         Light::bindDirectionalLightToShader(boundingBoxShaderProgram);
-//        Light::bindPointLightToShader(boundingBoxShaderProgram);
-//        Light::bindSpotLightToShader(boundingBoxShaderProgram);
+        //        Light::bindPointLightToShader(boundingBoxShaderProgram);
+        //        Light::bindSpotLightToShader(boundingBoxShaderProgram);
         dragon->body->drawBoundingBox(boundingBoxShaderProgram);
         for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
             asteroidGroup->asteroids[i]->drawBoundingBox(boundingBoxShaderProgram);
@@ -344,7 +342,7 @@ void Window::idle_callback()
         {
             other = BoundingBox::boundingBoxes[i];
             collided = dragon->body->onCollision(other);
-//            std::cout << "Collided: " << collided << std::endl;
+            //            std::cout << "Collided: " << collided << std::endl;
             if (collided) return;
         }
     }
@@ -565,11 +563,20 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
             change_cam();
         }
         
-        if (key == GLFW_KEY_T)
+        // Toggle between fog mode, cartoon mode and grayscale mode
+        if (key == GLFW_KEY_T && (mods & shift) == shift)
         {
             drawSSAO = !drawSSAO;
+//            if(drawSSAO)    glClearColor(0, 0, 0, 0); // If draw ssao, make background black
+//            else    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // If debug mode, make background white
         }
-        
+        if (key == GLFW_KEY_T && (mods & shift) != shift)
+        {
+            if(SSAO::mode == SSAO::GRAY_SCALE_MODE)
+                SSAO::re_init(SSAO::FOG_MODE);
+            else if (SSAO::mode == SSAO::FOG_MODE)
+                SSAO::re_init(SSAO::GRAY_SCALE_MODE);
+        }
     }
     
     // Holding down key
@@ -736,7 +743,7 @@ void Window::selection_buffer_click(double xpos, double ypos)
     // but GLFW pos detection is centered at upper left corner.
     ypos = height - ypos;
     
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    //    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram(selectionBufferShaderProgram);

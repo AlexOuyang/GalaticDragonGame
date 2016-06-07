@@ -9,6 +9,7 @@
 #include <time.h>
 #include <stdlib.h>
 
+
 class Window
 {
 private:
