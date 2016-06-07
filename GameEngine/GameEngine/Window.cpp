@@ -69,6 +69,9 @@ bool moveRight = false;
 bool moveUp = false;
 bool moveDown = false;
 
+bool cinematicStart = true;
+bool dragonDead = false;
+
 enum MouseActions
 {
     NONE,
@@ -98,7 +101,7 @@ enum CameraView
     ZOOMEDOUT_VIEW,
 };
 
-CameraView camera_view = ORIGINAL_VIEW;
+CameraView camera_view = CENTER_VIEW;
 
 // Shader programs
 GLint phongShaderProgram;
@@ -114,6 +117,8 @@ GLint boundingBoxShaderProgram;
 
 //glm::vec3 cam_pos(0,-1,0.5);    //game pos of cam (ZOOMED IN)
 glm::vec3 cam_pos(0,-3,1.5);    //game pos of cam (ZOOMED OUT)
+//glm::vec3 cam_pos(0.0f,-6.5f,3.0f);
+
 
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
@@ -189,7 +194,9 @@ void Window::initialize_objects()
     //    castle->translate(0, -2, 0);
     //    SSAO::add_obj(castle);
     
-    change_cam();
+    
+    
+//    change_cam();
 //    change_cam();
 }
 
@@ -332,6 +339,32 @@ void Window::display_callback(GLFWwindow* window)
 
 void Window::idle_callback()
 {
+    if(cinematicStart)
+    {
+        if(cam_pos.z <= 0.1f)
+        {
+            cinematicStart = false;
+        }
+        else
+        {
+            cam_pos.z -= 0.04f;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            
+        }
+    }
+    
+    if(dragonDead)
+    {
+        if(cam_pos.z > -40.0f)
+        {
+            cam_pos.z -= 0.05f;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+        }
+    }
+    
+    
     if (!collided)
     {
         asteroidGroup->update();
@@ -348,6 +381,7 @@ void Window::idle_callback()
             //            std::cout << "Collided: " << collided << std::endl;
             if (collided) {
                 AudioManager::play_death();
+                dragonDead = true;
 //                AudioManager::play_death_roar();
                 return;
             }
@@ -843,7 +877,14 @@ void Window::rotate_cam(float rotAngle, glm::vec3 rotAxis)
     cam_pos = glm::vec4(cam_pos, 0) * rotationMat;
     Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
 }
-
+//
+//void Window::cinematic_cam(glm::vec3 current_cam_pos, glm::vec3 dest_cam_pos)
+//{
+//    cam_pos +
+//    glm::vec3(0.0f,-3.0f,1.5f);
+//    
+//    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+//}
 //void Window::change_cam_look_at(glm::vec3 vec)
 //{
 //    cam_look_at += vec;

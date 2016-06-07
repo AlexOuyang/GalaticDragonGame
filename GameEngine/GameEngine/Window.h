@@ -24,6 +24,7 @@ private:
     static void selection_buffer_click(double xpos, double ypos);
     static void drag_control_point(glm::vec2 displacement);
     static void change_cam();
+//    static void cinematic_cam(glm::vec3 current_cam_pos, glm::vec3 dest_cam_pos);
 
 public:
 	static int width;
