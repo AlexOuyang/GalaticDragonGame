@@ -52,6 +52,7 @@ public:
     {
         GRAY_SCALE_MODE,
         FOG_MODE,
+        RAINBOW_MODE,
     };
     
     // SSAO's default mode

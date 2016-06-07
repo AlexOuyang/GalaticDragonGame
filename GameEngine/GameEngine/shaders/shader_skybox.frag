@@ -2,7 +2,7 @@
 
 in vec3 TexCoords;
 
-layout (location = 2) out vec4 color;
+out vec4 color;
 
 uniform samplerCube skybox;
 

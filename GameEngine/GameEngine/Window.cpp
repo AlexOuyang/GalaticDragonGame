@@ -69,6 +69,9 @@ bool moveRight = false;
 bool moveUp = false;
 bool moveDown = false;
 
+bool cinematicStart = true;
+bool dragonDead = false;
+
 enum MouseActions
 {
     NONE,
@@ -98,7 +101,7 @@ enum CameraView
     ZOOMEDOUT_VIEW,
 };
 
-CameraView camera_view = ORIGINAL_VIEW;
+CameraView camera_view = CENTER_VIEW;
 
 // Shader programs
 GLint phongShaderProgram;
@@ -114,6 +117,8 @@ GLint boundingBoxShaderProgram;
 
 //glm::vec3 cam_pos(0,-1,0.5);    //game pos of cam (ZOOMED IN)
 glm::vec3 cam_pos(0,-3,1.5);    //game pos of cam (ZOOMED OUT)
+//glm::vec3 cam_pos(0.0f,-6.5f,3.0f);
+
 
 glm::vec3 cam_look_at(0.0f, 0.0f, 0.0f);	// d  | This is where the camera looks at
 glm::vec3 cam_up(0.0f, 1.0f, 0.0f);			// up | What orientation "up" is
@@ -335,6 +340,32 @@ void Window::idle_callback()
     asteroidGroup->update();
     //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
 
+    if(cinematicStart)
+    {
+        if(cam_pos.z <= 0.1f)
+        {
+            cinematicStart = false;
+        }
+        else
+        {
+            cam_pos.z -= 0.04f;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            
+        }
+    }
+    
+    if(dragonDead)
+    {
+        if(cam_pos.z > -40.0f)
+        {
+            cam_pos.z -= 0.05f;
+            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+        }
+    }
+    
+    
     if (!collided)
     {
         dragon->update(moveLeft, moveRight, moveUp, moveDown);
@@ -348,13 +379,14 @@ void Window::idle_callback()
             //            std::cout << "Collided: " << collided << std::endl;
             if (collided) {
                 AudioManager::play_death();
+                dragonDead = true;
                 return;
             }
         }
     }
     else
     {
-        dragon->fallingDown();
+        dragon->falling();
     }
 }
 
@@ -590,6 +622,13 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
                 SSAO::re_init(SSAO::FOG_MODE);
             else if (SSAO::mode == SSAO::FOG_MODE)
                 SSAO::re_init(SSAO::GRAY_SCALE_MODE);
+        }
+        if (key == GLFW_KEY_L)
+        {
+            if(SSAO::mode == SSAO::RAINBOW_MODE)
+                SSAO::re_init(SSAO::FOG_MODE);
+            else
+                SSAO::re_init(SSAO::RAINBOW_MODE);
         }
     }
     
@@ -846,7 +885,14 @@ void Window::rotate_cam(float rotAngle, glm::vec3 rotAxis)
     cam_pos = glm::vec4(cam_pos, 0) * rotationMat;
     Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
 }
-
+//
+//void Window::cinematic_cam(glm::vec3 current_cam_pos, glm::vec3 dest_cam_pos)
+//{
+//    cam_pos +
+//    glm::vec3(0.0f,-3.0f,1.5f);
+//    
+//    Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+//}
 //void Window::change_cam_look_at(glm::vec3 vec)
 //{
 //    cam_look_at += vec;

@@ -73,6 +73,51 @@ void DragonWing::update()
     }
 }
 
+void DragonWing::falling()
+{
+    // When falling ,flappying speed is faster
+    this->speed = 6.0f;
+
+    if (this->type == 0) // left wing
+    {
+        if (this->angle > 60) direction = 0;
+        if (this->angle < -60) direction = 1;
+        
+        float deg = direction * speed;
+        this->angle += deg;
+        if (this->angle > 360.0f || this->angle < -360.0f) this->angle = 0.0f;
+        auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), glm::vec3(0,1,0));
+        
+        this->translate(-this->transform.position);
+        
+        this->translate(0.05f, -0.5f, 0);
+        this->toWorld = rotationMat * this->toWorld;
+        this->translate(-0.05f, 0.5f, 0);
+        
+        this->translate(this->transform.position);
+        
+        //        std::cout << angle << std::endl;
+    }
+    else if (this->type == 1) // right wing
+    {
+        if (this->angle > 60) direction = -1;
+        if (this->angle < -40) direction = 0;
+        
+        float deg = direction * speed;
+        this->angle += deg;
+        if (this->angle > 360.0f || this->angle < -360.0f) this->angle = 0.0f;
+        auto rotationMat = glm::rotate(glm::mat4(1.0f), deg / 180.0f * glm::pi<float>(), glm::vec3(0,1,0));
+        
+        this->translate(-this->transform.position);
+        
+        this->translate(-0.05f, 0, 0);
+        this->toWorld = rotationMat * this->toWorld;
+        this->translate(0.05f, 0, 0);
+        
+        this->translate(this->transform.position);
+    }
+}
+
 
 /*=============== Dragon ==================*/
 
@@ -80,7 +125,7 @@ void DragonWing::update()
 Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path)
 {
     speed = 0.1f;
-    rotationSpeed = 2.0f;
+    rotationSpeed = 1.0f;
     
     body = new OBJObject(dragon_body_path);
     leftWing = new DragonWing(dragon_left_wing_path, 0);
@@ -120,13 +165,6 @@ void Dragon::translate(float x, float y, float z)
     rightWing->translationWing(x, y, z);
 }
 
-void Dragon::rotate(float rotAngle, glm::vec3 rotAxis)
-{
-    auto rotationMat = glm::rotate(glm::mat4(1.0f), rotAngle / 180.0f * glm::pi<float>(), rotAxis);
-    //    this->body->rotate(rotAngle, rotAxis);
-    //    this->leftWing->rotate(rotAngle, rotAxis);
-    //    this->rightWing->rotate(rotAngle, rotAxis);
-}
 
 void Dragon::flap()
 {
@@ -167,9 +205,11 @@ void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
     body->updateBoundingBox();
 }
 
-void Dragon::fallingDown()
+void Dragon::falling()
 {
-    this->translate(0, 0,-speed);
+    leftWing->falling();
+    leftWing->falling();
+    this->translate(0, 0,-speed * 1.5f);
     body->updateBoundingBox();
 }
 

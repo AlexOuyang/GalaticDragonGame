@@ -23,6 +23,7 @@ public:
     DragonWing(const char* filepath, int type);
     
     void update();
+    void falling();
     void translationWing(float x, float y, float z);
 };
 
@@ -31,7 +32,6 @@ class Dragon
 {
 private:
     void translate(float x, float y, float z);
-    void rotate(float rotAngle, glm::vec3 rotAxis);
     void flap();
     
 public:
@@ -47,7 +47,7 @@ public:
     // Called to move the dragon
     void update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown);
     // Called to make the dragon fall down after it gets hit
-    void fallingDown();
+    void falling();
 };
 
 
