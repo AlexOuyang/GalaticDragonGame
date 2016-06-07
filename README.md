@@ -39,8 +39,9 @@ Dependencies included under /lib
         6. Link SDL2_mixer.framework in GameEngine.xcodeproj under Link binary with libraries
 
 * Link Freetype2 in Xcode:
-
-        drag /opt/X11/lib/libfreetype.dylib in GameEngine.xcodeproj under Link binary with libraries 
+        Since the header seach path is configured already, you'll just have to:
+        1. Find libfreetype.dylib in either: /usr/X11/lib/libfreetype.6.dylib or /opt/X11/lib/libfreetype.dylib
+        2. Drag libfreetype.dylib or libfreetype.6.dylib into Link binary with libraries section in GameEngine.xcodeproj 
 
 ## Compile and Run:
 
