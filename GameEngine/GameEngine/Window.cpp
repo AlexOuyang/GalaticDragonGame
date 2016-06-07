@@ -241,7 +241,7 @@ GLFWwindow* Window::create_window(int width, int height)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     
     // Create the GLFW window
-    GLFWwindow* window = glfwCreateWindow(width, height, window_title, NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, window_title, glfwGetPrimaryMonitor(), NULL);
     
     // Check if the window could not be created
     if (!window)

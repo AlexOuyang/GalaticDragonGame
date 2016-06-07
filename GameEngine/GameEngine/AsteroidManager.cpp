@@ -118,6 +118,8 @@ void AsteroidGroup::levelUp()
     else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 1.1f;
     else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 1.2f;
     else if (numOfAsteroidsPassed / 200 == 1) speed_multiplier = 1.5f;
+    else if (numOfAsteroidsPassed / 300 == 1) speed_multiplier = 1.7f;
+    else if (numOfAsteroidsPassed / 400 == 1) speed_multiplier = 2.0f;
     
     //        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
     
