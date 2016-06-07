@@ -2,7 +2,7 @@
 CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
 
 ## Dependencies Included: 
-
+Dependencies included under /lib
 * GLEW
 * GLFW
 * GLM
@@ -39,4 +39,4 @@ CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcod
 
 ## Compile and Run:
 
-Configure and run on xcode: edit scheme -> Options -> check 'Use custome working directory' and point to the directory containing all the source code. Then the project should run without any problems.
+To configure and run on xcode: edit scheme -> Options -> check 'Use custome working directory' and point to the directory containing all the source code. Then the project should run without any problems.
