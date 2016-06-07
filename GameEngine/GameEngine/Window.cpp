@@ -140,8 +140,8 @@ void Window::initialize_objects()
     AudioManager::play_background_music();
     
     // Load the shader program. Similar to the .obj objects, different platforms expect a different directory for files
-    phongShaderProgram = LoadShaders("./shaders/phong_shader.vert",
-                                     "./shaders/phong_shader.frag");
+    phongShaderProgram = LoadShaders("./shaders/toon_shader.vert",
+                                     "./shaders/toon_shader.frag");
     skyboxShaderProgram = LoadShaders("./shaders/shader_skybox.vert",
                                       "./shaders/shader_skybox.frag");
     bezierCurveShaderProgram = LoadShaders("./shaders/shader_bezier_curve.vert",
@@ -568,6 +568,7 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         
         if (key == GLFW_KEY_R)
         {
+
         }
         
         
