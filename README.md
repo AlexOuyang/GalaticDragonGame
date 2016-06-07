@@ -1,6 +1,11 @@
 # GameEngine
 CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
 
+## Dependencies Included: 
+- GLEW
+- GLFW
+- GLM
+
 * Install the latest Boost (currently 1.60.0_2), via command: 
 
         brew update
