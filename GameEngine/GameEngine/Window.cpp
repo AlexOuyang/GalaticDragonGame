@@ -194,7 +194,6 @@ void Window::initialize_objects()
     //    castle->translate(0, -2, 0);
     //    SSAO::add_obj(castle);
     
-//    change_cam();
     AudioManager::play_roar();
 }
 

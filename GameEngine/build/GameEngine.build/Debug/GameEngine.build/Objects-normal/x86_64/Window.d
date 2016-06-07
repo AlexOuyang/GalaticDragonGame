@@ -218,6 +218,50 @@ dependencies: \
   ../lib/glm-master/glm/detail/intrinsic_matrix.inl \
   ../lib/glm-master/glm/gtx/simd_mat4.inl \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/window.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_main.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_stdinc.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_config.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_platform.h \
+  /Library/Frameworks/SDL2.framework/Headers/begin_code.h \
+  /Library/Frameworks/SDL2.framework/Headers/close_code.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_config_macosx.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_assert.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_atomic.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_audio.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_error.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_endian.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_mutex.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_thread.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_rwops.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_clipboard.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_cpuinfo.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_events.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_video.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_pixels.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_rect.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_surface.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_blendmode.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_keyboard.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_keycode.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_scancode.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_mouse.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_joystick.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_gamecontroller.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_quit.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_gesture.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_touch.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_filesystem.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_haptic.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_hints.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_loadso.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_log.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_messagebox.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_power.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_render.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_system.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_timer.h \
+  /Library/Frameworks/SDL2.framework/Headers/SDL_version.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/OBJObject.h \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/predicate.hpp \
   /usr/local/Cellar/boost/1.60.0_2/include/boost/algorithm/string/config.hpp \
@@ -605,50 +649,6 @@ dependencies: \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/CoasterTrack.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/SSAO.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AudioManager.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_main.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_stdinc.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_config.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_platform.h \
-  /Library/Frameworks/SDL2.framework/Headers/begin_code.h \
-  /Library/Frameworks/SDL2.framework/Headers/close_code.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_config_macosx.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_assert.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_atomic.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_audio.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_error.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_endian.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_mutex.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_thread.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_rwops.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_clipboard.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_cpuinfo.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_events.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_video.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_pixels.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_rect.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_surface.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_blendmode.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_keyboard.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_keycode.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_scancode.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_mouse.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_joystick.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_gamecontroller.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_quit.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_gesture.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_touch.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_filesystem.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_haptic.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_hints.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_loadso.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_log.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_messagebox.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_power.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_render.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_system.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_timer.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_version.h \
   /Library/Frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AsteroidManager.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Dragon.h

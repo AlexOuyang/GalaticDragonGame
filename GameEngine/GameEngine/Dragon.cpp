@@ -76,7 +76,11 @@ void DragonWing::update()
 // When falling down, the dragon's wing spins faster and faster like a piece leaf losting in the ocean....
 void DragonWing::falling()
 {
-    this->speed += 0.02f;
+    // Only fall until certain point, then do nothing
+    if(this->speed <= 0.001 && this->speed >= -0.001) return;
+    
+    this->speed -= 0.01f;
+    
 
     // When falling ,flappying speed is faster
     if (this->type == 0) // left wing
@@ -207,9 +211,13 @@ void Dragon::update(bool moveLeft, bool moveRight, bool moveUp, bool moveDown)
 
 void Dragon::falling()
 {
+    // Only fall until certain point, then do nothing
+    if(this->speed <= 0.001 && this->speed >= -0.001) return;
+    this->speed -= 0.001f;
+    
     leftWing->falling();
     leftWing->falling();
-    this->translate(0, 0,-speed);
+    this->translate(0, 0,-this->speed);
     body->updateBoundingBox();
 }
 

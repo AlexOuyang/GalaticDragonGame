@@ -8,6 +8,7 @@
 #include <glm/gtx/transform.hpp>
 #include <time.h>
 #include <stdlib.h>
+#include <SDL2/SDL.h>
 
 
 class Window
