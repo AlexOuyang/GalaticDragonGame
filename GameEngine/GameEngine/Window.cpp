@@ -50,6 +50,8 @@ Dragon * dragon = nullptr;
 OBJObject * castle = nullptr;
 AsteroidGroup * asteroidGroup = nullptr;
 
+// Keep track of the scoring
+std::string score;
 
 //SSAO Light Properties
 glm::vec3 lightPos = glm::vec3(-3.0, 10.0, 0.0);
@@ -329,8 +331,8 @@ void Window::display_callback(GLFWwindow* window)
     }
     
     // Render score and logo on screen
-    std::string score = "Score: " + std::to_string(asteroidGroup->numOfAsteroidsPassed);
-        renderText(score, 640.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+    score = (dragonDead) ? score : "Score: " + std::to_string(asteroidGroup->numOfAsteroidsPassed);
+    renderText(score, 640.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
     if (dragonDead)
         renderText("Game Over", 25.0f, 25.0f, 1.0f, glm::vec3(0.2f, 0.3f, 0.3f));
     else

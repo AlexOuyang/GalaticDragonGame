@@ -30,6 +30,10 @@ GLuint Text_VAO, Text_VBO;
 
 void renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
 {
+    /*====== GL_BLEND will help us draw text instead of quad =======*/
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     // Activate corresponding render state
     glUseProgram(textShaderProgram);
     glUniform3f(glGetUniformLocation(textShaderProgram, "textColor"), color.x, color.y, color.z);
@@ -71,11 +75,18 @@ void renderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    
+    /*======= If we don't disable GL_BLEND, SSAO would not work =======*/
+    glDisable(GL_BLEND);
 }
 
 
 void setUpText()
 {
+    // Enable GL_BLEND will help us draw text instead of quad
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     // Compile and setup the shader
     textShaderProgram = LoadShaders("./shaders/shader_text.vert",
                                     "./shaders/shader_text.frag");
@@ -101,6 +112,8 @@ void setUpText()
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     
     // Load first 128 characters of ASCII set
+    // For each character, we generate a texture and store its relevant data
+    // into a Character struct that we add to the Characters map.
     for (GLubyte c = 0; c < 128; c++)
     {
         // Load character glyph
@@ -154,5 +167,6 @@ void setUpText()
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    
     
 }
