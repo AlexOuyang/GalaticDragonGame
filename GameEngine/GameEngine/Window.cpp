@@ -332,7 +332,7 @@ void Window::display_callback(GLFWwindow* window)
     std::string score = "Score: " + std::to_string(asteroidGroup->numOfAsteroidsPassed);
         renderText(score, 640.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
     if (dragonDead)
-        renderText("Game Over", 640.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+        renderText("Game Over", 25.0f, 25.0f, 1.0f, glm::vec3(0.2f, 0.3f, 0.3f));
     else
         renderText("Galactic Dragon", 25.0f, 25.0f, 1.0f, glm::vec3(0.2f, 0.3f, 0.3f));
     
