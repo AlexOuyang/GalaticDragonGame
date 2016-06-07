@@ -63,6 +63,8 @@ glm::vec3 lightColor = glm::vec3(0, 0, 0);
 //glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);
 //glm::vec3 lightColor = glm::vec3(1.0, 1.0, 0.2);
 
+bool pauseGame = false;
+
 bool collided = false;
 
 bool drawSSAO = true;
@@ -350,56 +352,59 @@ void Window::display_callback(GLFWwindow* window)
 
 void Window::idle_callback()
 {
-    asteroidGroup->update();
-    //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
-    
-    if(cinematicStart)
+    if (!pauseGame)
     {
-        if(cam_pos.z <= 0.1f)
+        asteroidGroup->update();
+        //    std::cout << "Num of Asteroids dodged: " << asteroidGroup->numOfAsteroidsPassed << std::endl;
+        
+        if(cinematicStart)
         {
-            cinematicStart = false;
+            if(cam_pos.z <= 0.1f)
+            {
+                cinematicStart = false;
+            }
+            else
+            {
+                cam_pos.z -= 0.1f;
+                cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+                Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+                
+            }
+        }
+        
+        if(dragonDead)
+        {
+            if(cam_pos.z > -40.0f)
+            {
+                cam_pos.z -= 0.05f;
+                cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
+                Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
+            }
+        }
+        
+        
+        if (!collided)
+        {
+            dragon->update(moveLeft, moveRight, moveUp, moveDown);
+            
+            // Check for collision
+            BoundingBox * other;
+            for (int i = 0; i < BoundingBox::boundingBoxes.size(); i++)
+            {
+                other = BoundingBox::boundingBoxes[i];
+                collided = dragon->body->onCollision(other);
+                //            std::cout << "Collided: " << collided << std::endl;
+                if (collided) {
+                    AudioManager::play_death();
+                    dragonDead = true;
+                    return;
+                }
+            }
         }
         else
         {
-            cam_pos.z -= 0.1f;
-            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
-            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
-            
+            dragon->falling();
         }
-    }
-    
-    if(dragonDead)
-    {
-        if(cam_pos.z > -40.0f)
-        {
-            cam_pos.z -= 0.05f;
-            cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
-            Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
-        }
-    }
-    
-    
-    if (!collided)
-    {
-        dragon->update(moveLeft, moveRight, moveUp, moveDown);
-        
-        // Check for collision
-        BoundingBox * other;
-        for (int i = 0; i < BoundingBox::boundingBoxes.size(); i++)
-        {
-            other = BoundingBox::boundingBoxes[i];
-            collided = dragon->body->onCollision(other);
-            //            std::cout << "Collided: " << collided << std::endl;
-            if (collided) {
-                AudioManager::play_death();
-                dragonDead = true;
-                return;
-            }
-        }
-    }
-    else
-    {
-        dragon->falling();
     }
 }
 
@@ -552,7 +557,8 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         
         if (key == GLFW_KEY_P)
         {
-            collided = false;
+            //            collided = false;
+            pauseGame = !pauseGame;
         }
         
         if (key == GLFW_KEY_A)
