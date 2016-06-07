@@ -8,8 +8,8 @@
 
 #include "AudioManager.h"
 
-Mix_Chunk * AudioManager::audio_1;
-Mix_Chunk * AudioManager::audio_2;
+Mix_Chunk * AudioManager::roar;
+Mix_Chunk * AudioManager::splat;
 Mix_Music * AudioManager::background_music;
 
 bool AudioManager::init()
@@ -29,16 +29,16 @@ bool AudioManager::init()
     }
     
     // Load our 1st sound effect
-    audio_1 = Mix_LoadWAV(AUDIO_1);
-    if (audio_1 == NULL)
+    roar = Mix_LoadWAV(AUDIO_1);
+    if (roar == NULL)
     {
         std::cerr << "Failed to load audio 1 error" << std::endl;
         return false;
     }
     
     // Load our 2st sound effect
-    audio_2 = Mix_LoadWAV(AUDIO_2);
-    if (audio_2 == NULL)
+    splat = Mix_LoadWAV(AUDIO_2);
+    if (splat == NULL)
     {
         std::cerr << "Failed to load audio 2 error" << std::endl;
         return false;
@@ -57,16 +57,16 @@ bool AudioManager::init()
 }
 
 
-bool AudioManager::play_audio_1()
+bool AudioManager::play_roar()
 {
-    if ( Mix_PlayChannel(-1, audio_1, 0) == -1 )
+    if ( Mix_PlayChannel(-1, roar, 0) == -1 )
         return false;
     return true;
 }
 
-bool AudioManager::play_audio_2()
+bool AudioManager::play_splat()
 {
-    if ( Mix_PlayChannel(-1, audio_2, 0) == -1 )
+    if ( Mix_PlayChannel(-1, splat, 0) == -1 )
         return false;
     return true;
 }
@@ -81,8 +81,8 @@ bool AudioManager::play_background_music()
 void AudioManager::close()
 {
     // clean up our resources
-    Mix_FreeChunk(audio_1);
-    Mix_FreeChunk(audio_2);
+    Mix_FreeChunk(roar);
+    Mix_FreeChunk(splat);
     Mix_FreeMusic(background_music);
     
     // quit SDL_mixer

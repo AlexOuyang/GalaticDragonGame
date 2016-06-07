@@ -12,7 +12,7 @@ bound_left(bound_left),
 bound_right(bound_right),
 bound_z_pos(bound_z_pos),
 bound_z_neg(bound_z_neg),
-speed_multiplier(0.5f),
+speed_multiplier(0.8f),
 numOfAsteroidsPassed(0)
 {
     //setting random seed
@@ -20,7 +20,7 @@ numOfAsteroidsPassed(0)
     
     for(int i = 0; i < num_of_asteroids; i ++)
     {
-        addAsteroid(randomPosition(), randFloat(0.2f, 2.0f));
+        addAsteroid(randomPosition(), randFloat(0.2f, 3.0f));
     }
 }
 
@@ -98,7 +98,7 @@ glm::vec4 AsteroidGroup::randomPosition()
 // Give a randomized velocity
 glm::vec3 AsteroidGroup::randomVelocity()
 {
-    return glm::vec3(0.0f,randFloat(0.0f,-1.0f),0.0f) * speed_multiplier;
+    return glm::vec3(0.0f, speed_multiplier * randFloat(-0.1f,-1.0f),0.0f);
 }
 
 // Reset asteroid if out of bound
@@ -113,11 +113,11 @@ void AsteroidGroup::reset(Asteroid* asteroid)
 // Called in update() to speed up asteroids over time based on the total num of asteroids passed
 void AsteroidGroup::levelUp()
 {
-    if (numOfAsteroidsPassed / 50 == 1) speed_multiplier = 0.6f;
-    else if (numOfAsteroidsPassed / 100 == 1) speed_multiplier = 0.7f;
-    else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 0.8f;
-    else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 0.9f;
-    else if (numOfAsteroidsPassed / 200 == 1) speed_multiplier = 1.0f;
+    if (numOfAsteroidsPassed / 50 == 1) speed_multiplier = 0.9f;
+    else if (numOfAsteroidsPassed / 100 == 1) speed_multiplier = 1.0f;
+    else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 1.1f;
+    else if (numOfAsteroidsPassed / 150 == 1) speed_multiplier = 1.2f;
+    else if (numOfAsteroidsPassed / 200 == 1) speed_multiplier = 1.5f;
     
     //        std::cout << "Asteroid speed multiplier: " << speed_multiplier << std::endl;
     

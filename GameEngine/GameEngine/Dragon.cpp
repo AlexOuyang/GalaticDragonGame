@@ -82,7 +82,7 @@ void DragonWing::update()
 Dragon::Dragon(const char* dragon_body_path, const char* dragon_left_wing_path, const char* dragon_right_wing_path)
 {
     speed = 0.1f;
-    rotationSpeed = 2.5f;
+    rotationSpeed = 2.0f;
     
     body = new OBJObject(dragon_body_path);
     leftWing = new DragonWing(dragon_left_wing_path, 0);

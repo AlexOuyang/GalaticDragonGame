@@ -94,7 +94,7 @@ ControlMode currentControlMode = CAMERA_CONTROL; // Set Mouse action to none by 
 enum CameraView
 {
     ORIGINAL_VIEW,
-    FEET_VIEW,
+    CENTER_VIEW,
     ZOOMEDOUT_VIEW,
 };
 
@@ -171,10 +171,10 @@ void Window::initialize_objects()
     int num_of_asteroids = 50;
     float bound_top = 50;
     float bound_down = -5;
-    float bound_left = -5;
-    float bound_right = 5;
-    float bound_z_pos = 5;
-    float bound_z_neg = -5;
+    float bound_left = -10;
+    float bound_right = 10;
+    float bound_z_pos = 10;
+    float bound_z_neg = -10;
     asteroidGroup = new AsteroidGroup(num_of_asteroids, bound_top, bound_down,
                                       bound_left, bound_right, bound_z_pos, bound_z_neg);
     for (int i = 0; i < asteroidGroup->asteroids.size(); i++)
@@ -188,6 +188,9 @@ void Window::initialize_objects()
     //    castle->scale(10);
     //    castle->translate(0, -2, 0);
     //    SSAO::add_obj(castle);
+    
+    change_cam();
+//    change_cam();
 }
 
 
@@ -343,7 +346,10 @@ void Window::idle_callback()
             other = BoundingBox::boundingBoxes[i];
             collided = dragon->body->onCollision(other);
             //            std::cout << "Collided: " << collided << std::endl;
-            if (collided) return;
+            if (collided) {
+                AudioManager::play_splat();
+                return;
+            }
         }
     }
 }
@@ -499,8 +505,12 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         
         if (key == GLFW_KEY_P)
         {
-            //            AudioManager::play_audio_1();
             collided = false;
+        }
+        
+        if (key == GLFW_KEY_A)
+        {
+            AudioManager::play_roar();
         }
         
         if (key == GLFW_KEY_R)
@@ -801,13 +811,13 @@ void Window::change_cam()
 {
     switch(camera_view){
         case ORIGINAL_VIEW:
-            std::cout << "FEET_VIEW" << std::endl;
+            std::cout << "CENTER_VIEW" << std::endl;
             cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
             cam_pos = glm::vec3(0.0f,-3.0f,0.1f);
             Window::V = glm::lookAt(cam_pos, cam_look_at, cam_up);
-            camera_view = FEET_VIEW;
+            camera_view = CENTER_VIEW;
             break;
-        case FEET_VIEW:
+        case CENTER_VIEW:
             std::cout << "ZOOMEDOUT_VIEW" << std::endl;
             cam_up = glm::vec3(0.0f, 1.0f, 0.0f);
             cam_pos = glm::vec3(0.0f,-6.5f,3.0f);
