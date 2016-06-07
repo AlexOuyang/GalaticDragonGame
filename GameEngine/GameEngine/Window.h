@@ -14,7 +14,7 @@
 class Window
 {
 private:
-    constexpr const static char* window_title = "Unnamed Scene";
+    constexpr const static char* window_title = "Galactic Dragon";
     constexpr const static float osx_retina_pixel_multiplier = 1.0f; //retina = 2.0f
     // Called in display_callback to display the scene
     static void display_full_screen();

@@ -13,6 +13,7 @@
 #include "AsteroidManager.h"
 #include "Dragon.h"
 #include "BoundingBox.h"
+#include "Text.h"
 
 //defined static member variables
 int Window::width;
@@ -187,6 +188,8 @@ void Window::initialize_objects()
     
     
     
+    setUpText();
+    
     // Create castle
     //    castle = new OBJObject("../../Models/castle.obj");
     //    castle->rotate(90.0f,glm::vec3(1.0f,0.0f,0.0f));
@@ -324,6 +327,14 @@ void Window::display_callback(GLFWwindow* window)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         
     }
+    
+    // Render score and logo on screen
+    std::string score = "Score: " + std::to_string(asteroidGroup->numOfAsteroidsPassed);
+        renderText(score, 640.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+    if (dragonDead)
+        renderText("Game Over", 640.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+    else
+        renderText("Galactic Dragon", 25.0f, 25.0f, 1.0f, glm::vec3(0.2f, 0.3f, 0.3f));
     
     // Swap buffers
     glfwSwapBuffers(window);

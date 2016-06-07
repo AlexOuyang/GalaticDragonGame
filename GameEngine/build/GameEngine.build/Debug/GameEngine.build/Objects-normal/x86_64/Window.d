@@ -651,4 +651,17 @@ dependencies: \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AudioManager.h \
   /Library/Frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h \
   /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/AsteroidManager.h \
-  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Dragon.h
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Dragon.h \
+  /Users/chenxingouyang/Documents/Github/GameEngine/GameEngine/GameEngine/Text.h \
+  ../lib/freetype-2.6.3/include/ft2build.h \
+  ../lib/freetype-2.6.3/include/freetype/config/ftheader.h \
+  ../lib/freetype-2.6.3/include/freetype/freetype.h \
+  ../lib/freetype-2.6.3/include/freetype/config/ftconfig.h \
+  ../lib/freetype-2.6.3/include/freetype/config/ftoption.h \
+  ../lib/freetype-2.6.3/include/freetype/config/ftstdlib.h \
+  ../lib/freetype-2.6.3/include/freetype/fttypes.h \
+  ../lib/freetype-2.6.3/include/freetype/ftsystem.h \
+  ../lib/freetype-2.6.3/include/freetype/ftimage.h \
+  ../lib/freetype-2.6.3/include/freetype/fterrors.h \
+  ../lib/freetype-2.6.3/include/freetype/ftmoderr.h \
+  ../lib/freetype-2.6.3/include/freetype/fterrdef.h
