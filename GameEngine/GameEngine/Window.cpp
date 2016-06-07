@@ -622,6 +622,13 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
             else if (SSAO::mode == SSAO::FOG_MODE)
                 SSAO::re_init(SSAO::GRAY_SCALE_MODE);
         }
+        if (key == GLFW_KEY_L)
+        {
+            if(SSAO::mode == SSAO::RAINBOW_MODE)
+                SSAO::re_init(SSAO::FOG_MODE);
+            else
+                SSAO::re_init(SSAO::RAINBOW_MODE);
+        }
     }
     
     // Holding down key

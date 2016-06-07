@@ -258,6 +258,13 @@ void SSAO::drawSSAOLighting(GLuint shaderProgram, int draw_mode){
     glm::vec3 lightPosView = glm::vec3(Window::V * glm::vec4(SSAO::lightPos, 1.0));
     glUniform3fv(glGetUniformLocation(shaderProgram, "light.Position"), 1, &lightPosView[0]);
     glUniform3fv(glGetUniformLocation(shaderProgram, "light.Color"), 1, &SSAO::lightColor[0]);
+    
+    /*========= Used for changing modes ===========*/
+    
+    glUniform1f(glGetUniformLocation(shaderProgram, "rainbow_mode"), (mode == RAINBOW_MODE) ? 1 : 0 );
+    
+    /*=============================================*/
+    
     // Update attenuation parameters
     //    const GLfloat constant = 1.0; // Note that we don't send this to the shader, we assume it is always 1.0 (in our case)
     const GLfloat linear = 0.09;

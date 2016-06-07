@@ -8,6 +8,7 @@ uniform sampler2D gAlbedo;
 uniform sampler2D ssao;
 
 uniform bool useMaterial;
+uniform bool rainbow_mode;
 
 // Material settings
 uniform struct Material
@@ -55,6 +56,11 @@ void main()
         
         // Final lighting
         lighting = attenuation * (diffuse * material.k_d + specular * material.k_s) + ambient * material.k_a;
+        
+        if(rainbow_mode)
+            FragColor = vec4(FragPos, 1.0);
+        else
+            FragColor = vec4(lighting, 1.0);
     }
     else
     {
@@ -80,7 +86,10 @@ void main()
         
         // Final lighting
         lighting = attenuation * (diffuse + specular) + ambient;
+        
+        if(rainbow_mode)
+            FragColor = vec4(FragPos, 1.0);
+        else
+            FragColor = vec4(lighting, 1.0);
     }
-    
-    FragColor = vec4(lighting, 1.0);
 }
