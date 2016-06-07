@@ -11,6 +11,7 @@
 Mix_Chunk * AudioManager::roar;
 Mix_Chunk * AudioManager::death;
 Mix_Chunk * AudioManager::death_roar;
+Mix_Chunk * AudioManager::dictator_speech;
 Mix_Music * AudioManager::background_music;
 
 bool AudioManager::init()
@@ -53,6 +54,15 @@ bool AudioManager::init()
         return false;
     }
     
+    
+    // Load our 4st sound effect
+    death_roar = Mix_LoadWAV(AUDIO_4);
+    if (death_roar == NULL)
+    {
+        std::cerr << "Failed to load audio 4 error" << std::endl;
+        return false;
+    }
+    
     // Load our music
     background_music = Mix_LoadMUS(MUS_PATH);
     if (background_music == NULL)
@@ -80,13 +90,27 @@ bool AudioManager::play_death_roar()
     return true;
 }
 
+bool AudioManager::play_dictator_speech()
+{
+    if ( Mix_PlayChannel(-1, dictator_speech, 0) == -1 )
+        return false;
+    return true;
+}
+
+
 bool AudioManager::play_death()
 {
     if ( Mix_PlayChannel(-1, death, 0) == -1 )
         return false;
+    
     SDL_Delay(200);
-    if ( Mix_PlayChannel(-1, death_roar, 0) == -1 )
-        return false;
+    
+    play_death_roar();
+    
+    SDL_Delay(2000);
+    
+    play_dictator_speech();
+    
     return true;
 }
 
@@ -103,6 +127,7 @@ void AudioManager::close()
     Mix_FreeChunk(roar);
     Mix_FreeChunk(death);
     Mix_FreeChunk(death_roar);
+    Mix_FreeChunk(dictator_speech);
     Mix_FreeMusic(background_music);
     
     // quit SDL_mixer
