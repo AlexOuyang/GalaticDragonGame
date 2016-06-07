@@ -102,7 +102,7 @@ void setUpText()
     
     // Load font as face
     FT_Face face;
-    if (FT_New_Face(ft, "../../Fonts/roboto/Roboto-Black.ttf", 0, &face))
+    if (FT_New_Face(ft, "../../Fonts/almendra/AlmendraDisplay-Regular.otf", 0, &face))
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
     
     // Set size to load glyphs as
