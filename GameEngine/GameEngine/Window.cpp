@@ -574,14 +574,14 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         }
         
         // Change cutoff angle for spot light
-        if (key == GLFW_KEY_A && (mods & shift) == shift)
-        {
-            Light::changeSpotLightCutoff(-5);
-        }
-        else if (key == GLFW_KEY_A && (mods & shift) != shift)
-        {
-            Light::changeSpotLightCutoff(5);
-        }
+//        if (key == GLFW_KEY_A && (mods & shift) == shift)
+//        {
+//            Light::changeSpotLightCutoff(-5);
+//        }
+//        else if (key == GLFW_KEY_A && (mods & shift) != shift)
+//        {
+//            Light::changeSpotLightCutoff(5);
+//        }
         
         // Change exponent coefficient for spot light
         if (key == GLFW_KEY_E && (mods & shift) == shift)
