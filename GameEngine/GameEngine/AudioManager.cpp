@@ -103,11 +103,9 @@ bool AudioManager::play_death()
     if ( Mix_PlayChannel(-1, death, 0) == -1 )
         return false;
     
-    SDL_Delay(200);
+    SDL_Delay(100);
     
     play_death_roar();
-    
-//    SDL_Delay(2000);
     
     play_dictator_speech();
     
