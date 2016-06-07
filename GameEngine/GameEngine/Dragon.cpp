@@ -70,8 +70,6 @@ void DragonWing::update()
         this->translate(0.05f, 0, 0);
         
         this->translate(this->transform.position);
-        
-        //        std::cout << angle << std::endl;
     }
 }
 

@@ -168,7 +168,7 @@ void Window::initialize_objects()
     SSAO::add_obj(dragon->rightWing);
     
     // Create asteroid group
-    int num_of_asteroids = 50;
+    int num_of_asteroids = 60;
     float bound_top = 50;
     float bound_down = -5;
     float bound_left = -10;
@@ -347,7 +347,8 @@ void Window::idle_callback()
             collided = dragon->body->onCollision(other);
             //            std::cout << "Collided: " << collided << std::endl;
             if (collided) {
-                AudioManager::play_splat();
+                AudioManager::play_death();
+//                AudioManager::play_death_roar();
                 return;
             }
         }

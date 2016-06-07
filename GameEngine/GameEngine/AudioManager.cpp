@@ -9,7 +9,8 @@
 #include "AudioManager.h"
 
 Mix_Chunk * AudioManager::roar;
-Mix_Chunk * AudioManager::splat;
+Mix_Chunk * AudioManager::death;
+Mix_Chunk * AudioManager::death_roar;
 Mix_Music * AudioManager::background_music;
 
 bool AudioManager::init()
@@ -37,10 +38,18 @@ bool AudioManager::init()
     }
     
     // Load our 2st sound effect
-    splat = Mix_LoadWAV(AUDIO_2);
-    if (splat == NULL)
+    death = Mix_LoadWAV(AUDIO_2);
+    if (death == NULL)
     {
         std::cerr << "Failed to load audio 2 error" << std::endl;
+        return false;
+    }
+    
+    // Load our 3st sound effect
+    death_roar = Mix_LoadWAV(AUDIO_3);
+    if (death_roar == NULL)
+    {
+        std::cerr << "Failed to load audio 3 error" << std::endl;
         return false;
     }
     
@@ -64,9 +73,19 @@ bool AudioManager::play_roar()
     return true;
 }
 
-bool AudioManager::play_splat()
+bool AudioManager::play_death_roar()
 {
-    if ( Mix_PlayChannel(-1, splat, 0) == -1 )
+    if ( Mix_PlayChannel(-1, death_roar, 0) == -1 )
+        return false;
+    return true;
+}
+
+bool AudioManager::play_death()
+{
+    if ( Mix_PlayChannel(-1, death, 0) == -1 )
+        return false;
+    SDL_Delay(200);
+    if ( Mix_PlayChannel(-1, death_roar, 0) == -1 )
         return false;
     return true;
 }
@@ -82,7 +101,8 @@ void AudioManager::close()
 {
     // clean up our resources
     Mix_FreeChunk(roar);
-    Mix_FreeChunk(splat);
+    Mix_FreeChunk(death);
+    Mix_FreeChunk(death_roar);
     Mix_FreeMusic(background_music);
     
     // quit SDL_mixer
