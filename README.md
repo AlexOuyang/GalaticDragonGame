@@ -1,5 +1,30 @@
-# Game Engine
-Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
+# Galatic Dragon
+A game made in made using OpenGL, GLFW, GLM and GLEW via Xcode for CSE167 Computer Graphics
+
+## Video
+[![Galatic Dragon](https://raw.githubusercontent.com/AlexOuyang/GalaticDragonGame/master/ScreenShots/youtube.png)](https://www.youtube.com/watch?v=1vc1sbcdWMo "Galatic Dragon")
+
+## Blog
+[![Galatic Dragon](https://github.com/AlexOuyang/GalaticDragonGame/blob/master/ScreenShots/CartoonMode.png)](https://medium.com/@snyoonoh/created-by-alex-ouyang-seung-yoon-oh-dede5c7ac70a#.n5jhrxpbz "Galatic Dragon")
+
+## Keys
+
+* Arrow Keys : moves dragon in direction of arrow key
+* [A] Roar : Dragon will roar!
+* [T] (SSAO) Toggle : Toggles screen between fog mode and SSAO mode
+* [Shift + T] (Cartoon) Toggle: Toggles screen between cartoon mode and (fog, SSAO modes)
+* [D] (Debug) : Must be pressed from cartoon mode; when pressed wireframes for the bounding boxes will be shown.
+* [L] (Rainbow) Toggle: Toggles screen between rainbow mode and (fog, SSAO modes)
+* [R] Reset : Resets the game
+
+## Techical Effects:
+* SSAO Shader Effect
+* Fog Effect
+* Bounding boxes + Collision Detection
+* Audio Effects
+* On-screen Text
+* Toon Shading
+* Phong Shading
 
 ## Dependencies Included: 
 Dependencies included under /lib
@@ -47,20 +72,3 @@ Dependencies included under /lib
 
 To configure and run on xcode: edit scheme -> Options -> check 'Use custome working directory' and point to the directory containing all the source code. Then the project should run without any problems.
 
-
-# Game Created: Galatic Dragon
-
-## Project Blog and Video
-* Blog: https://medium.com/@snyoonoh/created-by-alex-ouyang-seung-yoon-oh-dede5c7ac70a#.xm0hzkomt
-* Video: https://www.youtube.com/watch?v=1vc1sbcdWMo
-[![Galatic Dragon](https://raw.githubusercontent.com/AlexOuyang/GameEngine/master/ScreenShots/Screen%20Shot%202016-06-04%20at%205.28.19%20AM.png)](https://www.youtube.com/watch?v=1vc1sbcdWMo "Galatic Dragon")
-
-## Keys
-
-* Arrow Keys : moves dragon in direction of arrow key
-* [A] Roar : Dragon will roar!
-* [T] (SSAO) Toggle : Toggles screen between fog mode and SSAO mode
-* [Shift + T] (Cartoon) Toggle: Toggles screen between cartoon mode and (fog, SSAO modes)
-* [D] (Debug) : Must be pressed from cartoon mode; when pressed wireframes for the bounding boxes will be shown.
-* [L] (Rainbow) Toggle: Toggles screen between rainbow mode and (fog, SSAO modes)
-* [R] Reset : Resets the game
