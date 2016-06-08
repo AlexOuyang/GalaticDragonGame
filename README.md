@@ -1,10 +1,5 @@
-# GameEngine
-CSE167 Final Project: Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
-
-## Project Blog and Video
-* Blog: https://medium.com/@snyoonoh/created-by-alex-ouyang-seung-yoon-oh-dede5c7ac70a#.xm0hzkomt
-* Video: https://www.youtube.com/watch?v=1vc1sbcdWMo
-
+# Game Engine
+Game Engine made using OpenGL, GLFW, GLM and GLEW via Xcode
 
 ## Dependencies Included: 
 Dependencies included under /lib
@@ -51,3 +46,21 @@ Dependencies included under /lib
 ## Compile and Run:
 
 To configure and run on xcode: edit scheme -> Options -> check 'Use custome working directory' and point to the directory containing all the source code. Then the project should run without any problems.
+
+
+# Game Created: Galatic Dragon
+
+## Project Blog and Video
+* Blog: https://medium.com/@snyoonoh/created-by-alex-ouyang-seung-yoon-oh-dede5c7ac70a#.xm0hzkomt
+* Video: https://www.youtube.com/watch?v=1vc1sbcdWMo
+[![Galatic Dragon](https://raw.githubusercontent.com/AlexOuyang/GameEngine/master/ScreenShots/Screen%20Shot%202016-06-04%20at%205.28.19%20AM.png)](https://www.youtube.com/watch?v=1vc1sbcdWMo "Galatic Dragon")
+
+## Keys
+
+* Arrow Keys : moves dragon in direction of arrow key
+* [A] Roar : Dragon will roar!
+* [T] (SSAO) Toggle : Toggles screen between fog mode and SSAO mode
+* [Shift + T] (Cartoon) Toggle: Toggles screen between cartoon mode and (fog, SSAO modes)
+* [D] (Debug) : Must be pressed from cartoon mode; when pressed wireframes for the bounding boxes will be shown.
+* [L] (Rainbow) Toggle: Toggles screen between rainbow mode and (fog, SSAO modes)
+* [R] Reset : Resets the game
