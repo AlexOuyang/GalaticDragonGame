@@ -1,5 +1,5 @@
 # Galatic Dragon
-A game made in made using OpenGL, GLFW, GLM and GLEW via Xcode for CSE167 Computer Graphics
+A game made in made using OpenGL, GLFW, GLM and GLEW via Xcode
 
 ## Video
 [![Galatic Dragon](https://raw.githubusercontent.com/AlexOuyang/GalaticDragonGame/master/ScreenShots/youtube.png)](https://www.youtube.com/watch?v=1vc1sbcdWMo "Galatic Dragon")
